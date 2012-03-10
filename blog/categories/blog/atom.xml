@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
 
-  <title><![CDATA[Sinosmond's Blog]]></title>
-  <link href="http://sinosmond.github.com/atom.xml" rel="self"/>
+  <title><![CDATA[Category: blog | Sinosmond's Blog]]></title>
+  <link href="http://sinosmond.github.com/blog/categories/blog/atom.xml" rel="self"/>
   <link href="http://sinosmond.github.com/"/>
   <updated>2012-03-10T14:24:59+08:00</updated>
   <id>http://sinosmond.github.com/</id>
@@ -59,15 +59,6 @@
   <li>使用 markdown 语法替代以前的 DokuWiki 语法书写文档</li>
   <li>在 github 上创建个人站点的工具主要是 <a href="http://octopress.org/">Octopress</a> 和 <a href="http://jekyllbootstrap.com/">Jekyll-Bootstrap</a>，因后者还不太成熟遂选择前者</li>
 </ul>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[hello octopress]]></title>
-    <link href="http://sinosmond.github.com/blog/2012/03/10/hello-octopress/"/>
-    <updated>2012-03-10T08:36:00+08:00</updated>
-    <id>http://sinosmond.github.com/blog/2012/03/10/hello-octopress</id>
-    <content type="html"><![CDATA[<p>my first post to octopresss.</p>
 ]]></content>
   </entry>
   

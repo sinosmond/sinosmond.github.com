@@ -9,7 +9,7 @@
   <meta name="author" content="sinosmond">
 
   
-  <meta name="description" content="过去的选择 喜欢 Dotclear 胜过 WordPress 喜欢结构化文档的理念 开源文档世界中的 DocBook 虽好，但 XML 书写繁琐 轻量级的文本标记语言： markdown、 textile、 reST、 txt2tags … 各种 Wiki 标记语言： Creole、 &hellip;">
+  <meta name="description" content="过去的选择 喜欢 Dotclear 胜过 WordPress 喜欢结构化文档的理念 开源文档世界中的 DocBook 虽好，但 XML 书写繁琐 轻量级的文本标记语言和各种 Wiki 标记语言虽然简单，但语义表达能力弱，但写 BLOG 等一般的短文章也足够用了 轻量级的文本标记语言： &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -26,18 +26,55 @@
   <script src="/javascripts/octopress.js" type="text/javascript"></script>
   <link href="/atom.xml" rel="alternate" title="Sinosmond's Blog" type="application/atom+xml">
   <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
-<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
-<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+#<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+#<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
 
   
+  <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-1567119-6']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  </script>
+
 
 </head>
 
 <body   >
-  <header role="banner"><hgroup>
+  <header role="banner">
+<style type="text/css">
+<!--
+	.head_flash
+	{
+		display:block;
+		float:left;
+		margin-left:10px;
+		margin-right:10px;
+	}
+	.head_right
+	{
+		display:block;
+		float:left;
+		margin-right:30px;
+	}
+--> 
+</style>
+<div class="head_flash">
+<a target="_blank" href="http://yuncoffee.com/"><img class="right" src="images/coffee.gif" title="云咖啡50元券 手机二维码" ></a>
+</div>
+<!-- <div class="head_right">
+<embed width="150" height="120" wmode="transparent" src="/images/Clock.swf">
+</div>-->
+
+<hgroup>
   <h1><a href="/">Sinosmond's Blog</a></h1>
   
-    <h2>技术学习 生活记录 同道交流</h2>
+    <h2>技术学习|生活记录|同道交流</h2>
   
 </hgroup>
 
@@ -57,6 +94,8 @@
 <ul class="main-navigation">
   <li><a href="/">Blog</a></li>
   <li><a href="/blog/archives">Archives</a></li>
+  <li><a href="/blog/categories">Categories</a></li>
+  <li><a href="/about">About</a></li>
 </ul>
 
 </nav>
@@ -100,16 +139,30 @@
   <li>喜欢结构化文档的理念
     <ul>
       <li>开源文档世界中的 <a href="http://docbook.org/">DocBook</a> 虽好，但 XML 书写繁琐</li>
-      <li>轻量级的文本标记语言： markdown、 textile、 reST、 txt2tags …</li>
-      <li>各种 Wiki 标记语言： Creole、 dokuwiki、 Mediawiki …</li>
-      <li>轻量级的文本标记语言和各种 Wiki 标记语言虽然简单，但语义表达能力弱，写 BLOG 等一般的短文章也足够用了</li>
-      <li>AsciiDoc：折中的选则，架起了文本标记语言和 DocBook 的桥梁，基本实现了 DocBook 的语义表达</li>
+      <li>轻量级的文本标记语言和各种 Wiki 标记语言虽然简单，但语义表达能力弱，但写 BLOG 等一般的短文章也足够用了
+        <ul>
+          <li>轻量级的文本标记语言： <a href="http://daringfireball.net/projects/markdown/">markdown</a>、 <a href="http://docutils.sourceforge.net/rst.html">reST</a>、  <a href="http://txt2tags.sf.net">txt2tags</a> …
+            <ul>
+              <li><a href="http://markdown.infogami.com/">Markdown Wiki</a></li>
+              <li><a href="http://johnmacfarlane.net/pandoc/try">Markdown 和多种标记语言的在线转换</a></li>
+              <li><a href="http://babelmark.bobtfish.net/">Markdown 多种实现的在线比较</a></li>
+            </ul>
+          </li>
+          <li>各种 Wiki 标记语言： Creole、 dokuwiki、 moinmoin、 Mediawiki …
+            <ul>
+              <li><a href="http://www.wikimatrix.org/">各种 Wiki 系统（包括标记语言）的比较</a></li>
+            </ul>
+          </li>
+        </ul>
+      </li>
+      <li><a href="http://www.methods.co.nz/asciidoc/">AsciiDoc</a>：折中的选则，架起了文本标记语言和 DocBook 的桥梁，基本实现了 DocBook 的语义表达</li>
     </ul>
   </li>
   <li>逐渐更喜欢不带关系数据库的个人站点应用，因为备份简单（<code>rsync</code>）
     <ul>
-      <li>最初使用 <a href="http://txt2tags.sf.net">txt2tags</a></li>
-      <li>后转向 <a href="http://dokuwiki.org">Dokuwiki</a></li>
+      <li>最初使用 <a href="http://txt2tags.sf.net">txt2tags</a> – 仅实现了txt2tags语法到html的转换，缺乏版本控制</li>
+      <li>后转向 <a href="http://dokuwiki.org">Dokuwiki</a> – dokuwiki语法+内置的版本控制</li>
+      <li>曾经想切换到 <a href="http://ikiwiki.info/">ikiwiki</a> – MarkDown语法+git版本控制</li>
     </ul>
   </li>
 </ul>
@@ -118,21 +171,23 @@
 
 <ul>
   <li>曾经注册过自己的域名 </li>
-  <li>
-    <p>曾经在国内和国外购买过虚拟主机空间</p>
-
-    <p>无奈皆因家中琐事繁多，无暇打理，导致域名被抢注、主机空间因未续费而被停用</p>
-  </li>
+  <li>曾经在国内和国外购买过虚拟主机空间</li>
 </ul>
+
+<blockquote>
+  <p><strong>无奈皆因家中琐事繁多，无暇打理，导致域名被抢注、主机空间因未续费而被停用</strong></p>
+</blockquote>
 
 <h2 id="section-2">如今的选择</h2>
 
 <ul>
   <li>使用 <a href="http://github.com">github</a> 免费的二级域名，免去因忘记域名续费而被抢注的困扰</li>
-  <li>使用 github 提供的 300M 免费空间，对于一般情况也足够了，免去因忘记空间续费而被停用的困扰</li>
-  <li>使用 git 的版本控制替代 wiki 的版本控制，在 github 上 ** BLOG 即 REPO **</li>
+  <li>
+    <p>使用 <a href="http://github.com">github</a> 提供的 300M 免费空间，对于一般情况也足够用了，免去因忘记空间续费而被停用的困扰</p>
+  </li>
+  <li>使用 git 的版本控制替代 wiki 内置的版本控制，在 github 上 <strong>BLOG 即 REPO</strong></li>
   <li>使用 markdown 语法替代以前的 DokuWiki 语法书写文档</li>
-  <li>在 github 上创建个人站点的工具主要是 <a href="http://octopress.org/">Octopress</a> 和 <a href="http://jekyllbootstrap.com/">Jekyll-Bootstrap</a>，因后者还不太成熟遂选择前者</li>
+  <li>在 github 上创建个人站点的工具主要是 <a href="http://octopress.org/">Octopress</a> 和 <a href="http://jekyllbootstrap.com/">Jekyll-Bootstrap</a>，因后者似乎还不太成熟遂选择前者</li>
 </ul>
 </div>
   
@@ -186,6 +241,23 @@
 <aside class="sidebar">
   
     <section>
+  <h1>FEED</h1>
+<!-- Feedsky FEED发布代码开始 -->
+<!-- FEED自动发现标记开始 -->
+<div style="text-align: center;">
+<link title="RSS 2.0" type="application/rss+xml" href="http://feed.feedsky.com/SinosmondsBlog" rel="alternate" />
+<!-- FEED自动发现标记结束 -->
+<a target="_blank" href="http://feed.feedsky.com/SinosmondsBlog"><img border="0" src="http://img.feedsky.com/images/icon_sub_c1s12.gif" alt="feedsky" vspace="2"  style="margin-bottom:3px" ></a><br />
+<a target="_blank" href="http://www.zhuaxia.com/add_channel.php?url=http://feed.feedsky.com/SinosmondsBlog"><img border="0" src="http://img.feedsky.com/images/icon_subshot01_zhuaxia.gif" alt="&#25235;&#34430;" vspace="2" style="margin-bottom:3px" ></a>
+<a target="_blank" href="http://fusion.google.com/add?feedurl=http://feed.feedsky.com/SinosmondsBlog"><img border="0" src="http://img.feedsky.com/images/icon_subshot01_google.gif" alt="google reader" vspace="2" style="margin-bottom:3px" ></a><br />
+<a target="_blank" href="http://add.my.yahoo.com/rss?url=http://feed.feedsky.com/SinosmondsBlog"><img border="0" src="http://img.feedsky.com/images/icon_subshot01_yahoo.gif" alt="my yahoo" vspace="2" style="margin-bottom:3px" ></a>
+<a target="_blank" href="http://www.xianguo.com/subscribe.php?url=http://feed.feedsky.com/SinosmondsBlog"><img border="0" src="http://img.feedsky.com/images/icon_subshot01_xianguo.gif" alt="&#40092;&#26524;" vspace="2" style="margin-bottom:3px" ></a><br />
+<a target="_blank" href="http://inezha.com/add?url=http://feed.feedsky.com/SinosmondsBlog"><img border="0" src="http://img.feedsky.com/images/icon_subshot01_nazha.gif" alt="&#21738;&#21522;" vspace="2" style="margin-bottom:3px" ></a>
+<a target="_blank" href="http://mail.qq.com/cgi-bin/feed?u=http://feed.feedsky.com/SinosmondsBlog"><img border="0" src="http://img.feedsky.com/images/icon_subshot01_qq.gif" alt="QQ&#37038;&#31665;" vspace="2" style="margin-bottom:3px" ></a><br />
+<!-- Feedsky FEED发布代码结束 -->
+</div>
+</section>
+<section>
   <h1>Recent Posts</h1>
   <ul id="recent_posts">
     
@@ -200,10 +272,37 @@
   </ul>
 </section>
 
+<section>
+<H1>Recent Comments</H1>
+<script type="text/javascript" src="http://sinosmond.disqus.com/combination_widget.js?num_items=5&hide_mods=0&color=blue&default_tab=people&excerpt_length=200"></script><a href="http://disqus.com/">Powered by Disqus</a>
+</section><section>
+  <h1>Octopress Blogroll</h1>
+  <ul  style="padding-left:0">
+	<li><a target="_blank" href="http://www.worldhello.net/gotgithub/">GotGitHub</a></li>
+	<li><a target="_blank" href="http://blog.xupeng.me/">XuPeng</a></li>
+	<li><a target="_blank" href="http://adam8157.info/">Adam</a></li>
+	<li><a target="_blank" href="http://roylez.heroku.com/">Roylez</a></li>
+	<li><a target="_blank" href="http://blog.xdite.net/">xdite</a></li>
+	<li><a target="_blank" href="http://blog.devtang.com/">唐巧</a></li>
+	<li><a target="_blank" href="http://yihui.name/cn">谢益辉</a></li>
+	<li><a target="_blank" href="http://chen.yanping.me/cn">雁起平沙</a></li>
+	<li><a target="_blank" href="http://www.yangzhiping.com/">阳志平</a></li>
+	<li><a target="_blank" href="http://taiyun.cos.name">魏太云</a></li>
+  </ul>
+</section>
 
 
 
 
+
+
+<section>
+<iframe width="100%" height="108" class="share_self"  frameborder="0" scrolling="no" src="http://widget.weibo.com/weiboshow/index.php?language=&width=0&height=108&fansRow=1&ptype=1&speed=300&skin=2&isTitle=1&noborder=1&isWeibo=1&isFans=1&uid=1219855341&verifier=73cc3461&dpc=1"></iframe>
+</section><section>
+  <h1>Copyright</h1>
+  <p align="center"> <a target="_ blank" href="http://creativecommons.org/licenses/by-nc-sa/2.5/cn/"><img src="http://i.creativecommons.org/l/by-nc-sa/2.5/cn/88x31.png" alt="Creative Commons License"/></a></p>
+  <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/2.5/cn/">CC2.5: 知识共享署名-非商业性使用</a>
+</section>
 
   
 </aside>
@@ -217,6 +316,19 @@
 
 </footer>
   
+
+<script type="text/javascript">
+      var disqus_shortname = 'sinosmond';
+      
+        
+        var disqus_script = 'count.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = 'http://' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
 
 
 

@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
 
-  <title><![CDATA[Category: jekyll | Sinosmond's Blog]]></title>
-  <link href="http://sinosmond.github.com/blog/categories/jekyll/atom.xml" rel="self"/>
+  <title><![CDATA[Category: markdown | Sinosmond's Blog]]></title>
+  <link href="http://sinosmond.github.com/blog/categories/markdown/atom.xml" rel="self"/>
   <link href="http://sinosmond.github.com/"/>
   <updated>2012-03-11T22:58:11+08:00</updated>
   <id>http://sinosmond.github.com/</id>

@@ -4,7 +4,7 @@
   <title><![CDATA[Sinosmond's Blog]]></title>
   <link href="http://sinosmond.github.com/atom.xml" rel="self"/>
   <link href="http://sinosmond.github.com/"/>
-  <updated>2012-03-10T14:24:59+08:00</updated>
+  <updated>2012-03-11T22:58:11+08:00</updated>
   <id>http://sinosmond.github.com/</id>
   <author>
     <name><![CDATA[sinosmond]]></name>
@@ -25,16 +25,30 @@
   <li>喜欢结构化文档的理念
     <ul>
       <li>开源文档世界中的 <a href="http://docbook.org/">DocBook</a> 虽好，但 XML 书写繁琐</li>
-      <li>轻量级的文本标记语言： markdown、 textile、 reST、 txt2tags …</li>
-      <li>各种 Wiki 标记语言： Creole、 dokuwiki、 Mediawiki …</li>
-      <li>轻量级的文本标记语言和各种 Wiki 标记语言虽然简单，但语义表达能力弱，写 BLOG 等一般的短文章也足够用了</li>
-      <li>AsciiDoc：折中的选则，架起了文本标记语言和 DocBook 的桥梁，基本实现了 DocBook 的语义表达</li>
+      <li>轻量级的文本标记语言和各种 Wiki 标记语言虽然简单，但语义表达能力弱，但写 BLOG 等一般的短文章也足够用了
+        <ul>
+          <li>轻量级的文本标记语言： <a href="http://daringfireball.net/projects/markdown/">markdown</a>、 <a href="http://docutils.sourceforge.net/rst.html">reST</a>、  <a href="http://txt2tags.sf.net">txt2tags</a> …
+            <ul>
+              <li><a href="http://markdown.infogami.com/">Markdown Wiki</a></li>
+              <li><a href="http://johnmacfarlane.net/pandoc/try">Markdown 和多种标记语言的在线转换</a></li>
+              <li><a href="http://babelmark.bobtfish.net/">Markdown 多种实现的在线比较</a></li>
+            </ul>
+          </li>
+          <li>各种 Wiki 标记语言： Creole、 dokuwiki、 moinmoin、 Mediawiki …
+            <ul>
+              <li><a href="http://www.wikimatrix.org/">各种 Wiki 系统（包括标记语言）的比较</a></li>
+            </ul>
+          </li>
+        </ul>
+      </li>
+      <li><a href="http://www.methods.co.nz/asciidoc/">AsciiDoc</a>：折中的选则，架起了文本标记语言和 DocBook 的桥梁，基本实现了 DocBook 的语义表达</li>
     </ul>
   </li>
   <li>逐渐更喜欢不带关系数据库的个人站点应用，因为备份简单（<code>rsync</code>）
     <ul>
-      <li>最初使用 <a href="http://txt2tags.sf.net">txt2tags</a></li>
-      <li>后转向 <a href="http://dokuwiki.org">Dokuwiki</a></li>
+      <li>最初使用 <a href="http://txt2tags.sf.net">txt2tags</a> – 仅实现了txt2tags语法到html的转换，缺乏版本控制</li>
+      <li>后转向 <a href="http://dokuwiki.org">Dokuwiki</a> – dokuwiki语法+内置的版本控制</li>
+      <li>曾经想切换到 <a href="http://ikiwiki.info/">ikiwiki</a> – MarkDown语法+git版本控制</li>
     </ul>
   </li>
 </ul>
@@ -43,21 +57,23 @@
 
 <ul>
   <li>曾经注册过自己的域名 </li>
-  <li>
-    <p>曾经在国内和国外购买过虚拟主机空间</p>
-
-    <p>无奈皆因家中琐事繁多，无暇打理，导致域名被抢注、主机空间因未续费而被停用</p>
-  </li>
+  <li>曾经在国内和国外购买过虚拟主机空间</li>
 </ul>
+
+<blockquote>
+  <p><strong>无奈皆因家中琐事繁多，无暇打理，导致域名被抢注、主机空间因未续费而被停用</strong></p>
+</blockquote>
 
 <h2 id="section-2">如今的选择</h2>
 
 <ul>
   <li>使用 <a href="http://github.com">github</a> 免费的二级域名，免去因忘记域名续费而被抢注的困扰</li>
-  <li>使用 github 提供的 300M 免费空间，对于一般情况也足够了，免去因忘记空间续费而被停用的困扰</li>
-  <li>使用 git 的版本控制替代 wiki 的版本控制，在 github 上 ** BLOG 即 REPO **</li>
+  <li>
+    <p>使用 <a href="http://github.com">github</a> 提供的 300M 免费空间，对于一般情况也足够用了，免去因忘记空间续费而被停用的困扰</p>
+  </li>
+  <li>使用 git 的版本控制替代 wiki 内置的版本控制，在 github 上 <strong>BLOG 即 REPO</strong></li>
   <li>使用 markdown 语法替代以前的 DokuWiki 语法书写文档</li>
-  <li>在 github 上创建个人站点的工具主要是 <a href="http://octopress.org/">Octopress</a> 和 <a href="http://jekyllbootstrap.com/">Jekyll-Bootstrap</a>，因后者还不太成熟遂选择前者</li>
+  <li>在 github 上创建个人站点的工具主要是 <a href="http://octopress.org/">Octopress</a> 和 <a href="http://jekyllbootstrap.com/">Jekyll-Bootstrap</a>，因后者似乎还不太成熟遂选择前者</li>
 </ul>
 ]]></content>
   </entry>

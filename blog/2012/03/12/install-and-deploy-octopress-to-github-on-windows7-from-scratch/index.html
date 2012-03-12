@@ -1,24 +1,135 @@
-<?xml version="1.0" encoding="utf-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom">
 
-  <title><![CDATA[Sinosmond's Blog]]></title>
-  <link href="http://sinosmond.github.com/atom.xml" rel="self"/>
-  <link href="http://sinosmond.github.com/"/>
-  <updated>2012-03-13T05:13:06+08:00</updated>
-  <id>http://sinosmond.github.com/</id>
-  <author>
-    <name><![CDATA[sinosmond]]></name>
-    
-  </author>
-  <generator uri="http://octopress.org/">Octopress</generator>
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>在 Windows7 下从头开始安装部署 Octopress - Sinosmond's Blog</title>
+  <meta name="author" content="sinosmond">
 
   
-  <entry>
-    <title type="html"><![CDATA[在 Windows7 下从头开始安装部署 Octopress]]></title>
-    <link href="http://sinosmond.github.com/blog/2012/03/12/install-and-deploy-octopress-to-github-on-windows7-from-scratch/"/>
-    <updated>2012-03-12T09:14:00+08:00</updated>
-    <id>http://sinosmond.github.com/blog/2012/03/12/install-and-deploy-octopress-to-github-on-windows7-from-scratch</id>
-    <content type="html"><![CDATA[<h2 id="octopress-">进入 Octopress 的世界</h2>
+  <meta name="description" content="进入 Octopress 的世界 Octopress 简介 Octopress 是一款基于 Jekyll 的静态站点生成系统。 使用 Markdown 标记语言书写源文件， 通过 Markdown 解析器转换为 HTML 文件 通过 Octopress 提供的站点模板提供所需的 Web 资产文件 &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://sinosmond.github.com/blog/2012/03/12/install-and-deploy-octopress-to-github-on-windows7-from-scratch">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="/javascripts/ender.js"></script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <link href="/atom.xml" rel="alternate" title="Sinosmond's Blog" type="application/atom+xml">
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+#<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+#<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+  <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-1567119-6']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  </script>
+
+
+</head>
+
+<body   >
+  <header role="banner">
+<style type="text/css">
+<!--
+	.head_flash
+	{
+		display:block;
+		float:left;
+		margin-left:10px;
+		margin-right:10px;
+	}
+	.head_right
+	{
+		display:block;
+		float:left;
+		margin-right:30px;
+	}
+--> 
+</style>
+<div class="head_flash">
+<a target="_blank" href="http://yuncoffee.com/"><img class="right" src="/images/coffee.gif" title="云咖啡50元券 手机二维码" ></a>
+</div>
+<!-- <div class="head_right">
+<embed width="150" height="120" wmode="transparent" src="/images/Clock.swf">
+</div>-->
+
+<hgroup>
+  <h1><a href="/">Sinosmond's Blog</a></h1>
+  
+    <h2>技术学习|生活记录|同道交流</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="http://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:sinosmond.github.com" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/">Blog</a></li>
+  <li><a href="/blog/archives">Archives</a></li>
+  <li><a href="/blog/categories">Categories</a></li>
+  <li><a href="/about">About</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">在 Windows7 下从头开始安装部署 Octopress</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-03-12T09:14:00+08:00" pubdate data-updated="true">Mar 12<span>th</span>, 2012</time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><h2 id="octopress-">进入 Octopress 的世界</h2>
 
 <h3 id="octopress--1">Octopress 简介</h3>
 
@@ -411,81 +522,172 @@
   <li>http://blog.xupeng.me/2011/12/14/migrate-to-octopress/</li>
 </ul>
 
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[过去和现在]]></title>
-    <link href="http://sinosmond.github.com/blog/2012/03/10/past-and-present/"/>
-    <updated>2012-03-10T11:47:00+08:00</updated>
-    <id>http://sinosmond.github.com/blog/2012/03/10/past-and-present</id>
-    <content type="html"><![CDATA[<h2 id="section">过去的选择</h2>
+</div>
 
-<ul>
-  <li>喜欢 <a href="http://dotclear.org/">Dotclear</a> 胜过 <a href="http://wordpress.org/">WordPress</a></li>
-  <li>喜欢结构化文档的理念
-    <ul>
-      <li>开源文档世界中的 <a href="http://docbook.org/">DocBook</a> 虽好，但 XML 书写繁琐</li>
-      <li>轻量级的文本标记语言和各种 Wiki 标记语言虽然简单，但语义表达能力弱，但写 BLOG 等一般的短文章也足够用了
-        <ul>
-          <li>轻量级的文本标记语言： <a href="http://daringfireball.net/projects/markdown/">markdown</a>、 <a href="http://docutils.sourceforge.net/rst.html">reST</a>、  <a href="http://txt2tags.sf.net">txt2tags</a> …
-            <ul>
-              <li><a href="http://markdown.infogami.com/">Markdown Wiki</a></li>
-              <li><a href="http://johnmacfarlane.net/pandoc/try">Markdown 和多种标记语言的在线转换</a></li>
-              <li><a href="http://babelmark.bobtfish.net/">Markdown 多种实现的在线比较</a></li>
-            </ul>
-          </li>
-          <li>各种 Wiki 标记语言： Creole、 dokuwiki、 moinmoin、 Mediawiki …
-            <ul>
-              <li><a href="http://www.wikimatrix.org/">各种 Wiki 系统（包括标记语言）的比较</a></li>
-            </ul>
-          </li>
-        </ul>
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">sinosmond</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-03-12T09:14:00+08:00" pubdate data-updated="true">Mar 12<span>th</span>, 2012</time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/github/'>github</a>, <a class='category' href='/blog/categories/octopress/'>octopress</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  
+  
+
+  
+    <!-- JiaThis Button BEGIN -->
+<div id="ckepop">
+	<span class="jiathis_txt">分享到：</span>
+	<a class="jiathis_button_qzone">QQ空间</a>
+	<a class="jiathis_button_tsina">新浪微博</a>
+	<a class="jiathis_button_tqq">腾讯微博</a>
+	<a class="jiathis_button_renren">人人网</a>
+	<a class="jiathis_button_msn">MSN</a>
+	<a class="jiathis_button_delicious">Delicious</a>
+	<a href="http://www.jiathis.com/share?uid=1587493" class="jiathis jiathis_txt jiathis_separator jtico jtico_jiathis" target="_blank">更多</a>
+	<a class="jiathis_counter_style"></a>
+</div>
+<script type="text/javascript">var jiathis_config = {data_track_clickback:true};</script>
+<script type="text/javascript" src="http://v2.jiathis.com/code/jia.js?uid=1587493" charset="utf-8"></script>
+<!-- JiaThis Button END -->
+<br />
+
+<!-- UY BEGIN -->
+<!-- <div id="uyan_frame"></div> -->
+<!-- <script type="text/javascript" id="UYScript" src="http://v1.uyan.cc/js/iframe.js?UYUserId=1587493" async=""></script> -->
+<!-- UY END -->
+     
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2012/03/10/past-and-present/" title="Previous Post: 过去和现在">&laquo; 过去和现在</a>
+      
+      
+    </p>
+  </footer>
+</article>
+
+  <section>
+    <h1>Comments</h1>
+    <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+  </section>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2012/03/12/install-and-deploy-octopress-to-github-on-windows7-from-scratch/">在 Windows7 下从头开始安装部署 Octopress</a>
       </li>
-      <li><a href="http://www.methods.co.nz/asciidoc/">AsciiDoc</a>：折中的选则，架起了文本标记语言和 DocBook 的桥梁，基本实现了 DocBook 的语义表达</li>
-    </ul>
-  </li>
-  <li>逐渐更喜欢不带关系数据库的个人站点应用，因为备份简单（<code>rsync</code>）
-    <ul>
-      <li>最初使用 <a href="http://txt2tags.sf.net">txt2tags</a> – 仅实现了txt2tags语法到html的转换，缺乏版本控制</li>
-      <li>后转向 <a href="http://dokuwiki.org">Dokuwiki</a> – dokuwiki语法+内置的版本控制</li>
-      <li>曾经想切换到 <a href="http://ikiwiki.info/">ikiwiki</a> – MarkDown语法+git版本控制</li>
-    </ul>
-  </li>
-</ul>
+    
+      <li class="post">
+        <a href="/blog/2012/03/10/past-and-present/">过去和现在</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2012/03/10/hello-octopress/">hello octopress</a>
+      </li>
+    
+  </ul>
+</section>
 
-<h2 id="section-1">痛苦的过去</h2>
+<section>
+<H1>Recent Comments</H1>
+<script type="text/javascript" src="http://sinosmond.disqus.com/combination_widget.js?num_items=5&hide_mods=0&color=blue&default_tab=people&excerpt_length=200"></script><a href="http://disqus.com/">Powered by Disqus</a>
+</section><section>
+  <h1>Octopress Blogroll</h1>
+  <ul  style="padding-left:0">
+	<li><a target="_blank" href="http://www.worldhello.net/">蒋鑫</a></li>
+	<li><a target="_blank" href="http://blog.xupeng.me/">XuPeng</a></li>
+	<li><a target="_blank" href="http://adam8157.info/">Adam</a></li>
+	<li><a target="_blank" href="http://roylez.heroku.com/">Roylez</a></li>
+	<li><a target="_blank" href="http://blog.xdite.net/">xdite</a></li>
+	<li><a target="_blank" href="http://blog.devtang.com/">唐巧</a></li>
+	<li><a target="_blank" href="http://yihui.name/cn">谢益辉</a></li>
+	<li><a target="_blank" href="http://chen.yanping.me/cn">雁起平沙</a></li>
+	<li><a target="_blank" href="http://www.yangzhiping.com/">阳志平</a></li>
+	<li><a target="_blank" href="http://taiyun.cos.name">魏太云</a></li>
+  </ul>
+</section>
+<section>
+  <h1>Copyright</h1>
+  <p align="center"> <a target="_ blank" href="http://creativecommons.org/licenses/by-nc-sa/2.5/cn/"><img src="http://i.creativecommons.org/l/by-nc-sa/2.5/cn/88x31.png" alt="Creative Commons License"/></a></p>
+  <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/2.5/cn/">CC2.5: 知识共享署名-非商业性使用</a>
+</section>
 
-<ul>
-  <li>曾经注册过自己的域名 </li>
-  <li>曾经在国内和国外购买过虚拟主机空间</li>
-</ul>
-
-<blockquote>
-  <p><strong>无奈皆因家中琐事繁多，无暇打理，导致域名被抢注、主机空间因未续费而被停用</strong></p>
-</blockquote>
-
-<h2 id="section-2">如今的选择</h2>
-
-<ul>
-  <li>使用 <a href="http://github.com">github</a> 免费的二级域名，免去因忘记域名续费而被抢注的困扰</li>
-  <li>
-    <p>使用 <a href="http://github.com">github</a> 提供的 300M 免费空间，对于一般情况也足够用了，免去因忘记空间续费而被停用的困扰</p>
-  </li>
-  <li>使用 git 的版本控制替代 wiki 内置的版本控制，在 github 上 <strong>BLOG 即 REPO</strong></li>
-  <li>使用 markdown 语法替代以前的 DokuWiki 语法书写文档</li>
-  <li>在 github 上创建个人站点的工具主要是 <a href="http://octopress.org/">Octopress</a> 和 <a href="http://jekyllbootstrap.com/">Jekyll-Bootstrap</a>，因后者似乎还不太成熟遂选择前者</li>
-</ul>
-]]></content>
-  </entry>
   
-  <entry>
-    <title type="html"><![CDATA[hello octopress]]></title>
-    <link href="http://sinosmond.github.com/blog/2012/03/10/hello-octopress/"/>
-    <updated>2012-03-10T08:36:00+08:00</updated>
-    <id>http://sinosmond.github.com/blog/2012/03/10/hello-octopress</id>
-    <content type="html"><![CDATA[<p>my first post to octopresss.</p>
-]]></content>
-  </entry>
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2012 - sinosmond -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
   
-</feed>
+
+<script type="text/javascript">
+      var disqus_shortname = 'sinosmond';
+      
+        
+        // var disqus_developer = 1;
+        var disqus_identifier = 'http://sinosmond.github.com/blog/2012/03/12/install-and-deploy-octopress-to-github-on-windows7-from-scratch/';
+        var disqus_url = 'http://sinosmond.github.com/blog/2012/03/12/install-and-deploy-octopress-to-github-on-windows7-from-scratch/';
+        var disqus_script = 'embed.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = 'http://' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>

@@ -4,7 +4,7 @@
   <title><![CDATA[Category: octopress | Sinosmond's Blog]]></title>
   <link href="http://sinosmond.github.com/blog/categories/octopress/atom.xml" rel="self"/>
   <link href="http://sinosmond.github.com/"/>
-  <updated>2012-03-12T10:30:30+08:00</updated>
+  <updated>2012-03-13T05:13:06+08:00</updated>
   <id>http://sinosmond.github.com/</id>
   <author>
     <name><![CDATA[sinosmond]]></name>
@@ -12,6 +12,356 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[在 Windows7 下从头开始安装部署 Octopress]]></title>
+    <link href="http://sinosmond.github.com/blog/2012/03/12/install-and-deploy-octopress-to-github-on-windows7-from-scratch/"/>
+    <updated>2012-03-12T09:14:00+08:00</updated>
+    <id>http://sinosmond.github.com/blog/2012/03/12/install-and-deploy-octopress-to-github-on-windows7-from-scratch</id>
+    <content type="html"><![CDATA[<h2 id="octopress-">进入 Octopress 的世界</h2>
+
+<h3 id="octopress--1">Octopress 简介</h3>
+
+<ul>
+  <li><a href="http://octopress.org/">Octopress</a> 是一款基于 <a href="http://jekyllrb.com/">Jekyll</a> 的静态站点生成系统。
+    <ul>
+      <li>使用 Markdown 标记语言书写源文件， 通过 Markdown 解析器转换为 HTML 文件</li>
+      <li>通过 Octopress 提供的站点模板提供所需的 Web 资产文件 （Javascript、CSS、image 等）</li>
+      <li>只包含静态网页，无需数据库支持，对系统要求低且迁移方便  </li>
+      <li>以编写程序的方式编制网站，便于实现版本控制</li>
+    </ul>
+  </li>
+  <li><a href="http://octopress.org/">Octopress</a> / <a href="http://jekyllrb.com/">Jekyll</a> 使用简洁的Ruby框架实现。
+    <ul>
+      <li>Octopress 以 rake 任务的形式实现静态站点页面生成, 操作十分简单</li>
+      <li>Octopress 以 rake 任务的形式实现到普通网站和 <a href="http://github.com">Github</a> 的发布 </li>
+      <li>Octopress 与 Github 完美结合，你无需学习过多的 git 命令语法，使非专业人士的使用成为可能</li>
+    </ul>
+  </li>
+</ul>
+
+<h3 id="windows-7-">在 Windows 7 下安装必要的软件</h3>
+
+<ul>
+  <li>Octopress 在 git 中维护，需要安装 git
+    <ul>
+      <li>到 <a href="http://code.google.com/p/msysgit/downloads/list">msysgit</a> 查找下载最新版本</li>
+      <li>当前的最新版本 Git-1.7.9-preview20120201.exe，下载后直接安装</li>
+    </ul>
+  </li>
+  <li>Octopress/Jekyll 是 ruby 应用程序，需要安装 ruby 
+    <ul>
+      <li>到 <a href="http://rubyforge.org/frs/?group_id=167">RailsInstaller</a> 查找下载最新版本</li>
+      <li>Octopress 要求安装 <a href="http://rubyforge.org/frs/download.php/75127/rubyinstaller-1.9.2-p290.exe">rubyinstaller-1.9.2-p290</a>
+        <ul>
+          <li>Jekyll 要求安装 <a href="http://rubyforge.org/frs/download.php/72075/rubyinstaller-1.9.1-p430.exe">rubyinstaller-1.9.1-p430</a> </li>
+        </ul>
+      </li>
+      <li>安装后，确保 <code>C:\Ruby192\bin</code> 在 Windows 当前用户的 <code>PATH</code> 环境变量中  </li>
+    </ul>
+  </li>
+  <li>ruby 的模块工具 gem 在生成本地模块时可能需要用到编译环境
+    <ul>
+      <li>有两种选择 <a href="http://www.mingw.org/">MinGW and MSYS</a> 或 <a href="https://github.com/oneclick/rubyinstaller/wiki/development-kit">RubyInstaller DevKit</a></li>
+      <li>本文选择 RubyInstaller 推荐的 <a href="https://github.com/oneclick/rubyinstaller/wiki/development-kit">RubyInstaller DevKit</a></li>
+      <li>下载 <a href="https://github.com/downloads/oneclick/rubyinstaller/DevKit-tdm-32-4.5.2-20111229-1559-sfx.exe">RubyInstaller DevKit</a></li>
+      <li>安装需执行如下步骤
+        <ul>
+          <li>将 DevKit 自解压包释放到 C:\DevKit </li>
+          <li>在 Windows CMD 窗口中执行  <code>ruby dk.rb init</code> </li>
+          <li>在 Windows CMD 窗口中执行  <code>ruby dk.rb install</code></li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li>jekyll/Octopress 使用 Python 编写的代码加亮系统 pygments，需要安装 python（可选）
+    <ul>
+      <li>到 <a href="http://www.activestate.com/activepython">ActiveState</a> 下载 最新的 ActivePython-2.7 版</li>
+      <li>执行安装程序</li>
+      <li>在 Windows CMD 窗口中执行  <code>easy_install pygments</code></li>
+    </ul>
+  </li>
+</ul>
+
+<h3 id="windows-7--1">软件安装后的 Windows 7 环境说明和配置</h3>
+
+<ul>
+  <li>两种命令行环境
+    <ul>
+      <li>Windows 7 自己的 CMD窗口，用于输入 DOS 类命令</li>
+      <li>MINGW/Git Bash 窗口启动了 bash，可以输入 Linux 类命令</li>
+    </ul>
+  </li>
+  <li>环境变量
+    <ul>
+      <li>在 Windows 的 “高级系统设置” 中设置的 环境变量 可以被 MINGW 窗口<strong>继承</strong>
+        <ul>
+          <li>设置 <code>LANG</code> 和 <code>LC_ALL</code> 两个环境变量，其值均设置为 <code>zh_CN.UTF-8</code></li>
+          <li>在 CMD 窗口中测试： <code>echo %LANG%   %LC_ALL%</code> </li>
+          <li>在 MINGW 窗口中测试： <code>echo $LANG   $LC_ALL%</code></li>
+        </ul>
+      </li>
+      <li>MINGW/Git Bash 窗口启动了 bash，可以使用 <code>~/.bash_profile</code> 环境设置文件设置环境变量、命令别名等 
+        <ul>
+          <li><code>$ echo "export LANG LC_ALL" &gt; ~/.bash_profile</code></li>
+          <li><code>$ echo "alias ll='ls -l --color=tty'"  &gt;&gt; ~/.bash_profile</code></li>
+          <li><code>$ echo "alias ls='ls --color=tty'"     &gt;&gt; ~/.bash_profile</code></li>
+          <li><strong>注意：若希望<code>~/.bash_profile</code>中的设置生效，请启动 MINGW/Git Bash 窗口，而不是Windows 的 CMD窗口</strong></li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+</ul>
+
+<h3 id="ruby-">ruby 环境的初始配置</h3>
+
+<ul>
+  <li>设置 gem 的更新源
+    <ul>
+      <li><code>gem sources --remove http://rubygems.org/</code></li>
+      <li><code>gem sources -a http://ruby.taobao.org/</code></li>
+      <li><code>gem sources -l # 请确保只有 http://ruby.taobao.org 一行输出</code></li>
+    </ul>
+  </li>
+  <li>安装 rdoc 和 bundler
+    <ul>
+      <li><code>gem install rdoc bundler</code></li>
+    </ul>
+  </li>
+</ul>
+
+<h3 id="octopress">安装 Octopress</h3>
+
+<p><code>bash
+# 1. 克隆 Octopress
+$ mkdir ~/repos
+$ cd ~/repos
+$ git clone git://github.com/imathis/octopress.git sinosmond.github.com
+$ cd ~/repos/sinomsond.github.com
+# 2. 修改 Octopress 的 GEM 源
+$ vi Gemfile    # 或 notepad Gemfile
+将行 ： source "http://rubygems.org/"
+改为 ： source "http://ruby.taobao.org/"
+# 3. 安装 Octopress 所需的GEM组件
+$ bundle install
+</code></p>
+
+<h3 id="octopress--2">生成 Octopress 的模版文件</h3>
+
+<p>```bash
+$ rake install
+rake aborted!
+You have already activated rake 0.9.2.2, but your Gemfile requires rake 0.9.2. 
+Using bundle exec may solve this.</p>
+
+<p>(See full trace by running task with –trace)
+```</p>
+
+<p>解决方法:</p>
+
+<ol>
+  <li><code>$ bundle update; rake install</code></li>
+  <li>调整 rake
+    <ul>
+      <li>在 WINDOWS 的 CMD 窗口里：修改 rake.bat 文件</li>
+      <li>在 GIT BASH 里：设置别名</li>
+    </ul>
+  </li>
+</ol>
+
+<p><code>bash
+$ echo "alias rake='bundle exec rake'" &gt;&gt; ~/.bash_profile
+$ . ~/.bash_profile
+$ alias
+alias rake='bundle exec rake'
+$ rake install
+</code></p>
+
+<h3 id="git--github">git 和 github</h3>
+
+<ul>
+  <li>学习 git 参考
+    <ul>
+      <li><a href="http://zh-cn.whygitisbetterthanx.com/">为啥 Git 最棒</a></li>
+      <li><a href="http://rogerdudler.github.com/git-guide/index.zh.html">git - 简易指南</a></li>
+      <li><a href="http://www-cs-students.stanford.edu/~blynn/gitmagic/intl/zh_cn/">git 魔法</a> – <a href="https://github.com/blynn/gitmagic">git</a></li>
+    </ul>
+  </li>
+  <li>学习 Github 参考
+    <ul>
+      <li><a href="http://www.yangzhiping.com/tech/github.html">如何高效利用GitHub</a></li>
+      <li><a href="http://www.worldhello.net/gotgithub/">GotGitHub</a></li>
+      <li><a href="http://help.github.com/">The GitHub Hep</a></li>
+    </ul>
+  </li>
+</ul>
+
+<h3 id="section">设置本地仓库和远程仓库的关联</h3>
+
+<ul>
+  <li>创建 github 账号和仓库<br />
+    <ul>
+      <li>下面的操作假定您注册了 <username> 的账号</username></li>
+      <li>下面的操作假定您创建了 <username>.github.com 的仓库</username></li>
+      <li>本例使用 sinosmond.github.com，请用 <username>.github.com 替换之 </username></li>
+    </ul>
+  </li>
+  <li>在本地版本库中设置远程版本库的别名<br />
+    <ul>
+      <li><code>$ git remote add myblog git@github.com:sinosmond/sinosmond.github.com.git</code></li>
+    </ul>
+  </li>
+</ul>
+
+<h2 id="octopress-1">配置和使用 Octopress</h2>
+
+<h3 id="octopress--3">Octopress 的基本配置</h3>
+
+<ul>
+  <li>编辑 _config.yml 文件 ，根据您自己的需要修改其值, <a href="http://octopress.org/docs/configuring/">参考</a></li>
+  <li>若文件中包括中文，则存成 UTF-8 编码格式 </li>
+</ul>
+
+<p><code>yaml
+# ----------------------- #
+#      Main Configs       #
+# ----------------------- #
+url:                # For rewriting urls for RSS, etc
+title:              # Used in the header and title tags
+subtitle:           # A description used in the header
+author:             # Your name, for RSS, Copyright, Metadata
+simple_search:      # Search engine for simple site search
+description:        # A default meta description for your site
+subscribe_rss:      # Url for your blog's feed, defauts to /atom.xml
+subscribe_email:    # Url to subscribe by email (service required)
+email:              # Email address for the RSS feed if you want it.
+</code></p>
+
+<h3 id="section-1">编辑新页面</h3>
+
+<ul>
+  <li>生成 BLOG/静态 页面<br />
+    <ul>
+      <li><code>rake new_post["article name"]</code> : 生成指定的 Blog 初始页面</li>
+      <li><code>rake new_page["page name"]</code> : 生成指定的静态初始页面</li>
+    </ul>
+  </li>
+  <li>使用你惯用的编辑器修改新生成的文件
+    <ul>
+      <li>使用 YAML 语法设置本页面属性，用 Markdown 语法书写文章内容</li>
+      <li><a href="http://wowubuntu.com/markdown/">Markdown 语法说明</a></li>
+      <li><a href="http://daringfireball.net/projects/markdown/dingus">Markdown: Dingus</a> 是一个在线转换工具</li>
+      <li>若使用 kramdown 解析器，参考 <a href="http://kramdown.rubyforge.org/syntax.html">kramdown 语法</a> </li>
+      <li><a href="http://johnmacfarlane.net/pandoc/try">Markdown 和多种标记语言的在线转换</a></li>
+      <li><a href="http://babelmark.bobtfish.net/">Markdown 多种实现的在线比较</a></li>
+    </ul>
+  </li>
+</ul>
+
+<h3 id="github">首次提交到 Github</h3>
+
+<ol>
+  <li><code>rake setup_github_pages</code> ： 配置 octopress 与 github 的连接</li>
+  <li><code>rake generate</code> ： 生成静态文件</li>
+  <li><code>rake preview</code> ： 在本机4000端口生成访问内容</li>
+  <li><code>rake deploy</code> ：  发布文件到 github</li>
+</ol>
+
+<h3 id="rake--blog">使用 rake 任务管理 BLOG</h3>
+
+<p><code>bash
+$ rake -T
+rake clean                     # Clean out caches: .pygments-cache, .gist-c...
+rake copydot[source,dest]      # copy dot files for deployment
+rake deploy                    # Default deploy task
+rake gen_deploy                # Generate website and deploy
+rake generate                  # Generate jekyll site
+rake install[theme]            # Initial setup for Octopress: copies the de...
+rake integrate                 # Move all stashed posts back into the posts...
+rake isolate[filename]         # Move all other posts than the one currentl...
+rake list                      # list tasks
+rake new_page[filename]        # Create a new page in source/(filename)/ind...
+rake new_post[title]           # Begin a new post in source/_posts
+rake preview                   # preview the site in a web browser
+rake push                      # deploy public directory to github pages
+rake rsync                     # Deploy website via rsync
+rake set_root_dir[dir]         # Update configurations to support publishin...
+rake setup_github_pages[repo]  # Set up _deploy folder and deploy branch fo...
+rake update_source[theme]      # Move source to source.old, install source ...
+rake update_style[theme]       # Move sass to sass.old, install sass theme ...
+rake watch                     # Watch the site and regenerate when it changes
+</code></p>
+
+<h3 id="octopress-2">进一步配置 Octopress</h3>
+
+<ul>
+  <li>配置 社会化网络 应用</li>
+  <li>选择适当的网站注册，获得用户名或网络代码，将代码存入 <code>source/_includes/{post,custom}</code> 目录   </li>
+</ul>
+
+<table>
+  <tbody>
+    <tr>
+      <td>类型</td>
+      <td>国外服务</td>
+      <td>国内服务</td>
+    </tr>
+    <tr>
+      <td>Feed烧制</td>
+      <td><a href="http://feedburner.google.com">FeedBurner</a></td>
+      <td><a href="http://www.feedsky.com/">FeedSky</a></td>
+    </tr>
+    <tr>
+      <td>分享</td>
+      <td><a href="http://www.addthis.com/">AddThis</a></td>
+      <td><a href="http://www.jiathis.com/">JiaThis</a></td>
+    </tr>
+    <tr>
+      <td>微博</td>
+      <td>Twitter</td>
+      <td>weibo.com</td>
+    </tr>
+    <tr>
+      <td>网络书签</td>
+      <td><a href="http://delicious.com/">Delicious</a></td>
+      <td>……</td>
+    </tr>
+    <tr>
+      <td>网络图床</td>
+      <td><a href="http://www.flickr.com/">Flickr</a></td>
+      <td><a href="http://www.yupoo.com/">yupoo</a> - <a href="http://www.poco.cn/">POCO</a></td>
+    </tr>
+    <tr>
+      <td>网络评论</td>
+      <td><a href="http://disqus.com/">Disqus</a></td>
+      <td><a href="http://uyan.cc/">友言</a></td>
+    </tr>
+  </tbody>
+</table>
+
+<h3 id="section-2">管理源码的仓库分支</h3>
+
+<ul>
+  <li>更新 source 分支</li>
+</ul>
+
+<p><code>bash
+git add .
+git commit -m "add some changes"
+git push myblog source
+</code></p>
+
+<h3 id="section-3">参考链接</h3>
+
+<ul>
+  <li>http://chen.yanping.me/cn/blog/2011/12/26/octopress-on-windows/</li>
+  <li>http://blog.devtang.com/blog/2012/02/10/setup-blog-based-on-github/</li>
+  <li>http://www.yangzhiping.com/tech/octopress.html</li>
+  <li>http://blog.xupeng.me/2011/12/14/migrate-to-octopress/</li>
+</ul>
+
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[过去和现在]]></title>

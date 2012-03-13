@@ -286,22 +286,28 @@
 </span><span class="line"><span class="o">(</span>See full trace by running task with --trace<span class="o">)</span>
 </span></code></pre></td></tr></table></div></figure></notextile></div>
 
-<p><strong>解决方法:</strong>
-1. <code>$ bundle update; rake install</code>
-2. 调整 rake
-  - 在 WINDOWS 的 CMD 窗口里：修改 rake.bat 文件
-  - 在 GIT BASH 里：设置别名
-&lt;div class=&#8217;bogus-wrapper&#8217;&gt;<notextile><figure class="code">&lt;figcaption&gt;<span></span>&lt;/figcaption&gt;&lt;div class=&#8221;highlight&#8221;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&#8221;gutter&#8221;&gt;&lt;pre class=&#8221;line-numbers&#8221;&gt;<span class="line-number">1</span>
+<h4 id="section">解决方法</h4>
+
+<ol>
+  <li><code>$ bundle update; rake install</code></li>
+  <li>调整 rake
+    <ul>
+      <li>在 WINDOWS 的 CMD 窗口里：修改 rake.bat 文件</li>
+      <li>在 GIT BASH 里：设置别名</li>
+    </ul>
+  </li>
+</ol>
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
 <span class="line-number">2</span>
 <span class="line-number">3</span>
 <span class="line-number">4</span>
 <span class="line-number">5</span>
-&lt;/pre&gt;&lt;/td&gt;&lt;td class=&#8217;code&#8217;&gt;&lt;pre&gt;<code class="bash"><span class="line"><span class="nv">$ </span><span class="nb">echo</span> <span class="s2">&quot;alias rake=&#39;bundle exec rake&#39;&quot;</span> &gt;&gt; ~/.bash_profile
+</pre></td><td class="code"><pre><code class="bash"><span class="line"><span class="nv">$ </span><span class="nb">echo</span> <span class="s2">&quot;alias rake=&#39;bundle exec rake&#39;&quot;</span> &gt;&gt; ~/.bash_profile
 </span><span class="line"><span class="nv">$ </span>. ~/.bash_profile
 </span><span class="line"><span class="nv">$ </span><span class="nb">alias</span>
 </span><span class="line"><span class="nb">alias </span><span class="nv">rake</span><span class="o">=</span><span class="s1">&#39;bundle exec rake&#39;</span>
 </span><span class="line"><span class="nv">$ </span>rake install
-</span></code>&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/div&gt;</figure></notextile>&lt;/div&gt;</p>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
 
 <h3 id="git--github">git 和 github</h3>
 
@@ -322,7 +328,7 @@
   </li>
 </ul>
 
-<h3 id="section">设置本地仓库和远程仓库的关联</h3>
+<h3 id="section-1">设置本地仓库和远程仓库的关联</h3>
 
 <ul>
   <li>创建 github 账号和仓库<br />
@@ -347,7 +353,6 @@
   <li>编辑 _config.yml 文件 ，根据您自己的需要修改其值, <a href="http://octopress.org/docs/configuring/">参考</a></li>
   <li>若文件中包括中文，则存成 UTF-8 编码格式 </li>
 </ul>
-
 <div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
 <span class="line-number">2</span>
 <span class="line-number">3</span>
@@ -374,7 +379,7 @@
 </span><span class="line"><span class="l-Scalar-Plain">email</span><span class="p-Indicator">:</span>              <span class="c1"># Email address for the RSS feed if you want it.</span>
 </span></code></pre></td></tr></table></div></figure></notextile></div>
 
-<h3 id="section-1">编辑新页面</h3>
+<h3 id="section-2">编辑新页面</h3>
 
 <ul>
   <li>生成 BLOG/静态 页面<br />
@@ -497,25 +502,27 @@
 
 <h3 id="blog-jiathis">配置举例1：为每一篇BLOG结尾添加 “JiaThis”</h3>
 
-<ol>
-  <li>在 <code>_config.yml</code> 尾部添加如下行
-&lt;div class=&#8217;bogus-wrapper&#8217;&gt;<notextile><figure class="code">&lt;figcaption&gt;<span></span>&lt;/figcaption&gt;&lt;div class=&#8221;highlight&#8221;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&#8221;gutter&#8221;&gt;&lt;pre class=&#8221;line-numbers&#8221;&gt;<span class="line-number">1</span>
-<span class="line-number">2</span></figure></notextile></li>
-</ol>
-<p>&lt;/pre&gt;&lt;/td&gt;&lt;td class=&#8217;code&#8217;&gt;&lt;pre&gt;<code class="yaml"><span class="line"><span class="c1"># JiaThis</span>
+<p>1、在 <code>_config.yml</code> 尾部添加如下行</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+</pre></td><td class="code"><pre><code class="yaml"><span class="line"><span class="c1"># JiaThis</span>
 </span><span class="line"><span class="l-Scalar-Plain">jiathis</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">true</span>
-</span></code>&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/div&gt;&lt;/figure&gt;&lt;/notextile&gt;&lt;/div&gt;
-2. 在 <code>source/_includes/post/sharing.html</code> 尾部的<code>&lt;/div&gt;</code>之前添加如下行
-&lt;div class=&#8217;bogus-wrapper&#8217;&gt;<notextile><figure class="code">&lt;figcaption&gt;<span></span>&lt;/figcaption&gt;&lt;div class=&#8221;highlight&#8221;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&#8221;gutter&#8221;&gt;&lt;pre class=&#8221;line-numbers&#8221;&gt;<span class="line-number">1</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>2、在 <code>source/_includes/post/sharing.html</code> 尾部的<code>&lt;/div&gt;</code>之前添加如下行</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
 <span class="line-number">2</span>
 <span class="line-number">3</span>
-&lt;/pre&gt;&lt;/td&gt;&lt;td class=&#8217;code&#8217;&gt;&lt;pre&gt;<code class="yaml"><span class="line">  <span class="p-Indicator">{</span><span class="err">%</span> <span class="nv">if site.jiathis %</span><span class="p-Indicator">}</span>
+</pre></td><td class="code"><pre><code class="yaml"><span class="line">  <span class="p-Indicator">{</span><span class="err">%</span> <span class="nv">if site.jiathis %</span><span class="p-Indicator">}</span>
 </span><span class="line">    <span class="p-Indicator">{</span><span class="err">%</span> <span class="nv">include post/jiathis.html %</span><span class="p-Indicator">}</span>
 </span><span class="line">  <span class="p-Indicator">{</span><span class="err">%</span> <span class="nv">endif %</span><span class="p-Indicator">}</span>
-</span></code>&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/div&gt;</figure></notextile>&lt;/div&gt;
-3. 创建 <code>source/_includes/post/jiathis.html </code> 文件，将从<a href="http://www.jiathis.com/">JiaThis</a>获得的代码放入其中</p>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
 
-<h3 id="section-2">配置举例2： 配置侧栏</h3>
+<p>3、创建 <code>source/_includes/post/jiathis.html </code> 文件，将从<a href="http://www.jiathis.com/">JiaThis</a>获得的代码放入其中</p>
+
+<h3 id="section-3">配置举例2： 配置侧栏</h3>
 
 <p>在 <code>_config.yml</code> 中指定显示内容和显示顺序
 - 显示内容
@@ -525,7 +532,6 @@
   - <code>blog_index_asides</code> 控制BLOG首页的边栏显示
   - <code>post_asides</code> 控制每一个单独的BLOG页面显示时的边栏（对应 <code>rake new_post[]</code>）
   - <code>page_asides</code> 控制静态页面显示时的边栏（对应 <code>rake new_page[]</code>）</p>
-
 <div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
 <span class="line-number">2</span>
 <span class="line-number">3</span>
@@ -574,7 +580,7 @@
 </span><span class="line"><span class="p-Indicator">-</span> <span class="l-Scalar-Plain">custom/asides/copyleft.html</span>
 </span></code></pre></td></tr></table></div></figure></notextile></div>
 
-<h3 id="section-3">更新管理源码的仓库分支</h3>
+<h3 id="section-4">更新管理源码的仓库分支</h3>
 
 <div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
 <span class="line-number">2</span>
@@ -584,7 +590,7 @@
 </span><span class="line">git push myblog <span class="nb">source</span>
 </span></code></pre></td></tr></table></div></figure></notextile></div>
 
-<h3 id="section-4">参考链接</h3>
+<h3 id="section-5">参考链接</h3>
 
 <ul>
   <li>http://chen.yanping.me/cn/blog/2011/12/26/octopress-on-windows/</li>

@@ -4,7 +4,7 @@
   <title><![CDATA[Category: octopress | Sinosmond's Blog]]></title>
   <link href="http://sinosmond.github.com/blog/categories/octopress/atom.xml" rel="self"/>
   <link href="http://sinosmond.github.com/"/>
-  <updated>2012-03-13T11:36:28+08:00</updated>
+  <updated>2012-03-13T11:59:51+08:00</updated>
   <id>http://sinosmond.github.com/</id>
   <author>
     <name><![CDATA[sinosmond]]></name>
@@ -200,9 +200,9 @@ $ rake install
 <ul>
   <li>创建 github 账号和仓库<br />
     <ul>
-      <li>下面的操作假定您注册了 <username> 的账号</username></li>
-      <li>下面的操作假定您创建了 <username>.github.com 的仓库</username></li>
-      <li>本例使用 sinosmond.github.com，请用 <username>.github.com 替换之 </username></li>
+      <li>下面的操作假定您注册了 <code>&lt;USERNAME&gt;</code> 的账号</li>
+      <li>下面的操作假定您创建了 <code>&lt;USERNAME&gt;.github.com</code> 的仓库</li>
+      <li>本例使用 sinosmond.github.com，请用 <code>&lt;USERNAME&gt;.github.com</code> 替换之 </li>
     </ul>
   </li>
   <li>在本地版本库中设置远程版本库的别名<br />

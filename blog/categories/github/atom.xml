@@ -4,7 +4,7 @@
   <title><![CDATA[Category: github | Sinosmond's Blog]]></title>
   <link href="http://sinosmond.github.com/blog/categories/github/atom.xml" rel="self"/>
   <link href="http://sinosmond.github.com/"/>
-  <updated>2012-03-13T11:59:51+08:00</updated>
+  <updated>2012-03-13T17:25:53+08:00</updated>
   <id>http://sinosmond.github.com/</id>
   <author>
     <name><![CDATA[sinosmond]]></name>
@@ -98,7 +98,7 @@
         <ul>
           <li>设置 <code>LANG</code> 和 <code>LC_ALL</code> 两个环境变量，其值均设置为 <code>zh_CN.UTF-8</code></li>
           <li>在 CMD 窗口中测试： <code>echo %LANG%   %LC_ALL%</code> </li>
-          <li>在 MINGW 窗口中测试： <code>echo $LANG   $LC_ALL%</code></li>
+          <li>在 MINGW 窗口中测试： <code>echo $LANG   $LC_ALL</code></li>
         </ul>
       </li>
       <li>MINGW/Git Bash 窗口启动了 bash，可以使用 <code>~/.bash_profile</code> 环境设置文件设置环境变量、命令别名等 
@@ -218,7 +218,7 @@ $ rake install
 
 <ul>
   <li>编辑 _config.yml 文件 ，根据您自己的需要修改其值, <a href="http://octopress.org/docs/configuring/">参考</a></li>
-  <li>若文件中包括中文，则存成 UTF-8 编码格式 </li>
+  <li><strong>若文件中包括中文，则存成 UTF-8 编码格式</strong> </li>
 </ul>
 <p><code>yaml
 # ----------------------- #
@@ -247,6 +247,7 @@ email:              # Email address for the RSS feed if you want it.
   <li>使用你惯用的编辑器修改新生成的文件
     <ul>
       <li>使用 YAML 语法设置本页面属性，用 Markdown 语法书写文章内容</li>
+      <li><strong>若文件中包括中文，则存成 UTF-8 编码格式</strong> </li>
       <li><a href="http://wowubuntu.com/markdown/">Markdown 语法说明</a></li>
       <li><a href="http://daringfireball.net/projects/markdown/dingus">Markdown: Dingus</a> 是一个在线转换工具</li>
       <li>若使用 kramdown 解析器，参考 <a href="http://kramdown.rubyforge.org/syntax.html">kramdown 语法</a> </li>

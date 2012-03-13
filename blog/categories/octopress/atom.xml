@@ -4,7 +4,7 @@
   <title><![CDATA[Category: octopress | Sinosmond's Blog]]></title>
   <link href="http://sinosmond.github.com/blog/categories/octopress/atom.xml" rel="self"/>
   <link href="http://sinosmond.github.com/"/>
-  <updated>2012-03-13T05:13:06+08:00</updated>
+  <updated>2012-03-13T10:18:41+08:00</updated>
   <id>http://sinosmond.github.com/</id>
   <author>
     <name><![CDATA[sinosmond]]></name>
@@ -157,19 +157,12 @@ Using bundle exec may solve this.</p>
 <p>(See full trace by running task with –trace)
 ```</p>
 
-<p>解决方法:</p>
-
-<ol>
-  <li><code>$ bundle update; rake install</code></li>
-  <li>调整 rake
-    <ul>
-      <li>在 WINDOWS 的 CMD 窗口里：修改 rake.bat 文件</li>
-      <li>在 GIT BASH 里：设置别名</li>
-    </ul>
-  </li>
-</ol>
-
-<p><code>bash
+<p><strong>解决方法:</strong>
+1. <code>$ bundle update; rake install</code>
+2. 调整 rake
+  - 在 WINDOWS 的 CMD 窗口里：修改 rake.bat 文件
+  - 在 GIT BASH 里：设置别名
+<code>bash
 $ echo "alias rake='bundle exec rake'" &gt;&gt; ~/.bash_profile
 $ . ~/.bash_profile
 $ alias
@@ -296,7 +289,7 @@ rake watch                     # Watch the site and regenerate when it changes
 
 <ul>
   <li>配置 社会化网络 应用</li>
-  <li>选择适当的网站注册，获得用户名或网络代码，将代码存入 <code>source/_includes/{post,custom}</code> 目录   </li>
+  <li>选择您中意的网站注册，获得用户名或网络代码，将代码存入 <code>source/_includes/{post,custom}</code> 目录   </li>
 </ul>
 
 <table>
@@ -312,7 +305,7 @@ rake watch                     # Watch the site and regenerate when it changes
       <td><a href="http://www.feedsky.com/">FeedSky</a></td>
     </tr>
     <tr>
-      <td>分享</td>
+      <td>分享到</td>
       <td><a href="http://www.addthis.com/">AddThis</a></td>
       <td><a href="http://www.jiathis.com/">JiaThis</a></td>
     </tr>
@@ -323,13 +316,13 @@ rake watch                     # Watch the site and regenerate when it changes
     </tr>
     <tr>
       <td>网络书签</td>
-      <td><a href="http://delicious.com/">Delicious</a></td>
-      <td>……</td>
+      <td><a href="http://delicious.com/">Delicious</a>, <a href="http://www.google.com/bookmarks">Google Bookmarks</a></td>
+      <td><a href="http://shuqian.qq.com/">QQ书签</a>, <a href="http://cang.baidu.com/">百度搜藏</a></td>
     </tr>
     <tr>
       <td>网络图床</td>
       <td><a href="http://www.flickr.com/">Flickr</a></td>
-      <td><a href="http://www.yupoo.com/">yupoo</a> - <a href="http://www.poco.cn/">POCO</a></td>
+      <td><a href="http://www.yupoo.com/">yupoo</a> , <a href="http://www.poco.cn/">POCO</a></td>
     </tr>
     <tr>
       <td>网络评论</td>
@@ -339,11 +332,81 @@ rake watch                     # Watch the site and regenerate when it changes
   </tbody>
 </table>
 
-<h3 id="section-2">管理源码的仓库分支</h3>
+<h3 id="blog-jiathis">配置举例1：为每一篇BLOG结尾添加 “JiaThis”</h3>
 
-<ul>
-  <li>更新 source 分支</li>
-</ul>
+<ol>
+  <li>在 <code>_config.yml</code> 尾部添加如下行
+<code>yaml
+# JiaThis
+jiathis: true
+</code></li>
+  <li>在 <code>source/_includes/post/sharing.html</code> 尾部的<code>&lt;/div&gt;</code>之前添加如下行
+<code>
+  
+ <!-- JiaThis Button BEGIN -->
+<div id="ckepop">
+	<span class="jiathis_txt">分享到：</span>
+	<a class="jiathis_button_qzone">QQ空间</a>
+	<a class="jiathis_button_tsina">新浪微博</a>
+	<a class="jiathis_button_tqq">腾讯微博</a>
+	<a class="jiathis_button_renren">人人网</a>
+	<a class="jiathis_button_msn">MSN</a>
+	<a class="jiathis_button_delicious">Delicious</a>
+	<a href="http://www.jiathis.com/share?uid=1587493" class="jiathis jiathis_txt jiathis_separator jtico jtico_jiathis" target="_blank">更多</a>
+	<a class="jiathis_counter_style"></a>
+</div>
+<script type="text/javascript">var jiathis_config = {data_track_clickback:true};</script>
+<script type="text/javascript" src="http://v2.jiathis.com/code/jia.js?uid=1587493" charset="utf-8"></script>
+<!-- JiaThis Button END -->
+<br />
+
+<!-- UY BEGIN -->
+<!-- <div id="uyan_frame"></div> -->
+<!-- <script type="text/javascript" id="UYScript" src="http://v1.uyan.cc/js/iframe.js?UYUserId=1587493" async=""></script> -->
+<!-- UY END -->
+     
+</code></li>
+  <li>创建 <code>source/_includes/post/jiathis.html </code> 文件，将从<a href="http://www.jiathis.com/">JiaThis</a>获得的代码放入其中</li>
+</ol>
+
+<h3 id="section-2">配置举例2： 配置侧栏</h3>
+
+<p>在 <code>_config.yml</code> 中指定显示内容和显示顺序
+- 显示内容
+  - 系统默认的显示边栏的内容基于 source/_includes 目录保存为 <code>asides/*.html</code>
+  - 用户自定义的边栏内容基于 source/_includes 目录保存为 <code>custom/asides/*.html</code>
+- 显示顺序
+  - <code>blog_index_asides</code> 控制BLOG首页的边栏显示
+  - <code>post_asides</code> 控制每一个单独的BLOG页面显示时的边栏（对应 <code>rake new_post[]</code>）
+  - <code>page_asides</code> 控制静态页面显示时的边栏（对应 <code>rake new_page[]</code>）</p>
+
+<p>```yaml
+blog_index_asides:
+- custom/asides/feeds.html
+- asides/recent_posts.html
+- custom/asides/recent_comments.html
+- custom/asides/opers.html
+- asides/github.html
+- asides/twitter.html
+- asides/delicious.html
+- asides/pinboard.html
+- asides/googleplus.html
+- custom/asides/weibo.html
+- custom/asides/copyleft.html</p>
+
+<p>post_asides:
+- asides/recent_posts.html
+- custom/asides/recent_comments.html
+- custom/asides/opers.html
+- custom/asides/copyleft.html</p>
+
+<p>page_asides:
+- asides/recent_posts.html
+- custom/asides/recent_comments.html
+- custom/asides/copyleft.html
+```</p>
+
+<h3 id="section-3">更新管理源码的仓库分支</h3>
 
 <p><code>bash
 git add .
@@ -351,7 +414,7 @@ git commit -m "add some changes"
 git push myblog source
 </code></p>
 
-<h3 id="section-3">参考链接</h3>
+<h3 id="section-4">参考链接</h3>
 
 <ul>
   <li>http://chen.yanping.me/cn/blog/2011/12/26/octopress-on-windows/</li>

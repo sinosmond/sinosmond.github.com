@@ -524,14 +524,22 @@
 
 <h3 id="section-3">配置举例2： 配置侧栏</h3>
 
-<p>在 <code>_config.yml</code> 中指定显示内容和显示顺序
-- 显示内容
-  - 系统默认的显示边栏的内容基于 source/_includes 目录保存为 <code>asides/*.html</code>
-  - 用户自定义的边栏内容基于 source/_includes 目录保存为 <code>custom/asides/*.html</code>
-- 显示顺序
-  - <code>blog_index_asides</code> 控制BLOG首页的边栏显示
-  - <code>post_asides</code> 控制每一个单独的BLOG页面显示时的边栏（对应 <code>rake new_post[]</code>）
-  - <code>page_asides</code> 控制静态页面显示时的边栏（对应 <code>rake new_page[]</code>）</p>
+<ul>
+  <li>在 <code>_config.yml</code> 中指定显示内容和显示顺序</li>
+  <li>显示内容
+    <ul>
+      <li>系统默认的显示边栏的内容基于 source/_includes 目录保存为 <code>asides/*.html</code></li>
+      <li>用户自定义的边栏内容基于 source/_includes 目录保存为 <code>custom/asides/*.html</code></li>
+    </ul>
+  </li>
+  <li>显示顺序
+    <ul>
+      <li><code>blog_index_asides</code> 控制BLOG首页的边栏显示</li>
+      <li><code>post_asides</code> 控制每一个单独的BLOG页面显示时的边栏（对应 <code>rake new_post[]</code>）</li>
+      <li><code>page_asides</code> 控制静态页面显示时的边栏（对应 <code>rake new_page[]</code>）</li>
+    </ul>
+  </li>
+</ul>
 <div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
 <span class="line-number">2</span>
 <span class="line-number">3</span>

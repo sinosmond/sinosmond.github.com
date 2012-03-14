@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: documentation | Sinosmond's Blog]]></title>
+  <link href="http://sinosmond.github.com/blog/categories/documentation/atom.xml" rel="self"/>
+  <link href="http://sinosmond.github.com/"/>
+  <updated>2012-03-14T17:18:18+08:00</updated>
+  <id>http://sinosmond.github.com/</id>
+  <author>
+    <name><![CDATA[sinosmond]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Digital Toolchain for Book Authors]]></title>
+    <link href="http://sinosmond.github.com/blog/2012/03/14/digital-toolchain-for-book-authors/"/>
+    <updated>2012-03-14T16:39:00+08:00</updated>
+    <id>http://sinosmond.github.com/blog/2012/03/14/digital-toolchain-for-book-authors</id>
+    <content type="html"><![CDATA[<p>收集了些 AsciiDOC 的文档和工具链，有空慢慢研究。</p>
+
+<ul>
+  <li>Documentation Links
+    <ul>
+      <li><a href="https://gist.github.com/1609255">Digital Toolchain for Book Authors</a></li>
+      <li><a href="http://francisshanahan.com/index.php/2010/setup-asciidoc-fop-pygment-on-windows/">How to Setup AsciiDoc, Pygment and FOP on Windows for Beautiful PDF and XHTML Documentation</a></li>
+      <li><a href="http://www.stevestreeting.com/2010/03/07/building-a-new-technical-documentation-tool-chain/">Building a new technical documentation tool chain</a></li>
+      <li><a href="https://community.jboss.org/message/721016">AsciiDoc is the way forward</a></li>
+    </ul>
+  </li>
+  <li>Tool-chain Links
+    <ul>
+      <li><strong><a href="https://github.com/schacon/git-scribe">git-scribe</a></strong></li>
+      <li><a href="https://github.com/napcs/docbook">Short Attention Span Docbook</a></li>
+      <li><a href="https://github.com/FooBarWidget/mizuho">Mizuho documentation formatting tool</a></li>
+      <li><a href="https://github.com/fghaas/makedoc">makedoc: A document processing toolchain built on GNU Autotools</a></li>
+      <li><a href="https://github.com/akosmasoftware/eBook-Template">Template for Writing an eBook</a></li>
+    </ul>
+  </li>
+</ul>
+]]></content>
+  </entry>
+  
+</feed>

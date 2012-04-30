@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Puppet | Sinosmond's Blog]]></title>
   <link href="http://sinosmond.github.com/blog/categories/puppet/atom.xml" rel="self"/>
   <link href="http://sinosmond.github.com/"/>
-  <updated>2012-04-30T11:04:13+08:00</updated>
+  <updated>2012-04-30T11:07:12+08:00</updated>
   <id>http://sinosmond.github.com/</id>
   <author>
     <name><![CDATA[sinosmond]]></name>
@@ -20,9 +20,10 @@
     <id>http://sinosmond.github.com/blog/2012/04/30/translate-puppet-27-cookbook-into-chinese</id>
     <content type="html"><![CDATA[<p>我使用 “AsciiDoc + Github” 的方式翻译了《Puppet 2.7 Cookbook》 的中文版。</p>
 
-<p>中文翻译版的源码位于:  https://github.com/sinosmond/puppet-27-cookbook-CN</p>
-
-<p>中文翻译版的 HTML 包位于： http://down.51cto.com/4139732</p>
+<ul>
+  <li><a href="https://github.com/sinosmond/puppet-27-cookbo[ok-CN">中文翻译版的源码</a></li>
+  <li><a href="http://down.51cto.com/4139732">中文翻译版的 HTML 包</a></li>
+</ul>
 
 <p>欢迎各位以 Github 方式提交修正。</p>
 

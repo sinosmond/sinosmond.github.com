@@ -4,7 +4,7 @@
   <title><![CDATA[Category: AsciiDOC | Sinosmond's Blog]]></title>
   <link href="http://sinosmond.github.com/blog/categories/asciidoc/atom.xml" rel="self"/>
   <link href="http://sinosmond.github.com/"/>
-  <updated>2012-04-30T11:07:12+08:00</updated>
+  <updated>2012-04-30T16:01:15+08:00</updated>
   <id>http://sinosmond.github.com/</id>
   <author>
     <name><![CDATA[sinosmond]]></name>
@@ -21,7 +21,7 @@
     <content type="html"><![CDATA[<p>我使用 “AsciiDoc + Github” 的方式翻译了《Puppet 2.7 Cookbook》 的中文版。</p>
 
 <ul>
-  <li><a href="https://github.com/sinosmond/puppet-27-cookbo[ok-CN">中文翻译版的源码</a></li>
+  <li><a href="https://github.com/sinosmond/puppet-27-cookbook-CN">中文翻译版的源码</a></li>
   <li><a href="http://down.51cto.com/4139732">中文翻译版的 HTML 包</a></li>
 </ul>
 

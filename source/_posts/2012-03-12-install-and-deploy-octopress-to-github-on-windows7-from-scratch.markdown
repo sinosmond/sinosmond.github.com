@@ -54,7 +54,7 @@ categories: [octopress, github]
   - 在 Windows 的 “高级系统设置” 中设置的 环境变量 可以被 MINGW 窗口**继承**
     - 设置 `LANG` 和 `LC_ALL` 两个环境变量，其值均设置为 `zh_CN.UTF-8`
 	- 在 CMD 窗口中测试： `echo %LANG%   %LC_ALL%` 
-	- 在 MINGW 窗口中测试： `echo $LANG   $LC_ALL%`
+	- 在 MINGW 窗口中测试： `echo $LANG   $LC_ALL`
   - MINGW/Git Bash 窗口启动了 bash，可以使用 `~/.bash_profile` 环境设置文件设置环境变量、命令别名等 
     - `$ echo "export LANG LC_ALL" > ~/.bash_profile`
     - `$ echo "alias ll='ls -l --color=tty'"  >> ~/.bash_profile`
@@ -97,13 +97,13 @@ Using bundle exec may solve this.
 (See full trace by running task with --trace)
 ```
 
-解决方法:
+#### 解决方法
 
 1. `$ bundle update; rake install`
 2. 调整 rake
   - 在 WINDOWS 的 CMD 窗口里：修改 rake.bat 文件
   - 在 GIT BASH 里：设置别名
-
+^
 ```bash
 $ echo "alias rake='bundle exec rake'" >> ~/.bash_profile
 $ . ~/.bash_profile
@@ -126,9 +126,9 @@ $ rake install
 ### 设置本地仓库和远程仓库的关联
   
 * 创建 github 账号和仓库  
-  - 下面的操作假定您注册了 <USERNAME> 的账号
-  - 下面的操作假定您创建了 <USERNAME>.github.com 的仓库
-  - 本例使用 sinosmond.github.com，请用 <USERNAME>.github.com 替换之 
+  - 下面的操作假定您注册了 `<USERNAME>` 的账号
+  - 下面的操作假定您创建了 `<USERNAME>.github.com` 的仓库
+  - 本例使用 sinosmond.github.com，请用 `<USERNAME>.github.com` 替换之 
 * 在本地版本库中设置远程版本库的别名  
   - `$ git remote add myblog git@github.com:sinosmond/sinosmond.github.com.git`
 
@@ -137,8 +137,8 @@ $ rake install
 ### Octopress 的基本配置
   
 - 编辑 _config.yml 文件 ，根据您自己的需要修改其值, [参考](http://octopress.org/docs/configuring/)
-- 若文件中包括中文，则存成 UTF-8 编码格式 
-
+- **若文件中包括中文，则存成 UTF-8 编码格式** 
+^
 ```yaml
 # ----------------------- #
 #      Main Configs       #
@@ -162,6 +162,7 @@ email:              # Email address for the RSS feed if you want it.
   * `rake new_page["page name"]` : 生成指定的静态初始页面
 - 使用你惯用的编辑器修改新生成的文件
   * 使用 YAML 语法设置本页面属性，用 Markdown 语法书写文章内容
+  * **若文件中包括中文，则存成 UTF-8 编码格式** 
   * [Markdown 语法说明](http://wowubuntu.com/markdown/)
   * [Markdown: Dingus](http://daringfireball.net/projects/markdown/dingus) 是一个在线转换工具
   * 若使用 kramdown 解析器，参考 [kramdown 语法](http://kramdown.rubyforge.org/syntax.html) 
@@ -204,19 +205,78 @@ rake watch                     # Watch the site and regenerate when it changes
 ### 进一步配置 Octopress 
 
 - 配置 社会化网络 应用
-- 选择适当的网站注册，获得用户名或网络代码，将代码存入 `source/_includes/{post,custom}` 目录   
+- 选择您中意的网站注册，获得用户名或网络代码，将代码存入 `source/_includes/{post,custom}` 目录   
 
-|   类型   |     国外服务     |    国内服务     |
-| Feed烧制 | [FeedBurner](http://feedburner.google.com) | [FeedSky](http://www.feedsky.com/) |
-|  分享    | [AddThis](http://www.addthis.com/)  | [JiaThis](http://www.jiathis.com/) |
-|  微博    | Twitter | weibo.com  |
-| 网络书签 | [Delicious](http://delicious.com/) | …… |
-| 网络图床 | [Flickr](http://www.flickr.com/) | [yupoo](http://www.yupoo.com/) - [POCO](http://www.poco.cn/) |
-| 网络评论 | [Disqus](http://disqus.com/) | [友言](http://uyan.cc/) |
 
-### 管理源码的仓库分支 
+|     类型       |     国外服务     |    国内服务     |
+|    Feed烧制    |   [FeedBurner](http://feedburner.google.com)          |  [FeedSky](http://www.feedsky.com/)              |
+|    分享到      |   [AddThis](http://www.addthis.com/)  | [JiaThis](http://www.jiathis.com/) |
+|    微博        |   Twitter | weibo.com  |
+|    网络书签    |   [Delicious](http://delicious.com/), [Google Bookmarks](http://www.google.com/bookmarks) | [QQ书签](http://shuqian.qq.com/), [百度搜藏](http://cang.baidu.com/) |
+|    网络图床    |   [Flickr](http://www.flickr.com/) | [yupoo](http://www.yupoo.com/) , [POCO](http://www.poco.cn/) |
+|    网络评论    |   [Disqus](http://disqus.com/) | [友言](http://uyan.cc/) |
 
-* 更新 source 分支
+^
+
+
+### 配置举例1：为每一篇BLOG结尾添加 “JiaThis”
+
+1、在 `_config.yml` 尾部添加如下行
+
+```yaml
+# JiaThis
+jiathis: true
+```
+
+2、在 `source/_includes/post/sharing.html` 尾部的`</div>`之前添加如下行
+
+```
+  {% if site.jiathis %}
+    {% include post/jiathis.html %}
+  {% endif %}   
+```
+
+3、创建 `source/_includes/post/jiathis.html ` 文件，将从[JiaThis](http://www.jiathis.com/)获得的代码放入其中
+
+
+### 配置举例2： 配置侧栏
+
+- 在 `_config.yml` 中指定显示内容和显示顺序
+- 显示内容
+  * 系统默认的显示边栏的内容基于 source/_includes 目录保存为 `asides/*.html`
+  * 用户自定义的边栏内容基于 source/_includes 目录保存为 `custom/asides/*.html`
+- 显示顺序
+  * `blog_index_asides` 控制BLOG首页的边栏显示
+  * `post_asides` 控制每一个单独的BLOG页面显示时的边栏（对应 `rake new_post[]`）
+  * `page_asides` 控制静态页面显示时的边栏（对应 `rake new_page[]`）
+^
+```yaml
+blog_index_asides:
+- custom/asides/feeds.html
+- asides/recent_posts.html
+- custom/asides/recent_comments.html
+- custom/asides/opers.html
+- asides/github.html
+- asides/twitter.html
+- asides/delicious.html
+- asides/pinboard.html
+- asides/googleplus.html
+- custom/asides/weibo.html
+- custom/asides/copyleft.html
+
+post_asides:
+- asides/recent_posts.html
+- custom/asides/recent_comments.html
+- custom/asides/opers.html
+- custom/asides/copyleft.html
+
+page_asides:
+- asides/recent_posts.html
+- custom/asides/recent_comments.html
+- custom/asides/copyleft.html
+```
+
+### 更新管理源码的仓库分支 
 
 ```bash
 git add .

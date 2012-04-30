@@ -4,7 +4,7 @@
   <title><![CDATA[Category: AsciiDOC | Sinosmond's Blog]]></title>
   <link href="http://sinosmond.github.com/blog/categories/asciidoc/atom.xml" rel="self"/>
   <link href="http://sinosmond.github.com/"/>
-  <updated>2012-03-14T17:23:30+08:00</updated>
+  <updated>2012-04-30T11:04:13+08:00</updated>
   <id>http://sinosmond.github.com/</id>
   <author>
     <name><![CDATA[sinosmond]]></name>
@@ -12,6 +12,23 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Translate Puppet 2.7 Cookbook into Chinese]]></title>
+    <link href="http://sinosmond.github.com/blog/2012/04/30/translate-puppet-27-cookbook-into-chinese/"/>
+    <updated>2012-04-30T10:52:00+08:00</updated>
+    <id>http://sinosmond.github.com/blog/2012/04/30/translate-puppet-27-cookbook-into-chinese</id>
+    <content type="html"><![CDATA[<p>我使用 “AsciiDoc + Github” 的方式翻译了《Puppet 2.7 Cookbook》 的中文版。</p>
+
+<p>中文翻译版的源码位于:  https://github.com/sinosmond/puppet-27-cookbook-CN</p>
+
+<p>中文翻译版的 HTML 包位于： http://down.51cto.com/4139732</p>
+
+<p>欢迎各位以 Github 方式提交修正。</p>
+
+<p>中文翻译版仅用于学习目的，请勿用于商业目的。 支持原作者，请购买英文原版。</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Digital Toolchain for Book Authors]]></title>

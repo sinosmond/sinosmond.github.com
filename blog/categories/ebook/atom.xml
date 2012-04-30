@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
 
-  <title><![CDATA[Category: Github | Sinosmond's Blog]]></title>
-  <link href="http://sinosmond.github.com/blog/categories/github/atom.xml" rel="self"/>
+  <title><![CDATA[Category: eBook | Sinosmond's Blog]]></title>
+  <link href="http://sinosmond.github.com/blog/categories/ebook/atom.xml" rel="self"/>
   <link href="http://sinosmond.github.com/"/>
   <updated>2012-04-30T11:04:13+08:00</updated>
   <id>http://sinosmond.github.com/</id>

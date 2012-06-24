@@ -9,8 +9,7 @@
   <meta name="author" content="sinosmond">
 
   
-  <meta name="description" content="我使用 “AsciiDoc + Github” 的方式翻译了《Puppet 2.7 Cookbook》 的中文版。 中文翻译版的源码 中文翻译版的 HTML 包 欢迎各位以 Github 方式提交修正。 中文翻译版仅用于学习目的，请勿用于商业目的。 支持原作者，请购买英文原版。
-">
+  <meta name="description" content="说明 本指南不涉及多机集群。 是一个单机 Web 应用解决方案 也可用于 Java Web 应用软件的测试环境 笔者将其用在基于 DRBD 存储的 KVM 虚拟机里 本指南的尽量使用 YUM 仓库安装所需软件。 方便日后更新 方便日后使用 Puppet 进行管理 安装 CentOS 6.2 &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -103,6 +102,980 @@
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2012/06/24/centos6-dot-2-plus-jdk6-plus-tomcat7-plus-nginx1-dot-2-plus-mysql5-dot-x/">CentOS6.2 + JDK6 + Tomcat7 + Nginx1.2 + MySQL5.X</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-06-24T22:36:00+08:00" pubdate data-updated="true">Jun 24<span>th</span>, 2012</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><h2 id="section">说明</h2>
+
+<ul>
+  <li><strong>本指南不涉及多机集群。</strong>
+    <ul>
+      <li>是一个单机 Web 应用解决方案</li>
+      <li>也可用于 Java Web 应用软件的测试环境</li>
+      <li>笔者将其用在基于 DRBD 存储的 KVM 虚拟机里</li>
+    </ul>
+  </li>
+  <li><strong>本指南的尽量使用 YUM 仓库安装所需软件。</strong>
+    <ul>
+      <li>方便日后更新</li>
+      <li>方便日后使用 Puppet 进行管理 </li>
+    </ul>
+  </li>
+</ul>
+
+<h2 id="centos-62">安装 CentOS 6.2</h2>
+
+<h3 id="section-1">分区设置</h3>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+<span class="line-number">8</span>
+<span class="line-number">9</span>
+<span class="line-number">10</span>
+</pre></td><td class="code"><pre><code class="bash"><span class="line"><span class="c"># df -hT</span>
+</span><span class="line">文件系统    类型      容量  已用  可用 已用%% 挂载点
+</span><span class="line">/dev/mapper/vg0-lv_root
+</span><span class="line">              ext4     50G  3.2G   44G   7% /
+</span><span class="line">tmpfs        tmpfs    3.9G     0  3.9G   0% /dev/shm
+</span><span class="line">/dev/mapper/vg0-lv_backup
+</span><span class="line">              ext4     42G  176M   40G   1% /backup
+</span><span class="line">/dev/sda1     ext4    485M   51M  409M  12% /boot
+</span><span class="line">/dev/mapper/vg0-lv_mysql
+</span><span class="line">              ext4     98G  188M   93G   1% /var/lib/mysql
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p><strong>提示：在 vg0 卷组中应保留一定的剩余空间，以便使用 LVM 快照对 mysql 进行备份。</strong></p>
+
+<h3 id="section-2">选择安装组件</h3>
+
+<p>选择 Minimal 安装 CentOS 6.2。</p>
+
+<h2 id="section-3">配置使用官方仓库的国内镜像站点</h2>
+
+<h3 id="section-4">方法1：</h3>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+</pre></td><td class="code"><pre><code class="bash"><span class="line"><span class="c"># cd /etc/yum.repos.d/</span>
+</span><span class="line"><span class="c"># cp CentOS-Base.repo{,.orig}</span>
+</span><span class="line"><span class="c"># sed -i &quot;s/mirror.centos.org/mirrors.163.com/g&quot; CentOS-Base.repo</span>
+</span><span class="line"><span class="c"># sed -i &quot;s/^mirrorlist/#mirrorlist/g&quot; CentOS-Base.repo</span>
+</span><span class="line"><span class="c"># sed -i &quot;s/^#baseurl/baseurl/g&quot; CentOS-Base.repo</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<h3 id="section-5">方法2：</h3>
+
+<p>参考 <a href="http://mirrors.163.com/.help/centos.html">163镜像的说明文档</a> 下载 REPO 文件。</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+</pre></td><td class="code"><pre><code class="bash"><span class="line"><span class="c"># cd /etc/yum.repos.d/</span>
+</span><span class="line"><span class="c"># mv CentOS-Base.repo{,.orig}</span>
+</span><span class="line"><span class="c"># wget -O CentOS-Base.repo http://mirrors.163.com/.help/CentOS6-Base-163.repo</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<h2 id="section-6">安装必要的工具和软件</h2>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+</pre></td><td class="code"><pre><code class="bash"><span class="line"><span class="c"># yum -y install openssh-clients policycoreutils-python</span>
+</span><span class="line"><span class="c"># yum -y install yum-plugin-{security,priorities} yum-utils</span>
+</span><span class="line"><span class="c"># yum -y install system-config-{firewall-tui,network-tui} ntsysv</span>
+</span><span class="line"><span class="c"># yum -y install wget lftp rsync elinks mutt tree vim-enhanced git</span>
+</span><span class="line"><span class="c"># yum -y install jpackage-utils</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<h2 id="section-7">配置主机名、网络参数、本地域名解析</h2>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+</pre></td><td class="code"><pre><code class="bash"><span class="line"><span class="c"># system-config-network-tui</span>
+</span><span class="line"><span class="c"># service network restart</span>
+</span><span class="line"><span class="c"># vim /etc/hosts</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<h2 id="section-8">配置第三方仓库</h2>
+
+<h3 id="releaserpm">下载仓库的 <em>release</em>.rpm</h3>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+<span class="line-number">8</span>
+</pre></td><td class="code"><pre><code class="bash"><span class="line"><span class="c"># cd</span>
+</span><span class="line"><span class="c"># mkdir RPM</span>
+</span><span class="line"><span class="c"># cd RPM</span>
+</span><span class="line"><span class="c"># wget http://mirrors.sohu.com/fedora-epel/6/x86_64/epel-release-6-7.noarch.rpm</span>
+</span><span class="line"><span class="c"># wget http://mirrors.sohu.com/dag/redhat/el6/en/x86_64/rpmforge/RPMS/rpmforge-release-0.5.2-2.el6.rf.x86_64.rpm</span>
+</span><span class="line"><span class="c"># wget http://rpms.famillecollet.com/enterprise/remi-release-6.rpm</span>
+</span><span class="line"><span class="c"># wget http://mirrors.dotsrc.org/jpackage/6.0/generic/free/RPMS/jpackage-release-6-3.jpp6.noarch.rpm</span>
+</span><span class="line"><span class="c"># wget http://nginx.org/packages/centos/6/noarch/RPMS/nginx-release-centos-6-0.el6.ngx.noarch.rpm</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<h3 id="releaserpm-">安装 <em>release</em>.rpm 并导入仓库公钥</h3>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+</pre></td><td class="code"><pre><code class="bash"><span class="line"><span class="c"># rpm -ivh epel-release-6-7.noarch.rpm</span>
+</span><span class="line"><span class="c"># rpm -ivh rpmforge-release-0.5.2-2.el6.rf.x86_64.rpm</span>
+</span><span class="line"><span class="c"># rpm -ivh remi-release-6.rpm</span>
+</span><span class="line"><span class="c"># rpm -ivh jpackage-release-6-3.jpp6.noarch.rpm</span>
+</span><span class="line"><span class="c"># rpm -ivh nginx-release-centos-6-0.el6.ngx.noarch.rpm</span>
+</span><span class="line">
+</span><span class="line"><span class="c"># rpm --import /etc/pki/rpm-gpg/RPM-GPG-KEY-*</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<h3 id="section-9">配置仓库优先级</h3>
+
+<ul>
+  <li>[base]、[updates]、[extras]、[remi]
+    <ul>
+      <li><code>priority=1</code></li>
+    </ul>
+  </li>
+  <li>[centosplus]、[contrib]
+    <ul>
+      <li><code>priority=2</code></li>
+    </ul>
+  </li>
+  <li>[epel]
+    <ul>
+      <li><code>priority=10</code></li>
+    </ul>
+  </li>
+  <li>[rpmforge]
+    <ul>
+      <li><code>priority=15</code></li>
+    </ul>
+  </li>
+</ul>
+
+<h3 id="section-10">配置使用非官方仓库的国内镜像站点</h3>
+
+<ol>
+  <li>EPEL</li>
+</ol>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+</pre></td><td class="code"><pre><code class="bash"><span class="line"><span class="c"># cd /etc/yum.repos.d/</span>
+</span><span class="line"><span class="c"># cp epel.repo{,.orig}</span>
+</span><span class="line"><span class="c"># sed -i &quot;s/^mirrorlist/#mirrorlist/g&quot; epel.repo</span>
+</span><span class="line"><span class="c"># sed -i &quot;s/^#baseurl/baseurl/g&quot; epel.repo</span>
+</span><span class="line"><span class="c"># sed -i &quot;s#download.fedoraproject.org/pub/epel#mirrors.sohu.com/fedora-epel#g&quot; epel.repo</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<ol>
+  <li>RPMForge</li>
+</ol>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+</pre></td><td class="code"><pre><code class="bash"><span class="line"><span class="c"># cd /etc/yum.repos.d/</span>
+</span><span class="line"><span class="c"># cp rpmforge.repo{,.orig}</span>
+</span><span class="line"><span class="c"># sed -i &quot;s#baseurl = http://apt.sw.be#baseurl = http://mirrors.sohu.com/dag#g&quot; rpmforge.repo</span>
+</span><span class="line"><span class="c"># yum makecache</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<h2 id="etckeeper-">安装 etckeeper 并更新系统</h2>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+</pre></td><td class="code"><pre><code class="bash"><span class="line"><span class="c"># yum -y install etckeeper tig</span>
+</span><span class="line"><span class="c"># etckeeper init</span>
+</span><span class="line"><span class="c"># etckeeper commit &#39;init&#39;</span>
+</span><span class="line"><span class="c"># cd /etc</span>
+</span><span class="line"><span class="c"># tig</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+</pre></td><td class="code"><pre><code class="bash"><span class="line"><span class="c"># yum -y update</span>
+</span><span class="line"><span class="c"># reboot</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<h2 id="jdk6">安装配置 JDK6</h2>
+
+<h3 id="jdk6-1">安装 JDK6</h3>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+</pre></td><td class="code"><pre><code class="bash"><span class="line"><span class="c"># cd; mkdir jdk6; cd jdk6</span>
+</span><span class="line"><span class="c">## 从 http://www.oracle.com/technetwork/java/javase/downloads/index.html 下载最新版</span>
+</span><span class="line"><span class="c"># ll</span>
+</span><span class="line">-rw-r--r--. 1 root root 68826379  5月 17 05:22 jdk-6u33-linux-x64-rpm.bin
+</span><span class="line"><span class="c"># chmod +x jdk-6u33-linux-x64-rpm.bin</span>
+</span><span class="line"><span class="c"># ./jdk-6u33-linux-x64-rpm.bin</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<h3 id="jdk6-2">配置 JDK6</h3>
+
+<ol>
+  <li>使用 alternatives 配置当前使用的 Java</li>
+</ol>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+<span class="line-number">8</span>
+<span class="line-number">9</span>
+<span class="line-number">10</span>
+<span class="line-number">11</span>
+<span class="line-number">12</span>
+<span class="line-number">13</span>
+</pre></td><td class="code"><pre><code class="bash"><span class="line"><span class="c"># alternatives --install /usr/bin/java java /usr/java/jdk1.6.0_33/jre/bin/java 20000</span>
+</span><span class="line"><span class="c"># alternatives --install /usr/bin/javac javac /usr/java/jdk1.6.0_33/bin/javac 20000</span>
+</span><span class="line"><span class="c"># alternatives --install /usr/bin/jar jar /usr/java/jdk1.6.0_33/bin/jar 20000</span>
+</span><span class="line">
+</span><span class="line"><span class="c"># java -version</span>
+</span><span class="line">java version <span class="s2">&quot;1.6.0_33&quot;</span>
+</span><span class="line">Java<span class="o">(</span>TM<span class="o">)</span> SE Runtime Environment <span class="o">(</span>build 1.6.0_33-b03<span class="o">)</span>
+</span><span class="line">Java HotSpot<span class="o">(</span>TM<span class="o">)</span> 64-Bit Server VM <span class="o">(</span>build 20.8-b03, mixed mode<span class="o">)</span>
+</span><span class="line"><span class="c"># javac -version</span>
+</span><span class="line">javac 1.6.0_33
+</span><span class="line">
+</span><span class="line"><span class="c">### 日后安装其他 JDK 后可以重新配置当前的 Java</span>
+</span><span class="line"><span class="c"># alternatives --config java</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p><a href="http://www.if-not-true-then-false.com/2010/install-sun-oracle-java-jdk-jre-6-on-fedora-centos-red-hat-rhel/">参考</a></p>
+
+<ol>
+  <li>配置环境变量</li>
+</ol>
+
+<ul>
+  <li>系统级别 —— /etc/profile</li>
+  <li>用户级别 —— ~/.bashrc</li>
+</ul>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+</pre></td><td class="code"><pre><code class="bash"><span class="line"><span class="c"># cat &lt;&lt;_END_&gt;&gt; /etc/profile</span>
+</span><span class="line">
+</span><span class="line"><span class="nb">export </span><span class="nv">JAVA_HOME</span><span class="o">=</span>/usr/java/default
+</span><span class="line"><span class="nb">export </span><span class="nv">PATH</span><span class="o">=</span><span class="nv">$JAVA_HOME</span>/bin:<span class="nv">$JAVA_HOME</span>/jre/bin:<span class="nv">$PATH</span>
+</span><span class="line"><span class="nb">export </span><span class="nv">CLASSPATH</span><span class="o">=</span>.:<span class="nv">$JAVA_HOME</span>/lib:<span class="nv">$JAVA_HOME</span>/jre/lib:<span class="nv">$CLASSPATH</span>
+</span><span class="line">_END_
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<h2 id="tomcat7--ngnix12">安装配置 Tomcat7 和 Ngnix1.2</h2>
+
+<h3 id="tomcat7--ngnix12-1">安装 Tomcat7 和 Ngnix1.2</h3>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+</pre></td><td class="code"><pre><code class="bash"><span class="line"><span class="c"># yum -y install tomcat7 nginx</span>
+</span><span class="line"><span class="c"># chkconfig --level 345 tomcat7 on </span>
+</span><span class="line"><span class="c"># chkconfig --level 345 nginx on</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>参考: <a href="http://www.distrotips.com/centos/installing-tomcat-7-on-centos-6.html">不使用 yum 仓库，直接解包安装 Tomcat7</a>
+TODO: <a href="https://wiki.jenkins-ci.org/display/JENKINS/Installing+Jenkins+on+RedHat+distributions">Installing Jenkins</a></p>
+
+<h3 id="tomcat7">配置 Tomcat7</h3>
+
+<ol>
+  <li>配置 Tomcat7 所需的环境变量</li>
+</ol>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+<span class="line-number">8</span>
+<span class="line-number">9</span>
+<span class="line-number">10</span>
+<span class="line-number">11</span>
+<span class="line-number">12</span>
+</pre></td><td class="code"><pre><code class="bash"><span class="line"><span class="c"># vim /etc/tomcat7/tomcat7.conf</span>
+</span><span class="line">
+</span><span class="line"><span class="c">## 在如下行</span>
+</span><span class="line"><span class="c">#JAVA_HOME=&quot;/usr/lib/jvm/java&quot;</span>
+</span><span class="line"><span class="c">## 之后添加如下行</span>
+</span><span class="line"><span class="nv">JAVA_HOME</span><span class="o">=</span><span class="s2">&quot;/usr/java/default&quot;</span>
+</span><span class="line">
+</span><span class="line"><span class="c">## 对于生产环境，根据机器性能适当调整 Java 使用的内存</span>
+</span><span class="line"><span class="c">## 在如下行</span>
+</span><span class="line"><span class="c">#JAVA_OPTS=&quot;-Xminf0.1 -Xmaxf0.3&quot;</span>
+</span><span class="line"><span class="c">## 之后添加如下行</span>
+</span><span class="line"><span class="nv">JAVA_OPTS</span><span class="o">=</span><span class="s2">&quot;-Xms2624m -Xmx2624m -Xss2024K -XX:PermSize=528m -XX:MaxPermSize=856m&quot;</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<ol>
+  <li>安装默认 Web 应用案例及文档并测试</li>
+</ol>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+</pre></td><td class="code"><pre><code class="bash"><span class="line"><span class="c"># yum install tomcat7-webapps tomcat7-docs-webapp</span>
+</span><span class="line"><span class="c"># service tomcat7 restart</span>
+</span><span class="line"><span class="c"># elinks http://localhost:8080</span>
+</span><span class="line"><span class="c"># elinks http://YourIP:8080</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<ol>
+  <li>编辑 server.xml 文件</li>
+</ol>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+<span class="line-number">8</span>
+<span class="line-number">9</span>
+<span class="line-number">10</span>
+<span class="line-number">11</span>
+<span class="line-number">12</span>
+<span class="line-number">13</span>
+<span class="line-number">14</span>
+<span class="line-number">15</span>
+<span class="line-number">16</span>
+<span class="line-number">17</span>
+</pre></td><td class="code"><pre><code class="bash"><span class="line"><span class="c"># vim /etc/tomcat7/server.xml</span>
+</span><span class="line">
+</span><span class="line"><span class="c">## 对生产环境优化连接</span>
+</span><span class="line"><span class="c">## 找到如下的行</span>
+</span><span class="line">    &lt;Connector <span class="nv">port</span><span class="o">=</span><span class="s2">&quot;8080&quot;</span> <span class="nv">protocol</span><span class="o">=</span><span class="s2">&quot;HTTP/1.1&quot;</span>
+</span><span class="line">               <span class="nv">connectionTimeout</span><span class="o">=</span><span class="s2">&quot;20000&quot;</span>
+</span><span class="line">               <span class="nv">redirectPort</span><span class="o">=</span><span class="s2">&quot;8443&quot;</span> /&gt;
+</span><span class="line"><span class="c">## 将其改为：</span>
+</span><span class="line">    &lt;Connector <span class="nv">port</span><span class="o">=</span><span class="s2">&quot;8080&quot;</span> <span class="nv">protocol</span><span class="o">=</span><span class="s2">&quot;HTTP/1.1&quot;</span>
+</span><span class="line">               <span class="nv">connectionTimeout</span><span class="o">=</span><span class="s2">&quot;20000&quot;</span>
+</span><span class="line">               <span class="nv">redirectPort</span><span class="o">=</span><span class="s2">&quot;8443&quot;</span>
+</span><span class="line">               <span class="nv">maxHttpHeaderSize</span><span class="o">=</span><span class="s2">&quot;8192&quot;</span>
+</span><span class="line">               <span class="nv">useBodyEncodingForURI</span><span class="o">=</span><span class="s2">&quot;true&quot;</span>
+</span><span class="line">               <span class="nv">URIEncoding</span><span class="o">=</span><span class="s2">&quot;UTF-8&quot;</span>
+</span><span class="line">               <span class="nv">maxThreads</span><span class="o">=</span><span class="s2">&quot;2048&quot;</span> <span class="nv">minSpareThreads</span><span class="o">=</span><span class="s2">&quot;100&quot;</span>
+</span><span class="line">               <span class="nv">acceptCount</span><span class="o">=</span><span class="s2">&quot;500&quot;</span>
+</span><span class="line">               <span class="nv">enableLookups</span><span class="o">=</span><span class="s2">&quot;false&quot;</span> /&gt;
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<ol>
+  <li>部署自己的 Webapp 并测试</li>
+</ol>
+
+<p>将自己的应用程序放置在 /var/lib/tomcat7/webapps 目录下替换原来的 ROOT 目录的内容；
+或将自己的应用程序的 WAR 文件改名为 <code>ROOT.war</code> 放置在/var/lib/tomcat7/webapps 目录下，
+然后编辑 /etc/tomcat7/Catalina/localhost/ROOT.xml，添加如下内容进行部署：</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class="xml"><span class="line"><span class="nt">&lt;Context</span> <span class="na">path=</span><span class="s">&quot;&quot;</span> <span class="na">docBase=</span><span class="s">&quot;ROOT.war&quot;</span><span class="nt">&gt;&lt;/Context&gt;</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>因为需要 tomcat 部署 ROOT 目录，且 jpackage 的 Tomcat7 以 tomcat 用户运行，
+所以需要适当调整 webapps 目录的权限：</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class="bash"><span class="line"><span class="c"># chown tomcat /var/lib/tomcat7/webapps</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>重新启动 tomcat 并进行浏览测试。</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+</pre></td><td class="code"><pre><code class="bash"><span class="line"><span class="c"># service tomcat7 restart</span>
+</span><span class="line"><span class="c"># elinks http://localhost:8080</span>
+</span><span class="line"><span class="c"># elinks http://YourIP:8080</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<h3 id="ngnix">配置 Ngnix</h3>
+
+<ol>
+  <li>配置 proxy 通用参数</li>
+</ol>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+<span class="line-number">8</span>
+<span class="line-number">9</span>
+<span class="line-number">10</span>
+<span class="line-number">11</span>
+<span class="line-number">12</span>
+<span class="line-number">13</span>
+<span class="line-number">14</span>
+<span class="line-number">15</span>
+</pre></td><td class="code"><pre><code class="bash"><span class="line"><span class="c"># vim /etc/nginx/conf.d/proxy.conf</span>
+</span><span class="line">
+</span><span class="line">proxy_redirect     off;
+</span><span class="line">proxy_set_header   Host <span class="nv">$host</span>;
+</span><span class="line">proxy_set_header   X-Real-IP <span class="nv">$remote_addr</span>;
+</span><span class="line">proxy_set_header   X-Forwarded-For   <span class="nv">$proxy_add_x_forwarded_for</span>;
+</span><span class="line">
+</span><span class="line">proxy_connect_timeout     60;
+</span><span class="line">proxy_read_timeout        60;
+</span><span class="line">proxy_send_timeout        60;
+</span><span class="line">proxy_buffer_size        32k;
+</span><span class="line">proxy_buffers          4 64k;
+</span><span class="line">proxy_busy_buffers_size 128k;
+</span><span class="line">proxy_temp_file_write_size 128k;
+</span><span class="line">proxy_next_upstream error timeout invalid_header http_500 http_503 http_404;
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<ol>
+  <li>修改默认主机配置</li>
+</ol>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+</pre></td><td class="code"><pre><code class="bash"><span class="line"><span class="c"># cd /etc/nginx/conf.d/</span>
+</span><span class="line"><span class="c"># cp default.conf{,.orig}</span>
+</span><span class="line"><span class="c"># vim default.conf</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+</pre></td><td class="code"><pre><code class="nginx"><span class="line"><span class="k">location</span> <span class="s">/</span> <span class="p">{</span>
+</span><span class="line">    <span class="kn">root</span>   <span class="s">/usr/share/nginx/html</span><span class="p">;</span>
+</span><span class="line">    <span class="kn">index</span>  <span class="s">index.html</span> <span class="s">index.htm</span><span class="p">;</span>
+</span><span class="line">    <span class="c1">## 添加如下行</span>
+</span><span class="line">    <span class="kn">proxy_pass</span>  <span class="s">http://127.0.0.1:8080</span><span class="p">;</span>
+</span><span class="line"> <span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<ol>
+  <li>参数调整和优化</li>
+</ol>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class="bash"><span class="line"><span class="c"># vim /etc/nginx/conf.d/optimization.conf</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+<span class="line-number">8</span>
+<span class="line-number">9</span>
+<span class="line-number">10</span>
+<span class="line-number">11</span>
+<span class="line-number">12</span>
+<span class="line-number">13</span>
+<span class="line-number">14</span>
+<span class="line-number">15</span>
+<span class="line-number">16</span>
+<span class="line-number">17</span>
+<span class="line-number">18</span>
+<span class="line-number">19</span>
+</pre></td><td class="code"><pre><code class="nginx"><span class="line"><span class="k">tcp_nodelay</span> <span class="no">on</span><span class="p">;</span>
+</span><span class="line"><span class="k">tcp_nopush</span> <span class="no">on</span><span class="p">;</span>
+</span><span class="line">
+</span><span class="line"><span class="k">server_tokens</span> <span class="no">off</span><span class="p">;</span>
+</span><span class="line"><span class="k">server_name_in_redirect</span> <span class="no">off</span><span class="p">;</span>
+</span><span class="line"><span class="k">server_names_hash_bucket_size</span> <span class="mi">128</span><span class="p">;</span>
+</span><span class="line">
+</span><span class="line"><span class="k">client_header_buffer_size</span> <span class="mi">32k</span><span class="p">;</span>
+</span><span class="line"><span class="k">client_body_buffer_size</span> <span class="mi">128k</span><span class="p">;</span>
+</span><span class="line"><span class="k">client_max_body_size</span> <span class="mi">30m</span><span class="p">;</span>
+</span><span class="line"><span class="k">large_client_header_buffers</span> <span class="mi">4</span> <span class="mi">32k</span><span class="p">;</span>
+</span><span class="line">
+</span><span class="line"><span class="k">gzip</span> <span class="no">on</span><span class="p">;</span>
+</span><span class="line"><span class="k">gzip_min_length</span> <span class="mi">1k</span><span class="p">;</span>
+</span><span class="line"><span class="k">gzip_buffers</span> <span class="mi">4</span> <span class="mi">16k</span><span class="p">;</span>
+</span><span class="line"><span class="k">gzip_http_version</span> <span class="mi">1</span><span class="s">.1</span><span class="p">;</span>
+</span><span class="line"><span class="k">gzip_comp_level</span> <span class="mi">2</span><span class="p">;</span>
+</span><span class="line"><span class="k">gzip_vary</span> <span class="no">on</span><span class="p">;</span>
+</span><span class="line"><span class="k">gzip_types</span> <span class="s">text/plain</span> <span class="s">application/x-javascript</span> <span class="s">text/css</span> <span class="s">application/xml</span><span class="p">;</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<ol>
+  <li>重启 Nginx，访问由其代理的 Tomcat 站点</li>
+</ol>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+</pre></td><td class="code"><pre><code class="bash"><span class="line"><span class="c"># service nginx restart</span>
+</span><span class="line"><span class="c">### 使用浏览器测试 http://YourIP 或 http://YourFQDN</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<h2 id="mysql-">安装 MySQL 服务</h2>
+
+<ol>
+  <li>使用 yum 安装 mysql-server</li>
+</ol>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+</pre></td><td class="code"><pre><code class="bash"><span class="line"><span class="c">## 选择1. 安装 remi 仓库提供的 MySQL 5.5 （建议）</span>
+</span><span class="line"><span class="c"># yum --enablerepo=remi install mysql-server mysqltuner</span>
+</span><span class="line"><span class="c">## 选择2. 安装官方仓库提供的 MySQL 5.1 </span>
+</span><span class="line"><span class="c"># yum install mysql-server mysqltuner</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<ol>
+  <li>安装后的基本配置</li>
+</ol>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+<span class="line-number">8</span>
+</pre></td><td class="code"><pre><code class="bash"><span class="line"><span class="c"># chkconfig --level 35 mysqld on</span>
+</span><span class="line"><span class="c"># service mysqld start</span>
+</span><span class="line"><span class="c">## 为 MySQL 的 root 用户设置口令  </span>
+</span><span class="line"><span class="c"># mysqladmin -u root password &#39;my0wnSecrectpAs5&#39;</span>
+</span><span class="line"><span class="c">## 或运行 MySQL 的安全安装脚本 </span>
+</span><span class="line"><span class="c"># mysql_secure_installation</span>
+</span><span class="line"><span class="c">## 查看服务的参数配置及性能</span>
+</span><span class="line"><span class="c"># mysqltuner</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<h2 id="mysql--1">配置 MySQL 服务</h2>
+
+<p>参考 /usr/share/mysql/ 目录下提供的配置文件模板：</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+</pre></td><td class="code"><pre><code class="bash"><span class="line">ll /usr/share/mysql/my-*.cnf
+</span><span class="line">-rw-r--r--. 1 root root  4697  6月  1 23:39 /usr/share/mysql/my-huge.cnf
+</span><span class="line">-rw-r--r--. 1 root root 19779  6月  1 23:39 /usr/share/mysql/my-innodb-heavy-4G.cnf
+</span><span class="line">-rw-r--r--. 1 root root  4671  6月  1 23:39 /usr/share/mysql/my-large.cnf
+</span><span class="line">-rw-r--r--. 1 root root  4682  6月  1 23:39 /usr/share/mysql/my-medium.cnf
+</span><span class="line">-rw-r--r--. 1 root root  2846  6月  1 23:39 /usr/share/mysql/my-small.cnf
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>选择合适的模板将其复制到 /etc/my.cnf ，并作适当修改。例如：</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+</pre></td><td class="code"><pre><code class="bash"><span class="line"><span class="c"># mv /etc/my.cnf{,.orig}</span>
+</span><span class="line"><span class="c"># cp /usr/share/mysql/my-large.cnf /etc/my.cnf</span>
+</span><span class="line"><span class="c"># vi /etc/my.cnf</span>
+</span><span class="line"><span class="c"># service mysqld restart</span>
+</span><span class="line"><span class="c"># mysqltuner</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<h2 id="phpmyadmin">安装配置 phpMyAdmin</h2>
+
+<p>参考: [install-phpmyadmin-on-fedora-centos-red-hat-rhel](http://www.if-not-true-then-false.com/2012/install-</p>
+
+<p>phpmyadmin-on-fedora-centos-red-hat-rhel/)</p>
+
+<h3 id="phpmyadmin-1">安装 phpMyAdmin</h3>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+</pre></td><td class="code"><pre><code class="bash"><span class="line"><span class="c"># yum --enablerepo=remi install php php-fpm php-common php-gd php-mcrypt php-mbstring php-xml php-pecl-apc phpMyAdmin</span>
+</span><span class="line"><span class="c"># chkconfig --level 35  php-fpm on</span>
+</span><span class="line"><span class="c"># service php-fpm start </span>
+</span><span class="line"><span class="c"># chkconfig --level 35  httpd off</span>
+</span><span class="line"><span class="c"># service httpd stop</span>
+</span><span class="line"><span class="c"># service nginx start</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<h3 id="nginx--php-fpm">配置 Nginx 和 PHP-FPM</h3>
+
+<p>为 phpMyAdmin 配置虚拟主机。</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class="bash"><span class="line"><span class="c"># vim /etc/nginx/conf.d/phpMyAdmin.conf</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+<span class="line-number">8</span>
+<span class="line-number">9</span>
+<span class="line-number">10</span>
+<span class="line-number">11</span>
+<span class="line-number">12</span>
+<span class="line-number">13</span>
+<span class="line-number">14</span>
+<span class="line-number">15</span>
+<span class="line-number">16</span>
+<span class="line-number">17</span>
+<span class="line-number">18</span>
+<span class="line-number">19</span>
+<span class="line-number">20</span>
+<span class="line-number">21</span>
+<span class="line-number">22</span>
+<span class="line-number">23</span>
+<span class="line-number">24</span>
+<span class="line-number">25</span>
+<span class="line-number">26</span>
+<span class="line-number">27</span>
+<span class="line-number">28</span>
+<span class="line-number">29</span>
+<span class="line-number">30</span>
+<span class="line-number">31</span>
+<span class="line-number">32</span>
+<span class="line-number">33</span>
+</pre></td><td class="code"><pre><code class="nginx"><span class="line"><span class="k">server</span> <span class="p">{</span>
+</span><span class="line">       <span class="kn">listen</span>   <span class="mi">80</span><span class="p">;</span>
+</span><span class="line">       <span class="kn">server_name</span> <span class="s">pma.domain.com</span><span class="p">;</span>
+</span><span class="line">       <span class="kn">access_log</span> <span class="s">/var/log/nginx/phpmyadmin/access.log</span><span class="p">;</span>
+</span><span class="line">       <span class="kn">error_log</span> <span class="s">/var/log/nginx/phpmyadmin/error.log</span><span class="p">;</span>
+</span><span class="line">       <span class="kn">root</span> <span class="s">/usr/share/phpMyAdmin</span><span class="p">;</span>
+</span><span class="line">
+</span><span class="line">       <span class="kn">location</span> <span class="s">/</span> <span class="p">{</span>
+</span><span class="line">           <span class="kn">index</span>  <span class="s">index.php</span><span class="p">;</span>
+</span><span class="line">       <span class="p">}</span>
+</span><span class="line">
+</span><span class="line">       <span class="c1">## Images and static content is treated different</span>
+</span><span class="line">       <span class="kn">location</span> <span class="p">~</span><span class="sr">*</span> <span class="s">^.+.(jpg|jpeg|gif|css|png|js|ico|xml)</span>$ <span class="p">{</span>
+</span><span class="line">           <span class="kn">access_log</span>        <span class="no">off</span><span class="p">;</span>
+</span><span class="line">           <span class="kn">expires</span>           <span class="s">360d</span><span class="p">;</span>
+</span><span class="line">       <span class="p">}</span>
+</span><span class="line">
+</span><span class="line">       <span class="kn">location</span> <span class="p">~</span> <span class="sr">/\.ht</span> <span class="p">{</span>
+</span><span class="line">           <span class="kn">deny</span>  <span class="s">all</span><span class="p">;</span>
+</span><span class="line">       <span class="p">}</span>
+</span><span class="line">
+</span><span class="line">       <span class="kn">location</span> <span class="p">~</span> <span class="sr">/(libraries|setup/frames|setup/libs)</span> <span class="p">{</span>
+</span><span class="line">           <span class="kn">deny</span> <span class="s">all</span><span class="p">;</span>
+</span><span class="line">           <span class="kn">return</span> <span class="mi">404</span><span class="p">;</span>
+</span><span class="line">       <span class="p">}</span>
+</span><span class="line">
+</span><span class="line">       <span class="kn">location</span> <span class="p">~</span> <span class="sr">\.php$</span> <span class="p">{</span>
+</span><span class="line">           <span class="kn">include</span> <span class="s">/etc/nginx/fastcgi_params</span><span class="p">;</span>
+</span><span class="line">           <span class="kn">fastcgi_pass</span> <span class="n">127.0.0.1</span><span class="p">:</span><span class="mi">9000</span><span class="p">;</span>
+</span><span class="line">           <span class="kn">fastcgi_index</span> <span class="s">index.php</span><span class="p">;</span>
+</span><span class="line">           <span class="kn">fastcgi_param</span> <span class="s">SCRIPT_FILENAME</span> <span class="s">/usr/share/phpMyAdmin</span><span class="nv">$fastcgi_script_name</span><span class="p">;</span>
+</span><span class="line">       <span class="p">}</span>
+</span><span class="line"><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+<span class="line-number">8</span>
+<span class="line-number">9</span>
+<span class="line-number">10</span>
+<span class="line-number">11</span>
+<span class="line-number">12</span>
+<span class="line-number">13</span>
+<span class="line-number">14</span>
+<span class="line-number">15</span>
+</pre></td><td class="code"><pre><code class="bash"><span class="line"><span class="c">### 检查配置文件语法的正确性</span>
+</span><span class="line"><span class="c"># nginx -t</span>
+</span><span class="line">nginx: the configuration file /etc/nginx/nginx.conf syntax is ok
+</span><span class="line">nginx: <span class="o">[</span>emerg<span class="o">]</span> open<span class="o">()</span> <span class="s2">&quot;/var/log/nginx/phpmyadmin/access.log&quot;</span> failed <span class="o">(</span>2: No such file or directory<span class="o">)</span>
+</span><span class="line">nginx: configuration file /etc/nginx/nginx.conf <span class="nb">test </span>failed
+</span><span class="line"><span class="c">### 为分离的日志创建存放目录</span>
+</span><span class="line"><span class="c"># mkdir /var/log/nginx/phpmyadmin/ </span>
+</span><span class="line"><span class="c">### 重新检查配置文件语法的正确性</span>
+</span><span class="line"><span class="c"># nginx -t</span>
+</span><span class="line">nginx: the configuration file /etc/nginx/nginx.conf syntax is ok
+</span><span class="line">nginx: configuration file /etc/nginx/nginx.conf <span class="nb">test </span>is successful
+</span><span class="line"><span class="c">### 重启 Nginx</span>
+</span><span class="line"><span class="c"># service nginx restart</span>
+</span><span class="line"><span class="c">### 配置 pma.domain.com 的域名解析后</span>
+</span><span class="line"><span class="c">### 使用浏览器访问 http://pma.domain.com 测试</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<h2 id="section-11">配置防火墙</h2>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+</pre></td><td class="code"><pre><code class="bash"><span class="line"><span class="c">#  system-config-firewall-tui</span>
+</span><span class="line">
+</span><span class="line"><span class="c">## 开启 80 端口。</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>或编辑 /etc/sysconfig/iptables 开启 80 端口。</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class="bash"><span class="line"><span class="c"># vim /etc/sysconfig/iptables</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+<span class="line-number">8</span>
+<span class="line-number">9</span>
+<span class="line-number">10</span>
+<span class="line-number">11</span>
+<span class="line-number">12</span>
+<span class="line-number">13</span>
+<span class="line-number">14</span>
+</pre></td><td class="code"><pre><code class="bash"><span class="line"><span class="c"># Firewall configuration written by system-config-firewall</span>
+</span><span class="line"><span class="c"># Manual customization of this file is not recommended.</span>
+</span><span class="line">*filter
+</span><span class="line">:INPUT ACCEPT <span class="o">[</span>0:0<span class="o">]</span>
+</span><span class="line">:FORWARD ACCEPT <span class="o">[</span>0:0<span class="o">]</span>
+</span><span class="line">:OUTPUT ACCEPT <span class="o">[</span>0:0<span class="o">]</span>
+</span><span class="line">-A INPUT -m state --state ESTABLISHED,RELATED -j ACCEPT
+</span><span class="line">-A INPUT -p icmp -j ACCEPT
+</span><span class="line">-A INPUT -i lo -j ACCEPT
+</span><span class="line">-A INPUT -m state --state NEW -m tcp -p tcp --dport 22 -j ACCEPT
+</span><span class="line">-A INPUT -m state --state NEW -m tcp -p tcp --dport 80 -j ACCEPT
+</span><span class="line">-A INPUT -j REJECT --reject-with icmp-host-prohibited
+</span><span class="line">-A FORWARD -j REJECT --reject-with icmp-host-prohibited
+</span><span class="line">COMMIT
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+</pre></td><td class="code"><pre><code class="bash"><span class="line"><span class="c"># vim /etc/sysconfig/iptables</span>
+</span><span class="line">
+</span><span class="line">-A INPUT -m state --state NEW -m tcp -p tcp --dport 80 -j ACCEPT
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>重新启动防火墙</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+</pre></td><td class="code"><pre><code class="bash"><span class="line"><span class="c"># chkconfig iptables on</span>
+</span><span class="line"><span class="c"># service iptables restart</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<h2 id="section-12">备份</h2>
+
+<h3 id="mylvmbackup--mysql-">使用 mylvmbackup 备份 MySQL 数据库</h3>
+
+<ol>
+  <li>安装 mylvmbackup</li>
+</ol>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+</pre></td><td class="code"><pre><code class="bash"><span class="line"><span class="c"># yum install perl-Config-IniFiles perl-TimeDate</span>
+</span><span class="line"><span class="c"># wget http://www.lenzg.net/mylvmbackup/mylvmbackup-0.13-0.noarch.rpm</span>
+</span><span class="line"><span class="c"># rpm -ivh mylvmbackup-0.13-0.noarch.rpm</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<ol>
+  <li>配置 mylvmbackup</li>
+</ol>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class="bash"><span class="line"><span class="c"># vi /etc/mylvmbackup.conf</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>修改如下配置：</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+<span class="line-number">8</span>
+<span class="line-number">9</span>
+<span class="line-number">10</span>
+<span class="line-number">11</span>
+<span class="line-number">12</span>
+<span class="line-number">13</span>
+<span class="line-number">14</span>
+<span class="line-number">15</span>
+<span class="line-number">16</span>
+<span class="line-number">17</span>
+<span class="line-number">18</span>
+<span class="line-number">19</span>
+<span class="line-number">20</span>
+<span class="line-number">21</span>
+<span class="line-number">22</span>
+<span class="line-number">23</span>
+</pre></td><td class="code"><pre><code class="bash"><span class="line"><span class="o">[</span>mysql<span class="o">]</span>
+</span><span class="line"><span class="nv">user</span><span class="o">=</span>root
+</span><span class="line"><span class="nv">password</span><span class="o">=</span>my0wnSecrectpAs5
+</span><span class="line"><span class="nv">host</span><span class="o">=</span>localhost
+</span><span class="line"><span class="nv">port</span><span class="o">=</span>3306
+</span><span class="line"><span class="nv">socket</span><span class="o">=</span>/var/lib/mysql/mysql.sock
+</span><span class="line"><span class="nv">mycnf</span><span class="o">=</span>/etc/my.cnf
+</span><span class="line">
+</span><span class="line"><span class="o">[</span>lvm<span class="o">]</span>
+</span><span class="line"><span class="nv">vgname</span><span class="o">=</span>vg0
+</span><span class="line"><span class="nv">lvname</span><span class="o">=</span>lv_mysql
+</span><span class="line"><span class="nv">backuplv</span><span class="o">=</span>
+</span><span class="line"><span class="nv">lvsize</span><span class="o">=</span>50G
+</span><span class="line">
+</span><span class="line"><span class="o">[</span>fs<span class="o">]</span>
+</span><span class="line"><span class="nv">xfs</span><span class="o">=</span>0
+</span><span class="line"><span class="nv">mountdir</span><span class="o">=</span>/mnt/mylvmbackup
+</span><span class="line"><span class="c">#backupdir=backupuser@backuphost:/data/backup/mysql</span>
+</span><span class="line"><span class="nv">backupdir</span><span class="o">=</span>/backup/mysql/
+</span><span class="line">
+</span><span class="line"><span class="o">[</span>logging<span class="o">]</span>
+</span><span class="line"><span class="nv">log_method</span><span class="o">=</span>both
+</span><span class="line"><span class="nv">syslog_remotehost</span><span class="o">=</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>创建必要的目录</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+</pre></td><td class="code"><pre><code class="bash"><span class="line"><span class="c"># mkdir -p /mnt/mylvmbackup/</span>
+</span><span class="line"><span class="c"># mkdir -p /backup/mysql/</span>
+</span><span class="line"><span class="c"># chmod 700 /backup/mysql/</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<ol>
+  <li>手工执行 mylvmbackup</li>
+</ol>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+</pre></td><td class="code"><pre><code class="bash"><span class="line"><span class="c"># mylvmbackup</span>
+</span><span class="line">
+</span><span class="line"><span class="c"># ll /backup/mysql/</span>
+</span><span class="line">-rw-r--r--. 1 root root 571852  6月 24 21:36 backup-20120624_213601_mysql.tar.gz
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<h3 id="cron--mysql">安排 cron 任务备份重要数据和 Mysql</h3>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+</pre></td><td class="code"><pre><code class="bash"><span class="line"><span class="c"># mkdir /backup/fs</span>
+</span><span class="line"><span class="c"># chmod 700 /backup/fs</span>
+</span><span class="line">
+</span><span class="line"><span class="c"># vi /etc/cron.d/backup</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+</pre></td><td class="code"><pre><code class="bash"><span class="line"><span class="nv">SHELL</span><span class="o">=</span>/bin/bash
+</span><span class="line"><span class="nv">PATH</span><span class="o">=</span>/sbin:/bin:/usr/sbin:/usr/bin
+</span><span class="line"><span class="nv">MAILTO</span><span class="o">=</span>root
+</span><span class="line"><span class="nv">HOME</span><span class="o">=</span>/
+</span><span class="line">
+</span><span class="line">0 1 * * * root mylvmbackup
+</span><span class="line">0 3 * * * root rsync -av /etc /root /var/lib/tomcat7/webapps /root /home /backup/fs/
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class="bash"><span class="line"><span class="c"># service crond restart</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -874,6 +1847,10 @@
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/blog/2012/06/24/centos6-dot-2-plus-jdk6-plus-tomcat7-plus-nginx1-dot-2-plus-mysql5-dot-x/">CentOS6.2 + JDK6 + Tomcat7 + Nginx1.2 + MySQL5.X</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2012/04/30/translate-puppet-27-cookbook-into-chinese/">Translate Puppet 2.7 Cookbook into Chinese</a>
       </li>
     
@@ -887,10 +1864,6 @@
     
       <li class="post">
         <a href="/blog/2012/03/10/past-and-present/">过去和现在</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2012/03/10/hello-octopress/">hello octopress</a>
       </li>
     
   </ul>

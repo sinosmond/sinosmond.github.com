@@ -297,9 +297,7 @@
 
 <h3 id="section-10">配置使用非官方仓库的国内镜像站点</h3>
 
-<ol>
-  <li>EPEL</li>
-</ol>
+<p>1、EPEL</p>
 
 <div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
 <span class="line-number">2</span>
@@ -313,9 +311,7 @@
 </span><span class="line"><span class="c"># sed -i &quot;s#download.fedoraproject.org/pub/epel#mirrors.sohu.com/fedora-epel#g&quot; epel.repo</span>
 </span></code></pre></td></tr></table></div></figure></notextile></div>
 
-<ol>
-  <li>RPMForge</li>
-</ol>
+<p>2、RPMForge</p>
 
 <div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
 <span class="line-number">2</span>
@@ -367,9 +363,7 @@
 
 <h3 id="jdk6-2">配置 JDK6</h3>
 
-<ol>
-  <li>使用 alternatives 配置当前使用的 Java</li>
-</ol>
+<p>1、使用 alternatives 配置当前使用的 Java</p>
 
 <div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
 <span class="line-number">2</span>
@@ -401,9 +395,7 @@
 
 <p><a href="http://www.if-not-true-then-false.com/2010/install-sun-oracle-java-jdk-jre-6-on-fedora-centos-red-hat-rhel/">参考</a></p>
 
-<ol>
-  <li>配置环境变量</li>
-</ol>
+<p>2、配置环境变量</p>
 
 <ul>
   <li>系统级别 —— /etc/profile</li>
@@ -441,9 +433,7 @@ TODO: <a href="https://wiki.jenkins-ci.org/display/JENKINS/Installing+Jenkins+on
 
 <h3 id="tomcat7">配置 Tomcat7</h3>
 
-<ol>
-  <li>配置 Tomcat7 所需的环境变量</li>
-</ol>
+<p>1、配置 Tomcat7 所需的环境变量</p>
 
 <div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
 <span class="line-number">2</span>
@@ -471,9 +461,7 @@ TODO: <a href="https://wiki.jenkins-ci.org/display/JENKINS/Installing+Jenkins+on
 </span><span class="line"><span class="nv">JAVA_OPTS</span><span class="o">=</span><span class="s2">&quot;-Xms2624m -Xmx2624m -Xss2024K -XX:PermSize=528m -XX:MaxPermSize=856m&quot;</span>
 </span></code></pre></td></tr></table></div></figure></notextile></div>
 
-<ol>
-  <li>安装默认 Web 应用案例及文档并测试</li>
-</ol>
+<p>2、安装默认 Web 应用案例及文档并测试</p>
 
 <div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
 <span class="line-number">2</span>
@@ -485,9 +473,7 @@ TODO: <a href="https://wiki.jenkins-ci.org/display/JENKINS/Installing+Jenkins+on
 </span><span class="line"><span class="c"># elinks http://YourIP:8080</span>
 </span></code></pre></td></tr></table></div></figure></notextile></div>
 
-<ol>
-  <li>编辑 server.xml 文件</li>
-</ol>
+<p>3、编辑 server.xml 文件</p>
 
 <div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
 <span class="line-number">2</span>
@@ -525,9 +511,7 @@ TODO: <a href="https://wiki.jenkins-ci.org/display/JENKINS/Installing+Jenkins+on
 </span><span class="line">               <span class="nv">enableLookups</span><span class="o">=</span><span class="s2">&quot;false&quot;</span> /&gt;
 </span></code></pre></td></tr></table></div></figure></notextile></div>
 
-<ol>
-  <li>部署自己的 Webapp 并测试</li>
-</ol>
+<p>4、部署自己的 Webapp 并测试</p>
 
 <p>将自己的应用程序放置在 /var/lib/tomcat7/webapps 目录下替换原来的 ROOT 目录的内容；
 或将自己的应用程序的 WAR 文件改名为 <code>ROOT.war</code> 放置在/var/lib/tomcat7/webapps 目录下，
@@ -556,9 +540,7 @@ TODO: <a href="https://wiki.jenkins-ci.org/display/JENKINS/Installing+Jenkins+on
 
 <h3 id="ngnix">配置 Ngnix</h3>
 
-<ol>
-  <li>配置 proxy 通用参数</li>
-</ol>
+<p>1、配置 proxy 通用参数</p>
 
 <div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
 <span class="line-number">2</span>
@@ -592,9 +574,7 @@ TODO: <a href="https://wiki.jenkins-ci.org/display/JENKINS/Installing+Jenkins+on
 </span><span class="line">proxy_next_upstream error timeout invalid_header http_500 http_503 http_404;
 </span></code></pre></td></tr></table></div></figure></notextile></div>
 
-<ol>
-  <li>修改默认主机配置</li>
-</ol>
+<p>2、修改默认主机配置</p>
 
 <div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
 <span class="line-number">2</span>
@@ -618,9 +598,7 @@ TODO: <a href="https://wiki.jenkins-ci.org/display/JENKINS/Installing+Jenkins+on
 </span><span class="line"> <span class="p">}</span>
 </span></code></pre></td></tr></table></div></figure></notextile></div>
 
-<ol>
-  <li>参数调整和优化</li>
-</ol>
+<p>3、参数调整和优化</p>
 
 <div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
 </pre></td><td class="code"><pre><code class="bash"><span class="line"><span class="c"># vim /etc/nginx/conf.d/optimization.conf</span>
@@ -666,9 +644,7 @@ TODO: <a href="https://wiki.jenkins-ci.org/display/JENKINS/Installing+Jenkins+on
 </span><span class="line"><span class="k">gzip_types</span> <span class="s">text/plain</span> <span class="s">application/x-javascript</span> <span class="s">text/css</span> <span class="s">application/xml</span><span class="p">;</span>
 </span></code></pre></td></tr></table></div></figure></notextile></div>
 
-<ol>
-  <li>重启 Nginx，访问由其代理的 Tomcat 站点</li>
-</ol>
+<p>4、重启 Nginx，访问由其代理的 Tomcat 站点</p>
 
 <div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
 <span class="line-number">2</span>
@@ -678,9 +654,7 @@ TODO: <a href="https://wiki.jenkins-ci.org/display/JENKINS/Installing+Jenkins+on
 
 <h2 id="mysql-">安装 MySQL 服务</h2>
 
-<ol>
-  <li>使用 yum 安装 mysql-server</li>
-</ol>
+<p>1、使用 yum 安装 mysql-server</p>
 
 <div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
 <span class="line-number">2</span>
@@ -692,9 +666,7 @@ TODO: <a href="https://wiki.jenkins-ci.org/display/JENKINS/Installing+Jenkins+on
 </span><span class="line"><span class="c"># yum install mysql-server mysqltuner</span>
 </span></code></pre></td></tr></table></div></figure></notextile></div>
 
-<ol>
-  <li>安装后的基本配置</li>
-</ol>
+<p>2、安装后的基本配置</p>
 
 <div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
 <span class="line-number">2</span>
@@ -748,9 +720,7 @@ TODO: <a href="https://wiki.jenkins-ci.org/display/JENKINS/Installing+Jenkins+on
 
 <h2 id="phpmyadmin">安装配置 phpMyAdmin</h2>
 
-<p>参考: [install-phpmyadmin-on-fedora-centos-red-hat-rhel](http://www.if-not-true-then-false.com/2012/install-</p>
-
-<p>phpmyadmin-on-fedora-centos-red-hat-rhel/)</p>
+<p>参考: <a href="http://www.if-not-true-then-false.com/2012/install-phpmyadmin-on-fedora-centos-red-hat-rhel/">install-phpmyadmin-on-fedora-centos-red-hat-rhel</a></p>
 
 <h3 id="phpmyadmin-1">安装 phpMyAdmin</h3>
 
@@ -942,9 +912,7 @@ TODO: <a href="https://wiki.jenkins-ci.org/display/JENKINS/Installing+Jenkins+on
 
 <h3 id="mylvmbackup--mysql-">使用 mylvmbackup 备份 MySQL 数据库</h3>
 
-<ol>
-  <li>安装 mylvmbackup</li>
-</ol>
+<p>1、安装 mylvmbackup</p>
 
 <div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
 <span class="line-number">2</span>
@@ -954,9 +922,7 @@ TODO: <a href="https://wiki.jenkins-ci.org/display/JENKINS/Installing+Jenkins+on
 </span><span class="line"><span class="c"># rpm -ivh mylvmbackup-0.13-0.noarch.rpm</span>
 </span></code></pre></td></tr></table></div></figure></notextile></div>
 
-<ol>
-  <li>配置 mylvmbackup</li>
-</ol>
+<p>2、配置 mylvmbackup</p>
 
 <div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
 </pre></td><td class="code"><pre><code class="bash"><span class="line"><span class="c"># vi /etc/mylvmbackup.conf</span>
@@ -1022,9 +988,7 @@ TODO: <a href="https://wiki.jenkins-ci.org/display/JENKINS/Installing+Jenkins+on
 </span><span class="line"><span class="c"># chmod 700 /backup/mysql/</span>
 </span></code></pre></td></tr></table></div></figure></notextile></div>
 
-<ol>
-  <li>手工执行 mylvmbackup</li>
-</ol>
+<p>3、手工执行 mylvmbackup</p>
 
 <div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
 <span class="line-number">2</span>

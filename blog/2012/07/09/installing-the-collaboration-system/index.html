@@ -1,0 +1,811 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>在 CentOS 6.2 上安装协作系统 - Sinosmond's Blog</title>
+  <meta name="author" content="sinosmond">
+
+  
+  <meta name="description" content="说明 协作系统的开源软件很丰富，常用的有： DOkuwiki – 通常用于文档协作 eGroupware – 通常用于通用的项目协作 Redmine – 通常用于软件开发项目的协作 CentOS 6.2 的安装和基本配置 选择 Minimal 安装 CentOS 6.2 &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://sinosmond.github.com/blog/2012/07/09/installing-the-collaboration-system">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="/javascripts/ender.js"></script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <link href="/atom.xml" rel="alternate" title="Sinosmond's Blog" type="application/atom+xml">
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+#<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+#<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+  <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-1567119-6']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  </script>
+
+
+</head>
+
+<body   >
+  <header role="banner">
+<style type="text/css">
+<!--
+	.head_flash
+	{
+		display:block;
+		float:left;
+		margin-left:10px;
+		margin-right:10px;
+	}
+	.head_right
+	{
+		display:block;
+		float:left;
+		margin-right:30px;
+	}
+--> 
+</style>
+<div class="head_flash">
+<a target="_blank" href="http://yuncoffee.com/"><img class="right" src="/images/coffee.gif" title="云咖啡50元券 手机二维码" ></a>
+</div>
+<!-- <div class="head_right">
+<embed width="150" height="120" wmode="transparent" src="/images/Clock.swf">
+</div>-->
+
+<hgroup>
+  <h1><a href="/">Sinosmond's Blog</a></h1>
+  
+    <h2>技术学习|生活记录|同道交流</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="http://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:sinosmond.github.com" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/">Blog</a></li>
+  <li><a href="/blog/archives">Archives</a></li>
+  <li><a href="/about">About</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">在 CentOS 6.2 上安装协作系统</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-07-09T11:24:00+08:00" pubdate data-updated="true">Jul 9<span>th</span>, 2012</time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><h2 id="section">说明</h2>
+
+<p>协作系统的开源软件很丰富，常用的有：</p>
+
+<ul>
+  <li>DOkuwiki – 通常用于文档协作 </li>
+  <li>eGroupware – 通常用于通用的项目协作</li>
+  <li>Redmine – 通常用于软件开发项目的协作</li>
+</ul>
+
+<h2 id="centos-62-">CentOS 6.2 的安装和基本配置</h2>
+
+<h3 id="minimal--centos-62">选择 Minimal 安装 CentOS 6.2</h3>
+
+<p>配置使用官方仓库的国内镜像站点</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+</pre></td><td class="code"><pre><code class="bash"><span class="line"><span class="nb">cd</span> /etc/yum.repos.d/
+</span><span class="line">mv CentOS-Base.repo<span class="o">{</span>,.orig<span class="o">}</span>
+</span><span class="line">wget -O CentOS-Base.repo http://mirrors.163.com/.help/CentOS6-Base-163.repo
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<h3 id="section-1">安装必要的工具和软件</h3>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+</pre></td><td class="code"><pre><code class="bash"><span class="line">yum -y install openssh-clients policycoreutils-python
+</span><span class="line">yum -y install yum-plugin-<span class="o">{</span>security,priorities<span class="o">}</span> yum-utils
+</span><span class="line">yum -y install system-config-<span class="o">{</span>firewall-tui,network-tui<span class="o">}</span> ntsysv
+</span><span class="line">yum -y install wget lftp rsync elinks mutt tree vim-enhanced git
+</span><span class="line">yum -y install jpackage-utils
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<h3 id="section-2">配置主机名、网络参数、本地域名解析</h3>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+</pre></td><td class="code"><pre><code class="bash"><span class="line">system-config-network-tui
+</span><span class="line">service network restart
+</span><span class="line">vim /etc/hosts
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<h3 id="section-3">配置第三方仓库</h3>
+
+<p>1、安装 <em>release</em>.rpm 并导入仓库公钥</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+</pre></td><td class="code"><pre><code class="bash"><span class="line"><span class="nb">cd</span> ;  mkdir RPM ;  <span class="nb">cd </span>RPM
+</span><span class="line">wget http://mirrors.sohu.com/fedora-epel/6/x86_64/epel-release-6-7.noarch.rpm
+</span><span class="line">wget http://mirrors.sohu.com/dag/redhat/el6/en/x86_64/rpmforge/RPMS/rpmforge-release-0.5.2-2.el6.rf.x86_64.rpm
+</span><span class="line">rpm -ivh epel-release-6-7.noarch.rpm
+</span><span class="line">rpm -ivh rpmforge-release-0.5.2-2.el6.rf.x86_64.rpm
+</span><span class="line">
+</span><span class="line">rpm --import /etc/pki/rpm-gpg/RPM-GPG-KEY-*
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>2、配置仓库优先级</p>
+
+<ul>
+  <li>[base]、[updates]、[extras]
+    <ul>
+      <li><code>priority=1</code></li>
+    </ul>
+  </li>
+  <li>[centosplus]、[contrib]
+    <ul>
+      <li><code>priority=2</code></li>
+    </ul>
+  </li>
+  <li>[epel]
+    <ul>
+      <li><code>priority=10</code></li>
+    </ul>
+  </li>
+  <li>[rpmforge]
+    <ul>
+      <li><code>priority=15</code></li>
+    </ul>
+  </li>
+</ul>
+
+<p>3、配置使用非官方仓库的国内镜像站点</p>
+
+<p>(1) EPEL</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+</pre></td><td class="code"><pre><code class="bash"><span class="line"><span class="nb">cd</span> /etc/yum.repos.d/
+</span><span class="line">cp epel.repo<span class="o">{</span>,.orig<span class="o">}</span>
+</span><span class="line">sed -i <span class="s2">&quot;s/^mirrorlist/#mirrorlist/g&quot;</span> epel.repo
+</span><span class="line">sed -i <span class="s2">&quot;s/^#baseurl/baseurl/g&quot;</span> epel.repo
+</span><span class="line">sed -i <span class="s2">&quot;s#download.fedoraproject.org/pub/epel#mirrors.sohu.com/fedora-epel#g&quot;</span> epel.repo
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>(2) RPMForge</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+</pre></td><td class="code"><pre><code class="bash"><span class="line"><span class="nb">cd</span> /etc/yum.repos.d/
+</span><span class="line">cp rpmforge.repo<span class="o">{</span>,.orig<span class="o">}</span>
+</span><span class="line">sed -i <span class="s2">&quot;s#baseurl = http://apt.sw.be#baseurl = http://mirrors.sohu.com/dag#g&quot;</span> rpmforge.repo
+</span><span class="line">yum makecache
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<h3 id="etckeeper-">安装 etckeeper 并更新系统</h3>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+</pre></td><td class="code"><pre><code class="bash"><span class="line">yum -y install etckeeper tig
+</span><span class="line">etckeeper init
+</span><span class="line">etckeeper commit <span class="s1">&#39;init&#39;</span>
+</span><span class="line"><span class="nb">cd</span> /etc
+</span><span class="line">tig
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+</pre></td><td class="code"><pre><code class="bash"><span class="line">yum -y update
+</span><span class="line">reboot
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<h3 id="lamp-">安装 LAMP 环境</h3>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+<span class="line-number">8</span>
+<span class="line-number">9</span>
+</pre></td><td class="code"><pre><code class="bash"><span class="line">yum install mysql-server mysqltuner
+</span><span class="line">yum install httpd php php-common php-gd php-mcrypt php-mbstring php-xml php-pear php-pecl-apc php-imap
+</span><span class="line">yum install php-mysql php-pdo phpMyAdmin
+</span><span class="line">
+</span><span class="line">chkconfig --level 35 mysqld on
+</span><span class="line">chkconfig --level 35 httpd on
+</span><span class="line">
+</span><span class="line">service mysqld start
+</span><span class="line">service httpd start
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<h3 id="section-4">配置防火墙</h3>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+</pre></td><td class="code"><pre><code class="bash"><span class="line">system-config-firewall-tui
+</span><span class="line">
+</span><span class="line"><span class="c">## 开启 80 端口。</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<h2 id="apache--php--dokuwiki">Apache + PHP + Dokuwiki</h2>
+
+<h3 id="dokuwiki-">下载最新的 DokuWIki 稳定版本</h3>
+
+<p>EPEL 仓库提供了 Dokuwiki 的 RPM，可以直接使用 yum 安装，但其版本较旧。 下面下载最新的稳定版本。</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+</pre></td><td class="code"><pre><code class="bash"><span class="line"><span class="nb">cd</span> /var/www/
+</span><span class="line">wget http://www.splitbrain.org/_media/projects/dokuwiki/dokuwiki-2012-01-25a.tgz
+</span><span class="line">tar xzf dokuwiki-2012-01-25a.tgz
+</span><span class="line">mv dokuwiki-2012-01-25a dokuwiki
+</span><span class="line">chown root.root dokuwiki
+</span><span class="line">chown apache dokuwiki/conf
+</span><span class="line">chown apache dokuwiki/data -R
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<h3 id="dokuwiki--apache-">编写 Dokuwiki 的 Apache 配置文件</h3>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class="bash"><span class="line">vim /etc/httpd/conf.d/dokuwiki.conf
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+<span class="line-number">8</span>
+<span class="line-number">9</span>
+<span class="line-number">10</span>
+<span class="line-number">11</span>
+<span class="line-number">12</span>
+<span class="line-number">13</span>
+<span class="line-number">14</span>
+<span class="line-number">15</span>
+<span class="line-number">16</span>
+<span class="line-number">17</span>
+<span class="line-number">18</span>
+<span class="line-number">19</span>
+<span class="line-number">20</span>
+<span class="line-number">21</span>
+<span class="line-number">22</span>
+<span class="line-number">23</span>
+<span class="line-number">24</span>
+<span class="line-number">25</span>
+<span class="line-number">26</span>
+<span class="line-number">27</span>
+<span class="line-number">28</span>
+<span class="line-number">29</span>
+<span class="line-number">30</span>
+<span class="line-number">31</span>
+<span class="line-number">32</span>
+<span class="line-number">33</span>
+<span class="line-number">34</span>
+<span class="line-number">35</span>
+<span class="line-number">36</span>
+</pre></td><td class="code"><pre><code class="apache"><span class="line"><span class="nb">Alias</span> <span class="sx">/wiki</span> <span class="sx">/var/www/dokuwiki</span>
+</span><span class="line">
+</span><span class="line"><span class="nt">&lt;Directory</span> <span class="s">/var/www/dokuwiki</span><span class="nt">&gt;</span>
+</span><span class="line">        <span class="nb">order</span> deny,allow
+</span><span class="line">        <span class="nb">allow</span> from <span class="k">all</span>
+</span><span class="line">
+</span><span class="line"><span class="c">### 当在 Dokuwiki 配置界面的 “高级设置” 部分，将 &quot;使用更整洁的 URL&quot; 设置为 “.htaccess” </span>
+</span><span class="line"><span class="c">### 或 在 /var/www/dokuwiki/conf/local.php 文件中配置了 $conf[&#39;userewrite&#39;] = &#39;1&#39;;</span>
+</span><span class="line"><span class="c">### 之后，清除如下 Rewrite* 配置指令的注释符 </span>
+</span><span class="line"><span class="c">#  RewriteEngine on</span>
+</span><span class="line"><span class="c">#  RewriteBase /wiki</span>
+</span><span class="line">
+</span><span class="line"><span class="c">#  RewriteCond %{HTTPS} !=on</span>
+</span><span class="line"><span class="c">#  RewriteRule ^lib/exe/xmlrpc.php$      https://%{SERVER_NAME}%{REQUEST_URI} [L,R=301]</span>
+</span><span class="line">
+</span><span class="line"><span class="c">#  RewriteRule ^_media/(.*)              lib/exe/fetch.php?media=$1  [QSA,L]</span>
+</span><span class="line"><span class="c">#  RewriteRule ^_detail/(.*)             lib/exe/detail.php?media=$1  [QSA,L]</span>
+</span><span class="line"><span class="c">#  RewriteRule ^_export/([^/]+)/(.*)     doku.php?do=export_$1&amp;id=$2  [QSA,L]</span>
+</span><span class="line"><span class="c">#  RewriteRule ^$                        doku.php  [L]</span>
+</span><span class="line"><span class="c">#  RewriteCond %{REQUEST_FILENAME}       !-f</span>
+</span><span class="line"><span class="c">#  RewriteCond %{REQUEST_FILENAME}       !-d</span>
+</span><span class="line"><span class="c">#  RewriteRule (.*)                      doku.php?id=$1  [QSA,L]</span>
+</span><span class="line"><span class="c">#  RewriteRule ^index.php$               doku.php</span>
+</span><span class="line"><span class="nt">&lt;/Directory&gt;</span>
+</span><span class="line">
+</span><span class="line"><span class="nt">&lt;LocationMatch</span> <span class="s">&quot;/wiki/(data|conf|bin|inc)/&quot;</span><span class="nt">&gt;</span>
+</span><span class="line">        <span class="nb">order</span> allow,deny
+</span><span class="line">        <span class="nb">deny</span> from <span class="k">all</span>
+</span><span class="line">        <span class="nb">satisfy</span> <span class="k">all</span>
+</span><span class="line"><span class="nt">&lt;/LocationMatch&gt;</span>
+</span><span class="line">
+</span><span class="line"><span class="nt">&lt;Files</span> <span class="s">~ &quot;^([\._]ht|README$|VERSION$|COPYING$)&quot;</span><span class="nt">&gt;</span>
+</span><span class="line">    <span class="nb">Order</span> allow,deny
+</span><span class="line">    <span class="nb">Deny</span> from <span class="k">all</span>
+</span><span class="line">    <span class="nb">Satisfy</span> <span class="k">All</span>
+</span><span class="line"><span class="nt">&lt;/Files&gt;</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class="bash"><span class="line">service httpd restart
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<h3 id="dokuwiki--1">安装常用的 Dokuwiki 插件</h3>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+<span class="line-number">8</span>
+<span class="line-number">9</span>
+<span class="line-number">10</span>
+<span class="line-number">11</span>
+<span class="line-number">12</span>
+<span class="line-number">13</span>
+<span class="line-number">14</span>
+<span class="line-number">15</span>
+<span class="line-number">16</span>
+<span class="line-number">17</span>
+<span class="line-number">18</span>
+<span class="line-number">19</span>
+<span class="line-number">20</span>
+<span class="line-number">21</span>
+<span class="line-number">22</span>
+<span class="line-number">23</span>
+<span class="line-number">24</span>
+<span class="line-number">25</span>
+</pre></td><td class="code"><pre><code class="bash"><span class="line"><span class="nb">cd</span> /var/www/dokuwiki/lib/plugins
+</span><span class="line"><span class="c">## 安装 sidebar 插件</span>
+</span><span class="line">git clone git://github.com/chimeric/dokuwiki-plugin-sidebarng.git sidebarng
+</span><span class="line"><span class="c">## 安装 snippets 插件（可使用此插件实现页面模板的功能）</span>
+</span><span class="line">git clone git://github.com/cosmocode/dokuwiki-plugin-snippets.git snippets
+</span><span class="line"><span class="c">## 安装 语法 插件</span>
+</span><span class="line">git clone git://github.com/selfthinker/dokuwiki_plugin_wrap.git wrap
+</span><span class="line">git clone git://github.com/dokufreaks/plugin-comment.git comment
+</span><span class="line"><span class="c">## 安装 功能 插件</span>
+</span><span class="line">git clone git://github.com/dokufreaks/plugin-pagelist.git pagelist
+</span><span class="line">git clone git://github.com/dokufreaks/plugin-include.git include
+</span><span class="line">git clone git://github.com/dokufreaks/plugin-tag.git tag
+</span><span class="line">git clone git://github.com/dokufreaks/plugin-cloud.git cloud
+</span><span class="line">git clone git://github.com/splitbrain/dokuwiki-plugin-s5.git s5
+</span><span class="line">git clone git://github.com/dokufreaks/plugin-discussion.git discussion
+</span><span class="line">git clone git://github.com/cosmocode/pagenav.git pagenav
+</span><span class="line">git clone git://github.com/chimeric/dokuwiki-plugin-wikicalendar.git wikicalendar
+</span><span class="line"><span class="c">#git clone git://github.com/gturri/nspages.git nspages</span>
+</span><span class="line"><span class="c">#git clone git://github.com/splitbrain/dokuwiki-plugin-translation.git translation</span>
+</span><span class="line"><span class="c">## 安装 维护 插件</span>
+</span><span class="line">git clone git://github.com/Imhodad/dokuwiki-plugin-searchstats.git searchstats
+</span><span class="line">git clone git://github.com/cosmocode/clearhistory.git clearhistory
+</span><span class="line">git clone git://github.com/Taggic/orphanmedia.git orphanmedia
+</span><span class="line">git clone git://github.com/Taggic/langdelete.git langdelete
+</span><span class="line">git clone git://github.com/MrBertie/pagequery.git pagequery
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<h3 id="dokuwiki">安装和配置 Dokuwiki</h3>
+
+<ul>
+  <li>您可以使用 Web 界面安装 Dokuwiki，使用浏览器打开 http://IPorFQDN/wiki/install.php 安装 Dokuwiki。</li>
+  <li>您也可以直接编辑配置文件 /var/www/dokuwiki/conf/local.php 实现 DokuWiki 的配置。如下是一个配置文件例子：</li>
+</ul>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+<span class="line-number">8</span>
+<span class="line-number">9</span>
+<span class="line-number">10</span>
+<span class="line-number">11</span>
+<span class="line-number">12</span>
+<span class="line-number">13</span>
+<span class="line-number">14</span>
+<span class="line-number">15</span>
+<span class="line-number">16</span>
+<span class="line-number">17</span>
+<span class="line-number">18</span>
+<span class="line-number">19</span>
+<span class="line-number">20</span>
+<span class="line-number">21</span>
+<span class="line-number">22</span>
+<span class="line-number">23</span>
+<span class="line-number">24</span>
+<span class="line-number">25</span>
+<span class="line-number">26</span>
+<span class="line-number">27</span>
+<span class="line-number">28</span>
+<span class="line-number">29</span>
+<span class="line-number">30</span>
+<span class="line-number">31</span>
+<span class="line-number">32</span>
+<span class="line-number">33</span>
+<span class="line-number">34</span>
+</pre></td><td class="code"><pre><code class="php"><span class="line"><span class="cp">&lt;?php</span>
+</span><span class="line"><span class="cm">/*</span>
+</span><span class="line"><span class="cm"> * Dokuwiki&#39;s Main Configuration File - Local Settings</span>
+</span><span class="line"><span class="cm"> * Auto-generated by config plugin</span>
+</span><span class="line"><span class="cm"> * Run for user: osmond</span>
+</span><span class="line"><span class="cm"> * Date: Thu, 05 Jul 2012 17:47:40 +0800</span>
+</span><span class="line"><span class="cm"> */</span>
+</span><span class="line">
+</span><span class="line"><span class="nv">$conf</span><span class="p">[</span><span class="s1">&#39;title&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;MyWiki&#39;</span><span class="p">;</span>
+</span><span class="line"><span class="nv">$conf</span><span class="p">[</span><span class="s1">&#39;lang&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;zh&#39;</span><span class="p">;</span>
+</span><span class="line"><span class="nv">$conf</span><span class="p">[</span><span class="s1">&#39;license&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;1&#39;</span><span class="p">;</span>
+</span><span class="line"><span class="nv">$conf</span><span class="p">[</span><span class="s1">&#39;youarehere&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>
+</span><span class="line"><span class="nv">$conf</span><span class="p">[</span><span class="s1">&#39;typography&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;0&#39;</span><span class="p">;</span>
+</span><span class="line"><span class="nv">$conf</span><span class="p">[</span><span class="s1">&#39;useheading&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;1&#39;</span><span class="p">;</span>
+</span><span class="line"><span class="nv">$conf</span><span class="p">[</span><span class="s1">&#39;useacl&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>
+</span><span class="line"><span class="nv">$conf</span><span class="p">[</span><span class="s1">&#39;superuser&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;@admin&#39;</span><span class="p">;</span>
+</span><span class="line"><span class="nv">$conf</span><span class="p">[</span><span class="s1">&#39;disableactions&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;register&#39;</span><span class="p">;</span>
+</span><span class="line"><span class="nv">$conf</span><span class="p">[</span><span class="s1">&#39;userewrite&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;1&#39;</span><span class="p">;</span>
+</span><span class="line"><span class="nv">$conf</span><span class="p">[</span><span class="s1">&#39;useslash&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>
+</span><span class="line"><span class="nv">$conf</span><span class="p">[</span><span class="s1">&#39;hidepages&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;snippets|sidebar&#39;</span><span class="p">;</span>
+</span><span class="line"><span class="nv">$conf</span><span class="p">[</span><span class="s1">&#39;plugin&#39;</span><span class="p">][</span><span class="s1">&#39;wikicalendar&#39;</span><span class="p">][</span><span class="s1">&#39;timezone&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;Asia/Shanghai&#39;</span><span class="p">;</span>
+</span><span class="line"><span class="nv">$conf</span><span class="p">[</span><span class="s1">&#39;plugin&#39;</span><span class="p">][</span><span class="s1">&#39;pagelist&#39;</span><span class="p">][</span><span class="s1">&#39;showdate&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;2&#39;</span><span class="p">;</span>
+</span><span class="line"><span class="nv">$conf</span><span class="p">[</span><span class="s1">&#39;plugin&#39;</span><span class="p">][</span><span class="s1">&#39;pagelist&#39;</span><span class="p">][</span><span class="s1">&#39;showtags&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>
+</span><span class="line"><span class="nv">$conf</span><span class="p">[</span><span class="s1">&#39;plugin&#39;</span><span class="p">][</span><span class="s1">&#39;tag&#39;</span><span class="p">][</span><span class="s1">&#39;toolbar_icon&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>
+</span><span class="line"><span class="nv">$conf</span><span class="p">[</span><span class="s1">&#39;plugin&#39;</span><span class="p">][</span><span class="s1">&#39;s5&#39;</span><span class="p">][</span><span class="s1">&#39;template&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;flower&#39;</span><span class="p">;</span>
+</span><span class="line"><span class="nv">$conf</span><span class="p">[</span><span class="s1">&#39;plugin&#39;</span><span class="p">][</span><span class="s1">&#39;discussion&#39;</span><span class="p">][</span><span class="s1">&#39;automatic&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>
+</span><span class="line"><span class="nv">$conf</span><span class="p">[</span><span class="s1">&#39;plugin&#39;</span><span class="p">][</span><span class="s1">&#39;discussion&#39;</span><span class="p">][</span><span class="s1">&#39;allowguests&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+</span><span class="line"><span class="nv">$conf</span><span class="p">[</span><span class="s1">&#39;plugin&#39;</span><span class="p">][</span><span class="s1">&#39;discussion&#39;</span><span class="p">][</span><span class="s1">&#39;linkemail&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>
+</span><span class="line"><span class="nv">$conf</span><span class="p">[</span><span class="s1">&#39;plugin&#39;</span><span class="p">][</span><span class="s1">&#39;discussion&#39;</span><span class="p">][</span><span class="s1">&#39;useavatar&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+</span><span class="line"><span class="nv">$conf</span><span class="p">[</span><span class="s1">&#39;plugin&#39;</span><span class="p">][</span><span class="s1">&#39;discussion&#39;</span><span class="p">][</span><span class="s1">&#39;newestfirst&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>
+</span><span class="line"><span class="nv">$conf</span><span class="p">[</span><span class="s1">&#39;plugin&#39;</span><span class="p">][</span><span class="s1">&#39;translation&#39;</span><span class="p">][</span><span class="s1">&#39;translations&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;en&#39;</span><span class="p">;</span>
+</span><span class="line"><span class="nv">$conf</span><span class="p">[</span><span class="s1">&#39;plugin&#39;</span><span class="p">][</span><span class="s1">&#39;translation&#39;</span><span class="p">][</span><span class="s1">&#39;about&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;en&#39;</span><span class="p">;</span>
+</span><span class="line">
+</span><span class="line"><span class="c1">// end auto-generated content</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<h2 id="apache--php--mysql--egroupware">Apache + PHP + MySQL + eGroupware</h2>
+
+<h3 id="egroupware">安装 eGroupware</h3>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+</pre></td><td class="code"><pre><code class="bash"><span class="line"><span class="nb">cd</span> /etc/yum.repos.d/
+</span><span class="line">wget http://download.opensuse.org/repositories/server:eGroupWare/CentOS_6/server:eGroupWare.repo
+</span><span class="line">yum install eGroupware
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<h3 id="egroupware-">安装 eGroupware 的注意事项</h3>
+
+<p>1、RPM 安装后执行的脚本：/usr/share/egroupware/doc/rpm-build/post_install.php，若您之前已经设置过 MySQL 的 root 口令，
+请适当编辑此文件，之后重新执行此脚本。</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class="bash"><span class="line">vim /usr/share/egroupware/doc/rpm-build/post_install.php
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+</pre></td><td class="code"><pre><code class="php"><span class="line"><span class="x">    &#39;db_root&#39;     =&gt; &#39;root&#39;,        // mysql root user/pw to create database</span>
+</span><span class="line"><span class="x">    &#39;db_root_pw&#39;  =&gt; &#39;YourPassword&#39;,</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class="bash"><span class="line">php /usr/share/egroupware/doc/rpm-build/post_install.php
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>2、安装日志： ~/eGroupware-install.log</p>
+
+<p>3、eGroupware 的 RPM 自动安装了 Apache 的配置文件 /etc/httpd/conf.d/egroupware.conf。
+以便可以使用 http://IPorFQDN/egroupware 的 URL 访问。</p>
+
+<h3 id="section-5">解决项目模块的甘特图中文乱码问题</h3>
+
+<p>1、从 Windows 系统上传字体文件</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+<span class="line-number">8</span>
+</pre></td><td class="code"><pre><code class="bash"><span class="line">mkdir /usr/share/fonts/truetype/
+</span><span class="line"><span class="c">### 上传字体文件</span>
+</span><span class="line">ls
+</span><span class="line">simfang.ttf  simhei.ttf  simsun.ttc
+</span><span class="line"><span class="c"># cd /usr/share/egroupware/projectmanager/inc/ttf-bitstream-vera-1.10</span>
+</span><span class="line"><span class="c"># ln /usr/share/fonts/truetype/simsun.ttc</span>
+</span><span class="line"><span class="c"># ln /usr/share/fonts/truetype/simhei.ttf</span>
+</span><span class="line"><span class="c"># ln /usr/share/fonts/truetype/simfang.ttf</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>2、修改 jpgraph 的 jpgraph_ttf.inc.php</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class="bash"><span class="line">vim /usr/share/jpgraph/src/jpgraph_ttf.inc.php
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+</pre></td><td class="code"><pre><code class="php"><span class="line"><span class="x">        /* Chinese fonts */</span>
+</span><span class="line"><span class="x">        FF_SIMSUN  =&gt;  array(</span>
+</span><span class="line"><span class="x">            FS_NORMAL =&gt;&#39;simsun.ttc&#39;,</span>
+</span><span class="line"><span class="x">            FS_BOLD =&gt;&#39;simhei.ttf&#39;,</span>
+</span><span class="line"><span class="x">            FS_ITALIC =&gt;&#39;simfang.ttf&#39;,</span>
+</span><span class="line"><span class="x">            FS_BOLDITALIC =&gt;&#39;simhei.ttf&#39; ),</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>3、 修改 egroupware 的项目模块的相应代码</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class="bash"><span class="line">vim /usr/share/egroupware/projectmanager/inc/class.projectmanager_ganttchart.inc.php
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+</pre></td><td class="code"><pre><code class="php"><span class="line"><span class="x">找到并注释掉如下两行</span>
+</span><span class="line"><span class="x">// if ($this-&gt;gantt_char_encode) $text = preg_replace(&#39;/[^\x00-\x7F]/e&#39;, &#39;&quot;&amp;#&quot;.ord(&quot;$0&quot;).&quot;;&quot;&#39;,$text);</span>
+</span><span class="line">
+</span><span class="line"><span class="x">// $graph-&gt;scale-&gt;SetDateLocale(common::setlocale());</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">sinosmond</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-07-09T11:24:00+08:00" pubdate data-updated="true">Jul 9<span>th</span>, 2012</time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/collaboration/'>Collaboration</a>, <a class='category' href='/blog/categories/dokuwiki/'>DokuWiki</a>, <a class='category' href='/blog/categories/egroupware/'>eGroupware</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  
+  
+
+  
+    <!-- JiaThis Button BEGIN -->
+<div id="ckepop">
+	<span class="jiathis_txt">分享到：</span>
+	<a class="jiathis_button_qzone">QQ空间</a>
+	<a class="jiathis_button_tsina">新浪微博</a>
+	<a class="jiathis_button_tqq">腾讯微博</a>
+	<a class="jiathis_button_renren">人人网</a>
+	<a class="jiathis_button_msn">MSN</a>
+	<a class="jiathis_button_delicious">Delicious</a>
+	<a href="http://www.jiathis.com/share?uid=1587493" class="jiathis jiathis_txt jiathis_separator jtico jtico_jiathis" target="_blank">更多</a>
+	<a class="jiathis_counter_style"></a>
+</div>
+<script type="text/javascript">var jiathis_config = {data_track_clickback:true};</script>
+<script type="text/javascript" src="http://v2.jiathis.com/code/jia.js?uid=1587493" charset="utf-8"></script>
+<!-- JiaThis Button END -->
+<br />
+
+<!-- UY BEGIN -->
+<!-- <div id="uyan_frame"></div> -->
+<!-- <script type="text/javascript" id="UYScript" src="http://v1.uyan.cc/js/iframe.js?UYUserId=1587493" async=""></script> -->
+<!-- UY END -->
+     
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2012/06/24/centos6-dot-2-plus-jdk6-plus-tomcat7-plus-nginx1-dot-2-plus-mysql5-dot-x/" title="Previous Post: CentOS6.2 + JDK6 + Tomcat7 + Nginx1.2 + MySQL5.X">&laquo; CentOS6.2 + JDK6 + Tomcat7 + Nginx1.2 + MySQL5.X</a>
+      
+      
+    </p>
+  </footer>
+</article>
+
+  <section>
+    <h1>Comments</h1>
+    <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+  </section>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2012/07/09/installing-the-collaboration-system/">在 CentOS 6.2 上安装协作系统</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2012/06/24/centos6-dot-2-plus-jdk6-plus-tomcat7-plus-nginx1-dot-2-plus-mysql5-dot-x/">CentOS6.2 + JDK6 + Tomcat7 + Nginx1.2 + MySQL5.X</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2012/04/30/translate-puppet-27-cookbook-into-chinese/">Translate Puppet 2.7 Cookbook into Chinese</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2012/03/14/digital-toolchain-for-book-authors/">Digital Toolchain for Book Authors</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2012/03/12/install-and-deploy-octopress-to-github-on-windows7-from-scratch/">在 Windows7 下从头开始安装部署 Octopress</a>
+      </li>
+    
+  </ul>
+</section>
+
+<section>
+<H1>Recent Comments</H1>
+<script type="text/javascript" src="http://sinosmond.disqus.com/combination_widget.js?num_items=5&hide_mods=0&color=blue&default_tab=people&excerpt_length=200"></script><a href="http://disqus.com/">Powered by Disqus</a>
+</section><section>
+  <h1>Octopress Blogroll</h1>
+  <ul  style="padding-left:0">
+	<li><a target="_blank" href="http://www.worldhello.net/">蒋鑫</a></li>
+	<li><a target="_blank" href="http://larrycai.github.com/">Larry Cai</a></li>
+	<li><a target="_blank" href="http://blog.xupeng.me/">XuPeng</a></li>
+	<li><a target="_blank" href="http://adam8157.info/">Adam</a></li>
+	<li><a target="_blank" href="http://roylez.heroku.com/">Roylez</a></li>
+	<li><a target="_blank" href="http://blog.xdite.net/">xdite</a></li>
+	<li><a target="_blank" href="http://blog.devtang.com/">唐巧</a></li>
+	<li><a target="_blank" href="http://yihui.name/cn">谢益辉</a></li>
+	<li><a target="_blank" href="http://chen.yanping.me/cn">雁起平沙</a></li>
+	<li><a target="_blank" href="http://www.yangzhiping.com/">阳志平</a></li>
+	<li><a target="_blank" href="http://tonytonyjan.heroku.com/">tonytonyjan</a></li>
+  </ul>
+</section>
+<section>
+  <h1>Copyright</h1>
+  <p align="center"> <a target="_ blank" href="http://creativecommons.org/licenses/by-nc-sa/2.5/cn/"><img src="http://i.creativecommons.org/l/by-nc-sa/2.5/cn/88x31.png" alt="Creative Commons License"/></a></p>
+  <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/2.5/cn/">CC2.5: 知识共享署名-非商业性使用</a>
+</section>
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2012 - sinosmond -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+<script type="text/javascript">
+      var disqus_shortname = 'sinosmond';
+      
+        
+        // var disqus_developer = 1;
+        var disqus_identifier = 'http://sinosmond.github.com/blog/2012/07/09/installing-the-collaboration-system/';
+        var disqus_url = 'http://sinosmond.github.com/blog/2012/07/09/installing-the-collaboration-system/';
+        var disqus_script = 'embed.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = 'http://' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>

@@ -1,0 +1,376 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: Collaboration | Sinosmond's Blog]]></title>
+  <link href="http://sinosmond.github.com/blog/categories/collaboration/atom.xml" rel="self"/>
+  <link href="http://sinosmond.github.com/"/>
+  <updated>2012-07-09T14:33:14+08:00</updated>
+  <id>http://sinosmond.github.com/</id>
+  <author>
+    <name><![CDATA[sinosmond]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[在 CentOS 6.2 上安装协作系统]]></title>
+    <link href="http://sinosmond.github.com/blog/2012/07/09/installing-the-collaboration-system/"/>
+    <updated>2012-07-09T11:24:00+08:00</updated>
+    <id>http://sinosmond.github.com/blog/2012/07/09/installing-the-collaboration-system</id>
+    <content type="html"><![CDATA[<h2 id="section">说明</h2>
+
+<p>协作系统的开源软件很丰富，常用的有：</p>
+
+<ul>
+  <li>DOkuwiki – 通常用于文档协作 </li>
+  <li>eGroupware – 通常用于通用的项目协作</li>
+  <li>Redmine – 通常用于软件开发项目的协作</li>
+</ul>
+
+<h2 id="centos-62-">CentOS 6.2 的安装和基本配置</h2>
+
+<h3 id="minimal--centos-62">选择 Minimal 安装 CentOS 6.2</h3>
+
+<p>配置使用官方仓库的国内镜像站点</p>
+
+<p><code>bash
+cd /etc/yum.repos.d/
+mv CentOS-Base.repo{,.orig}
+wget -O CentOS-Base.repo http://mirrors.163.com/.help/CentOS6-Base-163.repo
+</code></p>
+
+<h3 id="section-1">安装必要的工具和软件</h3>
+
+<p><code>bash
+yum -y install openssh-clients policycoreutils-python
+yum -y install yum-plugin-{security,priorities} yum-utils
+yum -y install system-config-{firewall-tui,network-tui} ntsysv
+yum -y install wget lftp rsync elinks mutt tree vim-enhanced git
+yum -y install jpackage-utils
+</code></p>
+
+<h3 id="section-2">配置主机名、网络参数、本地域名解析</h3>
+
+<p><code>bash
+system-config-network-tui
+service network restart
+vim /etc/hosts
+</code></p>
+
+<h3 id="section-3">配置第三方仓库</h3>
+
+<p>1、安装 <em>release</em>.rpm 并导入仓库公钥</p>
+
+<p>```bash
+cd ;  mkdir RPM ;  cd RPM
+wget http://mirrors.sohu.com/fedora-epel/6/x86<em>64/epel-release-6-7.noarch.rpm
+wget http://mirrors.sohu.com/dag/redhat/el6/en/x86</em>64/rpmforge/RPMS/rpmforge-release-0.5.2-2.el6.rf.x86<em>64.rpm
+rpm -ivh epel-release-6-7.noarch.rpm
+rpm -ivh rpmforge-release-0.5.2-2.el6.rf.x86</em>64.rpm</p>
+
+<p>rpm –import /etc/pki/rpm-gpg/RPM-GPG-KEY-*
+```</p>
+
+<p>2、配置仓库优先级</p>
+
+<ul>
+  <li>[base]、[updates]、[extras]
+    <ul>
+      <li><code>priority=1</code></li>
+    </ul>
+  </li>
+  <li>[centosplus]、[contrib]
+    <ul>
+      <li><code>priority=2</code></li>
+    </ul>
+  </li>
+  <li>[epel]
+    <ul>
+      <li><code>priority=10</code></li>
+    </ul>
+  </li>
+  <li>[rpmforge]
+    <ul>
+      <li><code>priority=15</code></li>
+    </ul>
+  </li>
+</ul>
+
+<p>3、配置使用非官方仓库的国内镜像站点</p>
+
+<p>(1) EPEL</p>
+
+<p><code>bash
+cd /etc/yum.repos.d/
+cp epel.repo{,.orig}
+sed -i "s/^mirrorlist/#mirrorlist/g" epel.repo
+sed -i "s/^#baseurl/baseurl/g" epel.repo
+sed -i "s#download.fedoraproject.org/pub/epel#mirrors.sohu.com/fedora-epel#g" epel.repo
+</code></p>
+
+<p>(2) RPMForge</p>
+
+<p><code>bash
+cd /etc/yum.repos.d/
+cp rpmforge.repo{,.orig}
+sed -i "s#baseurl = http://apt.sw.be#baseurl = http://mirrors.sohu.com/dag#g" rpmforge.repo
+yum makecache
+</code></p>
+
+<h3 id="etckeeper-">安装 etckeeper 并更新系统</h3>
+
+<p><code>bash
+yum -y install etckeeper tig
+etckeeper init
+etckeeper commit 'init'
+cd /etc
+tig
+</code></p>
+
+<p><code>bash
+yum -y update
+reboot
+</code></p>
+
+<h3 id="lamp-">安装 LAMP 环境</h3>
+
+<p>```bash
+yum install mysql-server mysqltuner
+yum install httpd php php-common php-gd php-mcrypt php-mbstring php-xml php-pear php-pecl-apc php-imap
+yum install php-mysql php-pdo phpMyAdmin</p>
+
+<p>chkconfig –level 35 mysqld on
+chkconfig –level 35 httpd on</p>
+
+<p>service mysqld start
+service httpd start</p>
+
+<p>```</p>
+
+<h3 id="section-4">配置防火墙</h3>
+
+<p>```bash
+system-config-firewall-tui</p>
+
+<h2 id="section-5">开启 80 端口。</h2>
+<p>```</p>
+
+<h2 id="apache--php--dokuwiki">Apache + PHP + Dokuwiki</h2>
+
+<h3 id="dokuwiki-">下载最新的 DokuWIki 稳定版本</h3>
+
+<p>EPEL 仓库提供了 Dokuwiki 的 RPM，可以直接使用 yum 安装，但其版本较旧。 下面下载最新的稳定版本。</p>
+
+<p><code>bash
+cd /var/www/
+wget http://www.splitbrain.org/_media/projects/dokuwiki/dokuwiki-2012-01-25a.tgz
+tar xzf dokuwiki-2012-01-25a.tgz
+mv dokuwiki-2012-01-25a dokuwiki
+chown root.root dokuwiki
+chown apache dokuwiki/conf
+chown apache dokuwiki/data -R
+</code></p>
+
+<h3 id="dokuwiki--apache-">编写 Dokuwiki 的 Apache 配置文件</h3>
+
+<p><code>bash
+vim /etc/httpd/conf.d/dokuwiki.conf
+</code></p>
+
+<p>```apache
+Alias /wiki /var/www/dokuwiki</p>
+
+<p>&lt;Directory /var/www/dokuwiki&gt;
+        order deny,allow
+        allow from all</p>
+
+<h3 id="dokuwiki-----url--htaccess">当在 Dokuwiki 配置界面的 “高级设置” 部分，将 “使用更整洁的 URL” 设置为 “.htaccess”</h3>
+<p>### 或 在 /var/www/dokuwiki/conf/local.php 文件中配置了 $conf[‘userewrite’] = ‘1’;
+### 之后，清除如下 Rewrite* 配置指令的注释符 
+#  RewriteEngine on
+#  RewriteBase /wiki</p>
+
+<h1 id="rewritecond-https-on">RewriteCond %{HTTPS} !=on</h1>
+<p>#  RewriteRule ^lib/exe/xmlrpc.php$      https://%{SERVER_NAME}%{REQUEST_URI} [L,R=301]</p>
+
+<h1 id="rewriterule-media--------------libexefetchphpmedia1--qsal">RewriteRule ^_media/(.*)              lib/exe/fetch.php?media=$1  [QSA,L]</h1>
+<p>#  RewriteRule ^<em>detail/(.*)             lib/exe/detail.php?media=$1  [QSA,L]
+#  RewriteRule ^_export/([^/]+)/(.*)     doku.php?do=export</em>$1&amp;id=$2  [QSA,L]
+#  RewriteRule ^$                        doku.php  [L]
+#  RewriteCond %{REQUEST_FILENAME}       !-f
+#  RewriteCond %{REQUEST_FILENAME}       !-d
+#  RewriteRule (.*)                      doku.php?id=$1  [QSA,L]
+#  RewriteRule ^index.php$               doku.php
+&lt;/Directory&gt;</p>
+
+<p>&lt;LocationMatch “/wiki/(data|conf|bin|inc)/”&gt;
+        order allow,deny
+        deny from all
+        satisfy all
+&lt;/LocationMatch&gt;</p>
+
+<p>&lt;Files ~ “^([._]ht|README$|VERSION$|COPYING$)”&gt;
+    Order allow,deny
+    Deny from all
+    Satisfy All
+&lt;/Files&gt;
+```</p>
+
+<p><code>bash
+service httpd restart
+</code></p>
+
+<h3 id="dokuwiki--1">安装常用的 Dokuwiki 插件</h3>
+
+<p><code>bash
+cd /var/www/dokuwiki/lib/plugins
+## 安装 sidebar 插件
+git clone git://github.com/chimeric/dokuwiki-plugin-sidebarng.git sidebarng
+## 安装 snippets 插件（可使用此插件实现页面模板的功能）
+git clone git://github.com/cosmocode/dokuwiki-plugin-snippets.git snippets
+## 安装 语法 插件
+git clone git://github.com/selfthinker/dokuwiki_plugin_wrap.git wrap
+git clone git://github.com/dokufreaks/plugin-comment.git comment
+## 安装 功能 插件
+git clone git://github.com/dokufreaks/plugin-pagelist.git pagelist
+git clone git://github.com/dokufreaks/plugin-include.git include
+git clone git://github.com/dokufreaks/plugin-tag.git tag
+git clone git://github.com/dokufreaks/plugin-cloud.git cloud
+git clone git://github.com/splitbrain/dokuwiki-plugin-s5.git s5
+git clone git://github.com/dokufreaks/plugin-discussion.git discussion
+git clone git://github.com/cosmocode/pagenav.git pagenav
+git clone git://github.com/chimeric/dokuwiki-plugin-wikicalendar.git wikicalendar
+#git clone git://github.com/gturri/nspages.git nspages
+#git clone git://github.com/splitbrain/dokuwiki-plugin-translation.git translation
+## 安装 维护 插件
+git clone git://github.com/Imhodad/dokuwiki-plugin-searchstats.git searchstats
+git clone git://github.com/cosmocode/clearhistory.git clearhistory
+git clone git://github.com/Taggic/orphanmedia.git orphanmedia
+git clone git://github.com/Taggic/langdelete.git langdelete
+git clone git://github.com/MrBertie/pagequery.git pagequery
+</code></p>
+
+<h3 id="dokuwiki">安装和配置 Dokuwiki</h3>
+
+<ul>
+  <li>您可以使用 Web 界面安装 Dokuwiki，使用浏览器打开 http://IPorFQDN/wiki/install.php 安装 Dokuwiki。</li>
+  <li>您也可以直接编辑配置文件 /var/www/dokuwiki/conf/local.php 实现 DokuWiki 的配置。如下是一个配置文件例子：</li>
+</ul>
+
+<p>```php
+&lt;?php
+/*
+ * Dokuwiki’s Main Configuration File - Local Settings
+ * Auto-generated by config plugin
+ * Run for user: osmond
+ * Date: Thu, 05 Jul 2012 17:47:40 +0800
+ */</p>
+
+<p>$conf[‘title’] = ‘MyWiki’;
+$conf[‘lang’] = ‘zh’;
+$conf[‘license’] = ‘1’;
+$conf[‘youarehere’] = 1;
+$conf[‘typography’] = ‘0’;
+$conf[‘useheading’] = ‘1’;
+$conf[‘useacl’] = 1;
+$conf[‘superuser’] = ‘@admin’;
+$conf[‘disableactions’] = ‘register’;
+$conf[‘userewrite’] = ‘1’;
+$conf[‘useslash’] = 1;
+$conf[‘hidepages’] = ‘snippets|sidebar’;
+$conf[‘plugin’][‘wikicalendar’][‘timezone’] = ‘Asia/Shanghai’;
+$conf[‘plugin’][‘pagelist’][‘showdate’] = ‘2’;
+$conf[‘plugin’][‘pagelist’][‘showtags’] = 1;
+$conf[‘plugin’][‘tag’][‘toolbar_icon’] = 1;
+$conf[‘plugin’][‘s5’][‘template’] = ‘flower’;
+$conf[‘plugin’][‘discussion’][‘automatic’] = 1;
+$conf[‘plugin’][‘discussion’][‘allowguests’] = 0;
+$conf[‘plugin’][‘discussion’][‘linkemail’] = 1;
+$conf[‘plugin’][‘discussion’][‘useavatar’] = 0;
+$conf[‘plugin’][‘discussion’][‘newestfirst’] = 1;
+$conf[‘plugin’][‘translation’][‘translations’] = ‘en’;
+$conf[‘plugin’][‘translation’][‘about’] = ‘en’;</p>
+
+<p>// end auto-generated content
+```</p>
+
+<h2 id="apache--php--mysql--egroupware">Apache + PHP + MySQL + eGroupware</h2>
+
+<h3 id="egroupware">安装 eGroupware</h3>
+
+<p><code>bash
+cd /etc/yum.repos.d/
+wget http://download.opensuse.org/repositories/server:eGroupWare/CentOS_6/server:eGroupWare.repo
+yum install eGroupware
+</code></p>
+
+<h3 id="egroupware-">安装 eGroupware 的注意事项</h3>
+
+<p>1、RPM 安装后执行的脚本：/usr/share/egroupware/doc/rpm-build/post_install.php，若您之前已经设置过 MySQL 的 root 口令，
+请适当编辑此文件，之后重新执行此脚本。</p>
+
+<p><code>bash
+vim /usr/share/egroupware/doc/rpm-build/post_install.php
+</code></p>
+
+<p><code>php
+        'db_root'     =&gt; 'root',        // mysql root user/pw to create database
+        'db_root_pw'  =&gt; 'YourPassword',
+</code></p>
+
+<p><code>bash
+php /usr/share/egroupware/doc/rpm-build/post_install.php
+</code></p>
+
+<p>2、安装日志： ~/eGroupware-install.log</p>
+
+<p>3、eGroupware 的 RPM 自动安装了 Apache 的配置文件 /etc/httpd/conf.d/egroupware.conf。
+以便可以使用 http://IPorFQDN/egroupware 的 URL 访问。</p>
+
+<h3 id="section-6">解决项目模块的甘特图中文乱码问题</h3>
+
+<p>1、从 Windows 系统上传字体文件</p>
+
+<p><code>bash
+mkdir /usr/share/fonts/truetype/
+### 上传字体文件
+ls 
+simfang.ttf  simhei.ttf  simsun.ttc
+# cd /usr/share/egroupware/projectmanager/inc/ttf-bitstream-vera-1.10
+# ln /usr/share/fonts/truetype/simsun.ttc
+# ln /usr/share/fonts/truetype/simhei.ttf
+# ln /usr/share/fonts/truetype/simfang.ttf
+</code></p>
+
+<p>2、修改 jpgraph 的 jpgraph_ttf.inc.php</p>
+
+<p><code>bash
+vim /usr/share/jpgraph/src/jpgraph_ttf.inc.php
+</code></p>
+
+<p><code>php
+            /* Chinese fonts */
+            FF_SIMSUN  =&gt;  array(
+                FS_NORMAL =&gt;'simsun.ttc',
+                FS_BOLD =&gt;'simhei.ttf',
+                FS_ITALIC =&gt;'simfang.ttf',
+                FS_BOLDITALIC =&gt;'simhei.ttf' ),
+</code></p>
+
+<p>3、 修改 egroupware 的项目模块的相应代码</p>
+
+<p><code>bash
+vim /usr/share/egroupware/projectmanager/inc/class.projectmanager_ganttchart.inc.php
+</code></p>
+
+<p>```php
+找到并注释掉如下两行
+// if ($this-&gt;gantt_char_encode) $text = preg_replace(‘/[^\x00-\x7F]/e’, ‘“&amp;#”.ord(“$0”).”;”’,$text);</p>
+
+<p>// $graph-&gt;scale-&gt;SetDateLocale(common::setlocale());
+```</p>
+]]></content>
+  </entry>
+  
+</feed>

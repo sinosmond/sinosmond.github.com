@@ -4,7 +4,7 @@
   <title><![CDATA[Category: eGroupware | Sinosmond's Blog]]></title>
   <link href="http://sinosmond.github.com/blog/categories/egroupware/atom.xml" rel="self"/>
   <link href="http://sinosmond.github.com/"/>
-  <updated>2012-07-09T14:33:14+08:00</updated>
+  <updated>2012-07-09T14:40:36+08:00</updated>
   <id>http://sinosmond.github.com/</id>
   <author>
     <name><![CDATA[sinosmond]]></name>
@@ -337,10 +337,11 @@ mkdir /usr/share/fonts/truetype/
 ### 上传字体文件
 ls 
 simfang.ttf  simhei.ttf  simsun.ttc
-# cd /usr/share/egroupware/projectmanager/inc/ttf-bitstream-vera-1.10
-# ln /usr/share/fonts/truetype/simsun.ttc
-# ln /usr/share/fonts/truetype/simhei.ttf
-# ln /usr/share/fonts/truetype/simfang.ttf
+### 创建链接文件
+cd /usr/share/egroupware/projectmanager/inc/ttf-bitstream-vera-1.10
+ln /usr/share/fonts/truetype/simsun.ttc
+ln /usr/share/fonts/truetype/simhei.ttf
+ln /usr/share/fonts/truetype/simfang.ttf
 </code></p>
 
 <p>2、修改 jpgraph 的 jpgraph_ttf.inc.php</p>

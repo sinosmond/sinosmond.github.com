@@ -4,7 +4,7 @@
   <title><![CDATA[Sinosmond's Blog]]></title>
   <link href="http://sinosmond.github.com/atom.xml" rel="self"/>
   <link href="http://sinosmond.github.com/"/>
-  <updated>2012-07-09T14:33:14+08:00</updated>
+  <updated>2012-07-09T14:40:36+08:00</updated>
   <id>http://sinosmond.github.com/</id>
   <author>
     <name><![CDATA[sinosmond]]></name>
@@ -476,14 +476,16 @@
 <span class="line-number">6</span>
 <span class="line-number">7</span>
 <span class="line-number">8</span>
+<span class="line-number">9</span>
 </pre></td><td class="code"><pre><code class="bash"><span class="line">mkdir /usr/share/fonts/truetype/
 </span><span class="line"><span class="c">### 上传字体文件</span>
 </span><span class="line">ls
 </span><span class="line">simfang.ttf  simhei.ttf  simsun.ttc
-</span><span class="line"><span class="c"># cd /usr/share/egroupware/projectmanager/inc/ttf-bitstream-vera-1.10</span>
-</span><span class="line"><span class="c"># ln /usr/share/fonts/truetype/simsun.ttc</span>
-</span><span class="line"><span class="c"># ln /usr/share/fonts/truetype/simhei.ttf</span>
-</span><span class="line"><span class="c"># ln /usr/share/fonts/truetype/simfang.ttf</span>
+</span><span class="line"><span class="c">### 创建链接文件</span>
+</span><span class="line"><span class="nb">cd</span> /usr/share/egroupware/projectmanager/inc/ttf-bitstream-vera-1.10
+</span><span class="line">ln /usr/share/fonts/truetype/simsun.ttc
+</span><span class="line">ln /usr/share/fonts/truetype/simhei.ttf
+</span><span class="line">ln /usr/share/fonts/truetype/simfang.ttf
 </span></code></pre></td></tr></table></div></figure></notextile></div>
 
 <p>2、修改 jpgraph 的 jpgraph_ttf.inc.php</p>

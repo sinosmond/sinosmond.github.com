@@ -3,7 +3,8 @@ layout: post
 title: "CentOS6.2 + JDK6 + Tomcat7 + Nginx1.2 + MySQL5.X"
 date: 2012-06-24 22:36
 comments: true
-categories: 
+categories: [CentOS, JDK, Tomcat, Nginx, MySQL]
+toc: true
 ---
 
 ## 说明
@@ -119,7 +120,7 @@ tmpfs        tmpfs    3.9G     0  3.9G   0% /dev/shm
 
 ### 配置使用非官方仓库的国内镜像站点
 
-1. EPEL
+1、EPEL
 
 ```bash
 # cd /etc/yum.repos.d/
@@ -129,7 +130,7 @@ tmpfs        tmpfs    3.9G     0  3.9G   0% /dev/shm
 # sed -i "s#download.fedoraproject.org/pub/epel#mirrors.sohu.com/fedora-epel#g" epel.repo
 ```
 
-2. RPMForge
+2、RPMForge
 
 ```bash
 # cd /etc/yum.repos.d/
@@ -168,7 +169,7 @@ tmpfs        tmpfs    3.9G     0  3.9G   0% /dev/shm
 
 ### 配置 JDK6
 
-1. 使用 alternatives 配置当前使用的 Java
+1、使用 alternatives 配置当前使用的 Java
 
 ```bash
 # alternatives --install /usr/bin/java java /usr/java/jdk1.6.0_33/jre/bin/java 20000
@@ -188,18 +189,17 @@ javac 1.6.0_33
 
 [参考](http://www.if-not-true-then-false.com/2010/install-sun-oracle-java-jdk-jre-6-on-fedora-centos-red-hat-rhel/)
 
-2. 配置环境变量
+2、配置环境变量
 
 - 系统级别 —— /etc/profile
 - 用户级别 —— ~/.bashrc
 
 ```bash
-# cat <<_END_>> /etc/profile
-
-export JAVA_HOME=/usr/java/default
-export PATH=$JAVA_HOME/bin:$JAVA_HOME/jre/bin:$PATH
-export CLASSPATH=.:$JAVA_HOME/lib:$JAVA_HOME/jre/lib:$CLASSPATH
-_END_
+#  echo '
+> export JAVA_HOME=/usr/java/default
+> export PATH=$JAVA_HOME/bin:$JAVA_HOME/jre/bin:$PATH
+> export CLASSPATH=.:$JAVA_HOME/lib:$JAVA_HOME/jre/lib:$CLASSPATH
+> ' >> /etc/profile
 ```
 
 ## 安装配置 Tomcat7 和 Ngnix1.2
@@ -217,7 +217,7 @@ TODO: [Installing Jenkins](https://wiki.jenkins-ci.org/display/JENKINS/Installin
 
 ### 配置 Tomcat7
 
-1. 配置 Tomcat7 所需的环境变量
+1、配置 Tomcat7 所需的环境变量
 
 ```bash
 # vim /etc/tomcat7/tomcat7.conf
@@ -234,7 +234,7 @@ JAVA_HOME="/usr/java/default"
 JAVA_OPTS="-Xms2624m -Xmx2624m -Xss2024K -XX:PermSize=528m -XX:MaxPermSize=856m"
 ```
 
-2. 安装默认 Web 应用案例及文档并测试
+2、安装默认 Web 应用案例及文档并测试
 
 ```bash
 # yum install tomcat7-webapps tomcat7-docs-webapp
@@ -243,7 +243,7 @@ JAVA_OPTS="-Xms2624m -Xmx2624m -Xss2024K -XX:PermSize=528m -XX:MaxPermSize=856m"
 # elinks http://YourIP:8080
 ```
 
-3. 编辑 server.xml 文件
+3、编辑 server.xml 文件
 
 ```bash
 # vim /etc/tomcat7/server.xml
@@ -265,7 +265,7 @@ JAVA_OPTS="-Xms2624m -Xmx2624m -Xss2024K -XX:PermSize=528m -XX:MaxPermSize=856m"
                enableLookups="false" />
 ```
 
-4. 部署自己的 Webapp 并测试
+4、部署自己的 Webapp 并测试
 
 将自己的应用程序放置在 /var/lib/tomcat7/webapps 目录下替换原来的 ROOT 目录的内容；
 或将自己的应用程序的 WAR 文件改名为 `ROOT.war` 放置在/var/lib/tomcat7/webapps 目录下，
@@ -292,7 +292,7 @@ JAVA_OPTS="-Xms2624m -Xmx2624m -Xss2024K -XX:PermSize=528m -XX:MaxPermSize=856m"
 
 ### 配置 Ngnix
 
-1. 配置 proxy 通用参数
+1、配置 proxy 通用参数
 
 ```bash
 # vim /etc/nginx/conf.d/proxy.conf
@@ -312,7 +312,7 @@ proxy_temp_file_write_size 128k;
 proxy_next_upstream error timeout invalid_header http_500 http_503 http_404;
 ```
 
-2. 修改默认主机配置
+2、修改默认主机配置
 
 ```bash
 # cd /etc/nginx/conf.d/
@@ -329,7 +329,7 @@ proxy_next_upstream error timeout invalid_header http_500 http_503 http_404;
      }
 ```
 
-3. 参数调整和优化
+3、参数调整和优化
 
 ```bash
 # vim /etc/nginx/conf.d/optimization.conf
@@ -357,16 +357,18 @@ gzip_vary on;
 gzip_types text/plain application/x-javascript text/css application/xml;
 ```
 
-4. 重启 Nginx，访问由其代理的 Tomcat 站点
+4、重启 Nginx，访问由其代理的 Tomcat 站点
 
 ```bash
 # service nginx restart
 ### 使用浏览器测试 http://YourIP 或 http://YourFQDN
 ```
 
-## 安装 MySQL 服务
+## 安装配置 MySQL 服务
 
-1. 使用 yum 安装 mysql-server
+### 安装 MySQL 服务
+
+1、使用 yum 安装 mysql-server
 
 ```bash
 ## 选择1. 安装 remi 仓库提供的 MySQL 5.5 （建议）
@@ -375,7 +377,7 @@ gzip_types text/plain application/x-javascript text/css application/xml;
 # yum install mysql-server mysqltuner
 ```
 
-2. 安装后的基本配置
+2、安装后的基本配置
 
 ```bash
 # chkconfig --level 35 mysqld on
@@ -388,7 +390,7 @@ gzip_types text/plain application/x-javascript text/css application/xml;
 # mysqltuner
 ```
 
-## 配置 MySQL 服务
+### 配置 MySQL 服务
 
 参考 /usr/share/mysql/ 目录下提供的配置文件模板：
 
@@ -411,11 +413,31 @@ ll /usr/share/mysql/my-*.cnf
 # mysqltuner
 ```
 
+### MySQL 的 UTF-8 配置
+
+```bash
+# vi /etc/my.cnf
+```
+
+```
+[client]
+…………
+#设置mysql客户端的字符集  
+default-character-set=utf8
+…………
+
+[mysqld]
+…………
+#设置服务器段的字符集
+character-set-server=utf8 
+collation-server=utf8_general_ci
+…………
+```
+
+
 ## 安装配置 phpMyAdmin
 
-参考: [install-phpmyadmin-on-fedora-centos-red-hat-rhel](http://www.if-not-true-then-false.com/2012/install-
-
-phpmyadmin-on-fedora-centos-red-hat-rhel/)
+参考: [install-phpmyadmin-on-fedora-centos-red-hat-rhel](http://www.if-not-true-then-false.com/2012/install-phpmyadmin-on-fedora-centos-red-hat-rhel/)
 
 ### 安装 phpMyAdmin
 
@@ -538,7 +560,7 @@ COMMIT
 
 ### 使用 mylvmbackup 备份 MySQL 数据库
 
-1. 安装 mylvmbackup
+1、安装 mylvmbackup
 
 ```bash
 # yum install perl-Config-IniFiles perl-TimeDate
@@ -546,7 +568,7 @@ COMMIT
 # rpm -ivh mylvmbackup-0.13-0.noarch.rpm
 ```
 
-2. 配置 mylvmbackup
+2、配置 mylvmbackup
 
 ```bash
 # vi /etc/mylvmbackup.conf
@@ -588,7 +610,7 @@ syslog_remotehost=
 # chmod 700 /backup/mysql/
 ```
 
-3. 手工执行 mylvmbackup
+3、手工执行 mylvmbackup
 
 ```bash
 # mylvmbackup

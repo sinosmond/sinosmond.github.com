@@ -118,6 +118,7 @@ $ rake install
   - [为啥 Git 最棒](http://zh-cn.whygitisbetterthanx.com/)
   - [git - 简易指南](http://rogerdudler.github.com/git-guide/index.zh.html)
   - [git 魔法](http://www-cs-students.stanford.edu/~blynn/gitmagic/intl/zh_cn/) -- [git](https://github.com/blynn/gitmagic)
+  - [10篇写给Git初学者的最佳教程](http://www.kuqin.com/managetool/20110705/92113.html)
 * 学习 Github 参考
   - [如何高效利用GitHub](http://www.yangzhiping.com/tech/github.html)
   - [GotGitHub](http://www.worldhello.net/gotgithub/)

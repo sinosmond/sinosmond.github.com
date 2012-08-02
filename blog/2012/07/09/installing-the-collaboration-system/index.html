@@ -9,7 +9,7 @@
   <meta name="author" content="sinosmond">
 
   
-  <meta name="description" content="说明 协作系统的开源软件很丰富，常用的有： DOkuwiki – 通常用于文档协作 eGroupware – 通常用于通用的项目协作 Redmine – 通常用于软件开发项目的协作 CentOS 6.2 的安装和基本配置 选择 Minimal 安装 CentOS 6.2 &hellip;">
+  <meta name="description" content="说明 协作系统的开源软件很丰富，常用的有： Dokuwiki MoinMoin – 通常用于文档协作 eGroupware TikiWiki – 通常用于通用的项目协作 GitLabHQ Redmine Gitorious – 通常用于软件开发项目的协作 CentOS 6.2 的安装和基本配置 &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -133,9 +133,37 @@
 <p>协作系统的开源软件很丰富，常用的有：</p>
 
 <ul>
-  <li>DOkuwiki – 通常用于文档协作 </li>
-  <li>eGroupware – 通常用于通用的项目协作</li>
-  <li>Redmine – 通常用于软件开发项目的协作</li>
+  <li>
+    <table>
+      <tbody>
+        <tr>
+          <td><a href="http://dokuwiki.org/">Dokuwiki</a></td>
+          <td><a href="http://moinmo.in/">MoinMoin</a> – 通常用于文档协作</td>
+        </tr>
+      </tbody>
+    </table>
+  </li>
+  <li>
+    <table>
+      <tbody>
+        <tr>
+          <td><a href="http://www.egroupware.org/">eGroupware</a></td>
+          <td><a href="http://tiki.org/">TikiWiki</a> – 通常用于通用的项目协作</td>
+        </tr>
+      </tbody>
+    </table>
+  </li>
+  <li>
+    <table>
+      <tbody>
+        <tr>
+          <td><a href="https://github.com/gitlabhq/gitlabhq">GitLabHQ</a></td>
+          <td><a href="http://www.redmine.org/">Redmine</a></td>
+          <td><a href="http://gitorious.org/gitorious">Gitorious</a> – 通常用于软件开发项目的协作</td>
+        </tr>
+      </tbody>
+    </table>
+  </li>
 </ul>
 
 <h2 id="centos-62-">CentOS 6.2 的安装和基本配置</h2>
@@ -434,8 +462,22 @@
 <span class="line-number">23</span>
 <span class="line-number">24</span>
 <span class="line-number">25</span>
+<span class="line-number">26</span>
+<span class="line-number">27</span>
+<span class="line-number">28</span>
+<span class="line-number">29</span>
+<span class="line-number">30</span>
+<span class="line-number">31</span>
+<span class="line-number">32</span>
+<span class="line-number">33</span>
+<span class="line-number">34</span>
+<span class="line-number">35</span>
+<span class="line-number">36</span>
+<span class="line-number">37</span>
+<span class="line-number">38</span>
 </pre></td><td class="code"><pre><code class="bash"><span class="line"><span class="nb">cd</span> /var/www/dokuwiki/lib/plugins
-</span><span class="line"><span class="c">## 安装 sidebar 插件</span>
+</span><span class="line"><span class="c">## 安装 sidebar 插件（这是支持 sidebar 的最简单的方法）</span>
+</span><span class="line"><span class="c">## （您也可以下载支持 sidebar 的模板，但要停用此插件）</span>
 </span><span class="line">git clone git://github.com/chimeric/dokuwiki-plugin-sidebarng.git sidebarng
 </span><span class="line"><span class="c">## 安装 snippets 插件（可使用此插件实现页面模板的功能）</span>
 </span><span class="line">git clone git://github.com/cosmocode/dokuwiki-plugin-snippets.git snippets
@@ -447,18 +489,30 @@
 </span><span class="line">git clone git://github.com/dokufreaks/plugin-include.git include
 </span><span class="line">git clone git://github.com/dokufreaks/plugin-tag.git tag
 </span><span class="line">git clone git://github.com/dokufreaks/plugin-cloud.git cloud
-</span><span class="line">git clone git://github.com/splitbrain/dokuwiki-plugin-s5.git s5
+</span><span class="line">git clone git://github.com/splitbrain/dokuwiki-plugin-captcha.git captcha
 </span><span class="line">git clone git://github.com/dokufreaks/plugin-discussion.git discussion
 </span><span class="line">git clone git://github.com/cosmocode/pagenav.git pagenav
-</span><span class="line">git clone git://github.com/chimeric/dokuwiki-plugin-wikicalendar.git wikicalendar
+</span><span class="line">git clone git://github.com/glensc/dokuwiki-plugin-lightboxv2.git lightbox
+</span><span class="line">git clone git://github.com/splitbrain/dokuwiki-plugin-gallery.git gallery
+</span><span class="line"><span class="c">#git clone git://github.com/chimeric/dokuwiki-plugin-wikicalendar.git wikicalendar</span>
+</span><span class="line"><span class="c">#git clone git://github.com/splitbrain/dokuwiki-plugin-jukebox.git jukebox</span>
+</span><span class="line"><span class="c">#git clone git://github.com/splitbrain/dokuwiki-plugin-vshare.git vshare</span>
 </span><span class="line"><span class="c">#git clone git://github.com/gturri/nspages.git nspages</span>
+</span><span class="line"><span class="c">#git clone git://github.com/splitbrain/dokuwiki-plugin-s5.git s5</span>
 </span><span class="line"><span class="c">#git clone git://github.com/splitbrain/dokuwiki-plugin-translation.git translation</span>
+</span><span class="line"><span class="c">#git clone git://github.com/dokufreaks/plugin-blogtng.git blogtng</span>
+</span><span class="line"><span class="c">#git clone git://github.com/dokufreaks/plugin-blog.git blog</span>
+</span><span class="line"><span class="c">#（blog 和 blogng 不能同时使用，当前 blogng 需要 PHP 对 SQLite2 的支持）</span>
 </span><span class="line"><span class="c">## 安装 维护 插件</span>
 </span><span class="line">git clone git://github.com/Imhodad/dokuwiki-plugin-searchstats.git searchstats
 </span><span class="line">git clone git://github.com/cosmocode/clearhistory.git clearhistory
 </span><span class="line">git clone git://github.com/Taggic/orphanmedia.git orphanmedia
 </span><span class="line">git clone git://github.com/Taggic/langdelete.git langdelete
 </span><span class="line">git clone git://github.com/MrBertie/pagequery.git pagequery
+</span><span class="line">git clone git://github.com/danny0838/dw-editx.git editx
+</span><span class="line"><span class="c">#git clone git://github.com/desolat/DokuWiki-Pagemove-Plugin.git pagemove</span>
+</span><span class="line">git clone git://github.com/splitbrain/dokuwiki-plugin-sync.git sync
+</span><span class="line">git clone git://github.com/splitbrain/dokuwiki-plugin-badbehaviour.git badbehaviour
 </span></code></pre></td></tr></table></div></figure></notextile></div>
 
 <h3 id="dokuwiki">安装和配置 Dokuwiki</h3>
@@ -545,8 +599,26 @@
 <div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
 <span class="line-number">2</span>
 <span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+<span class="line-number">8</span>
+<span class="line-number">9</span>
+<span class="line-number">10</span>
+<span class="line-number">11</span>
+<span class="line-number">12</span>
 </pre></td><td class="code"><pre><code class="bash"><span class="line"><span class="nb">cd</span> /etc/yum.repos.d/
 </span><span class="line">wget http://download.opensuse.org/repositories/server:eGroupWare/CentOS_6/server:eGroupWare.repo
+</span><span class="line">
+</span><span class="line"><span class="nb">echo</span> <span class="s2">&quot;priority=5&quot;</span> &gt;&gt; server<span class="se">\:</span>eGroupWare.repo
+</span><span class="line">
+</span><span class="line">vim rpmforge.repo
+</span><span class="line"><span class="c"># 在 [rpmforge] 段末尾添加如下行</span>
+</span><span class="line"><span class="nv">exclude</span> <span class="o">=</span> php-jpgraph
+</span><span class="line"><span class="c"># 保存退出 vi</span>
+</span><span class="line">
+</span><span class="line">yum makecache
 </span><span class="line">yum install eGroupware
 </span></code></pre></td></tr></table></div></figure></notextile></div>
 
@@ -556,7 +628,13 @@
 请适当编辑此文件，之后重新执行此脚本。</p>
 
 <div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-</pre></td><td class="code"><pre><code class="bash"><span class="line">vim /usr/share/egroupware/doc/rpm-build/post_install.php
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+</pre></td><td class="code"><pre><code class="bash"><span class="line"><span class="c"># 运行如下命令可获得更多信息：</span>
+</span><span class="line">/usr/share/egroupware/doc/rpm-build/post_install --help
+</span><span class="line">
+</span><span class="line">vim /usr/share/egroupware/doc/rpm-build/post_install.php
 </span></code></pre></td></tr></table></div></figure></notextile></div>
 
 <div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
@@ -573,6 +651,8 @@
 
 <p>3、eGroupware 的 RPM 自动安装了 Apache 的配置文件 /etc/httpd/conf.d/egroupware.conf。
 以便可以使用 http://IPorFQDN/egroupware 的 URL 访问。</p>
+
+<p>参考：<a href="http://community.egroupware.org/index.php?page_name=wiki&amp;lang=&amp;wikipage=releasenotes1.8">eGroupware Release notes  1.8</a></p>
 
 <h3 id="section-5">解决项目模块的甘特图中文乱码问题</h3>
 

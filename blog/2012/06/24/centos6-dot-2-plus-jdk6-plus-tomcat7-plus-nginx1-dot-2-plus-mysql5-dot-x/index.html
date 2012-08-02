@@ -407,13 +407,11 @@
 <span class="line-number">3</span>
 <span class="line-number">4</span>
 <span class="line-number">5</span>
-<span class="line-number">6</span>
-</pre></td><td class="code"><pre><code class="bash"><span class="line"><span class="c"># cat &lt;&lt;_END_&gt;&gt; /etc/profile</span>
-</span><span class="line">
-</span><span class="line"><span class="nb">export </span><span class="nv">JAVA_HOME</span><span class="o">=</span>/usr/java/default
-</span><span class="line"><span class="nb">export </span><span class="nv">PATH</span><span class="o">=</span><span class="nv">$JAVA_HOME</span>/bin:<span class="nv">$JAVA_HOME</span>/jre/bin:<span class="nv">$PATH</span>
-</span><span class="line"><span class="nb">export </span><span class="nv">CLASSPATH</span><span class="o">=</span>.:<span class="nv">$JAVA_HOME</span>/lib:<span class="nv">$JAVA_HOME</span>/jre/lib:<span class="nv">$CLASSPATH</span>
-</span><span class="line">_END_
+</pre></td><td class="code"><pre><code class="bash"><span class="line"><span class="c">#  echo &#39;</span>
+</span><span class="line">&gt; <span class="nb">export </span><span class="nv">JAVA_HOME</span><span class="o">=</span>/usr/java/default
+</span><span class="line">&gt; <span class="nb">export </span><span class="nv">PATH</span><span class="o">=</span><span class="nv">$JAVA_HOME</span>/bin:<span class="nv">$JAVA_HOME</span>/jre/bin:<span class="nv">$PATH</span>
+</span><span class="line">&gt; <span class="nb">export </span><span class="nv">CLASSPATH</span><span class="o">=</span>.:<span class="nv">$JAVA_HOME</span>/lib:<span class="nv">$JAVA_HOME</span>/jre/lib:<span class="nv">$CLASSPATH</span>
+</span><span class="line">&gt; <span class="err">&#39;</span> &gt;&gt; /etc/profile
 </span></code></pre></td></tr></table></div></figure></notextile></div>
 
 <h2 id="tomcat7--ngnix12">安装配置 Tomcat7 和 Ngnix1.2</h2>
@@ -652,7 +650,9 @@ TODO: <a href="https://wiki.jenkins-ci.org/display/JENKINS/Installing+Jenkins+on
 </span><span class="line"><span class="c">### 使用浏览器测试 http://YourIP 或 http://YourFQDN</span>
 </span></code></pre></td></tr></table></div></figure></notextile></div>
 
-<h2 id="mysql-">安装 MySQL 服务</h2>
+<h2 id="mysql-">安装配置 MySQL 服务</h2>
+
+<h3 id="mysql--1">安装 MySQL 服务</h3>
 
 <p>1、使用 yum 安装 mysql-server</p>
 
@@ -686,7 +686,7 @@ TODO: <a href="https://wiki.jenkins-ci.org/display/JENKINS/Installing+Jenkins+on
 </span><span class="line"><span class="c"># mysqltuner</span>
 </span></code></pre></td></tr></table></div></figure></notextile></div>
 
-<h2 id="mysql--1">配置 MySQL 服务</h2>
+<h3 id="mysql--2">配置 MySQL 服务</h3>
 
 <p>参考 /usr/share/mysql/ 目录下提供的配置文件模板：</p>
 
@@ -716,6 +716,38 @@ TODO: <a href="https://wiki.jenkins-ci.org/display/JENKINS/Installing+Jenkins+on
 </span><span class="line"><span class="c"># vi /etc/my.cnf</span>
 </span><span class="line"><span class="c"># service mysqld restart</span>
 </span><span class="line"><span class="c"># mysqltuner</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<h3 id="mysql--utf-8-">MySQL 的 UTF-8 配置</h3>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class="bash"><span class="line"><span class="c"># vi /etc/my.cnf</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+<span class="line-number">8</span>
+<span class="line-number">9</span>
+<span class="line-number">10</span>
+<span class="line-number">11</span>
+<span class="line-number">12</span>
+</pre></td><td class="code"><pre><code class="bash"><span class="line"><span class="o">[</span>client<span class="o">]</span>
+</span><span class="line">…………
+</span><span class="line"><span class="c">#设置mysql客户端的字符集  </span>
+</span><span class="line">default-character-set<span class="o">=</span>utf8
+</span><span class="line">…………
+</span><span class="line">
+</span><span class="line"><span class="o">[</span>mysqld<span class="o">]</span>
+</span><span class="line">…………
+</span><span class="line"><span class="c">#设置服务器段的字符集</span>
+</span><span class="line">character-set-server<span class="o">=</span>utf8
+</span><span class="line">collation-server<span class="o">=</span>utf8_general_ci
+</span><span class="line">…………
 </span></code></pre></td></tr></table></div></figure></notextile></div>
 
 <h2 id="phpmyadmin">安装配置 phpMyAdmin</h2>

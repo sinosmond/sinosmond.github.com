@@ -4,7 +4,7 @@
   <title><![CDATA[Category: DokuWiki | Sinosmond's Blog]]></title>
   <link href="http://sinosmond.github.com/blog/categories/dokuwiki/atom.xml" rel="self"/>
   <link href="http://sinosmond.github.com/"/>
-  <updated>2012-07-09T14:43:02+08:00</updated>
+  <updated>2012-08-02T15:17:32+08:00</updated>
   <id>http://sinosmond.github.com/</id>
   <author>
     <name><![CDATA[sinosmond]]></name>
@@ -23,9 +23,37 @@
 <p>协作系统的开源软件很丰富，常用的有：</p>
 
 <ul>
-  <li>DOkuwiki – 通常用于文档协作 </li>
-  <li>eGroupware – 通常用于通用的项目协作</li>
-  <li>Redmine – 通常用于软件开发项目的协作</li>
+  <li>
+    <table>
+      <tbody>
+        <tr>
+          <td><a href="http://dokuwiki.org/">Dokuwiki</a></td>
+          <td><a href="http://moinmo.in/">MoinMoin</a> – 通常用于文档协作</td>
+        </tr>
+      </tbody>
+    </table>
+  </li>
+  <li>
+    <table>
+      <tbody>
+        <tr>
+          <td><a href="http://www.egroupware.org/">eGroupware</a></td>
+          <td><a href="http://tiki.org/">TikiWiki</a> – 通常用于通用的项目协作</td>
+        </tr>
+      </tbody>
+    </table>
+  </li>
+  <li>
+    <table>
+      <tbody>
+        <tr>
+          <td><a href="https://github.com/gitlabhq/gitlabhq">GitLabHQ</a></td>
+          <td><a href="http://www.redmine.org/">Redmine</a></td>
+          <td><a href="http://gitorious.org/gitorious">Gitorious</a> – 通常用于软件开发项目的协作</td>
+        </tr>
+      </tbody>
+    </table>
+  </li>
 </ul>
 
 <h2 id="centos-62-">CentOS 6.2 的安装和基本配置</h2>
@@ -225,7 +253,8 @@ service httpd restart
 
 <p><code>bash
 cd /var/www/dokuwiki/lib/plugins
-## 安装 sidebar 插件
+## 安装 sidebar 插件（这是支持 sidebar 的最简单的方法）
+## （您也可以下载支持 sidebar 的模板，但要停用此插件）
 git clone git://github.com/chimeric/dokuwiki-plugin-sidebarng.git sidebarng
 ## 安装 snippets 插件（可使用此插件实现页面模板的功能）
 git clone git://github.com/cosmocode/dokuwiki-plugin-snippets.git snippets
@@ -237,18 +266,30 @@ git clone git://github.com/dokufreaks/plugin-pagelist.git pagelist
 git clone git://github.com/dokufreaks/plugin-include.git include
 git clone git://github.com/dokufreaks/plugin-tag.git tag
 git clone git://github.com/dokufreaks/plugin-cloud.git cloud
-git clone git://github.com/splitbrain/dokuwiki-plugin-s5.git s5
+git clone git://github.com/splitbrain/dokuwiki-plugin-captcha.git captcha
 git clone git://github.com/dokufreaks/plugin-discussion.git discussion
 git clone git://github.com/cosmocode/pagenav.git pagenav
-git clone git://github.com/chimeric/dokuwiki-plugin-wikicalendar.git wikicalendar
+git clone git://github.com/glensc/dokuwiki-plugin-lightboxv2.git lightbox
+git clone git://github.com/splitbrain/dokuwiki-plugin-gallery.git gallery
+#git clone git://github.com/chimeric/dokuwiki-plugin-wikicalendar.git wikicalendar
+#git clone git://github.com/splitbrain/dokuwiki-plugin-jukebox.git jukebox
+#git clone git://github.com/splitbrain/dokuwiki-plugin-vshare.git vshare
 #git clone git://github.com/gturri/nspages.git nspages
+#git clone git://github.com/splitbrain/dokuwiki-plugin-s5.git s5
 #git clone git://github.com/splitbrain/dokuwiki-plugin-translation.git translation
+#git clone git://github.com/dokufreaks/plugin-blogtng.git blogtng
+#git clone git://github.com/dokufreaks/plugin-blog.git blog
+#（blog 和 blogng 不能同时使用，当前 blogng 需要 PHP 对 SQLite2 的支持）
 ## 安装 维护 插件
 git clone git://github.com/Imhodad/dokuwiki-plugin-searchstats.git searchstats
 git clone git://github.com/cosmocode/clearhistory.git clearhistory
 git clone git://github.com/Taggic/orphanmedia.git orphanmedia
 git clone git://github.com/Taggic/langdelete.git langdelete
 git clone git://github.com/MrBertie/pagequery.git pagequery
+git clone git://github.com/danny0838/dw-editx.git editx
+#git clone git://github.com/desolat/DokuWiki-Pagemove-Plugin.git pagemove
+git clone git://github.com/splitbrain/dokuwiki-plugin-sync.git sync
+git clone git://github.com/splitbrain/dokuwiki-plugin-badbehaviour.git badbehaviour
 </code></p>
 
 <h3 id="dokuwiki">安装和配置 Dokuwiki</h3>
@@ -299,20 +340,32 @@ $conf[‘plugin’][‘translation’][‘about’] = ‘en’;</p>
 
 <h3 id="egroupware">安装 eGroupware</h3>
 
-<p><code>bash
+<p>```bash
 cd /etc/yum.repos.d/
-wget http://download.opensuse.org/repositories/server:eGroupWare/CentOS_6/server:eGroupWare.repo
+wget http://download.opensuse.org/repositories/server:eGroupWare/CentOS_6/server:eGroupWare.repo</p>
+
+<p>echo “priority=5” » server:eGroupWare.repo</p>
+
+<p>vim rpmforge.repo
+# 在 [rpmforge] 段末尾添加如下行
+exclude = php-jpgraph
+# 保存退出 vi</p>
+
+<p>yum makecache
 yum install eGroupware
-</code></p>
+```</p>
 
 <h3 id="egroupware-">安装 eGroupware 的注意事项</h3>
 
 <p>1、RPM 安装后执行的脚本：/usr/share/egroupware/doc/rpm-build/post_install.php，若您之前已经设置过 MySQL 的 root 口令，
 请适当编辑此文件，之后重新执行此脚本。</p>
 
-<p><code>bash
-vim /usr/share/egroupware/doc/rpm-build/post_install.php
-</code></p>
+<p>```bash
+# 运行如下命令可获得更多信息：
+/usr/share/egroupware/doc/rpm-build/post_install –help </p>
+
+<p>vim /usr/share/egroupware/doc/rpm-build/post_install.php
+```</p>
 
 <p><code>php
         'db_root'     =&gt; 'root',        // mysql root user/pw to create database
@@ -327,6 +380,8 @@ php /usr/share/egroupware/doc/rpm-build/post_install.php
 
 <p>3、eGroupware 的 RPM 自动安装了 Apache 的配置文件 /etc/httpd/conf.d/egroupware.conf。
 以便可以使用 http://IPorFQDN/egroupware 的 URL 访问。</p>
+
+<p>参考：<a href="http://community.egroupware.org/index.php?page_name=wiki&amp;lang=&amp;wikipage=releasenotes1.8">eGroupware Release notes  1.8</a></p>
 
 <h3 id="section-6">解决项目模块的甘特图中文乱码问题</h3>
 

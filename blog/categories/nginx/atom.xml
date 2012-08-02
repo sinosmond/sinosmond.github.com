@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Nginx | Sinosmond's Blog]]></title>
   <link href="http://sinosmond.github.com/blog/categories/nginx/atom.xml" rel="self"/>
   <link href="http://sinosmond.github.com/"/>
-  <updated>2012-07-09T14:43:02+08:00</updated>
+  <updated>2012-08-02T15:17:32+08:00</updated>
   <id>http://sinosmond.github.com/</id>
   <author>
     <name><![CDATA[sinosmond]]></name>
@@ -229,14 +229,13 @@ javac 1.6.0_33</p>
   <li>用户级别 —— ~/.bashrc</li>
 </ul>
 
-<p>```bash
-# cat «<em>END</em>» /etc/profile</p>
-
-<p>export JAVA_HOME=/usr/java/default
-export PATH=$JAVA_HOME/bin:$JAVA_HOME/jre/bin:$PATH
-export CLASSPATH=.:$JAVA_HOME/lib:$JAVA_HOME/jre/lib:$CLASSPATH
-<em>END</em>
-```</p>
+<p><code>bash
+#  echo '
+&gt; export JAVA_HOME=/usr/java/default
+&gt; export PATH=$JAVA_HOME/bin:$JAVA_HOME/jre/bin:$PATH
+&gt; export CLASSPATH=.:$JAVA_HOME/lib:$JAVA_HOME/jre/lib:$CLASSPATH
+&gt; ' &gt;&gt; /etc/profile
+</code></p>
 
 <h2 id="tomcat7--ngnix12">安装配置 Tomcat7 和 Ngnix1.2</h2>
 
@@ -390,7 +389,9 @@ gzip_types text/plain application/x-javascript text/css application/xml;
 ### 使用浏览器测试 http://YourIP 或 http://YourFQDN
 </code></p>
 
-<h2 id="mysql-">安装 MySQL 服务</h2>
+<h2 id="mysql-">安装配置 MySQL 服务</h2>
+
+<h3 id="mysql--1">安装 MySQL 服务</h3>
 
 <p>1、使用 yum 安装 mysql-server</p>
 
@@ -414,7 +415,7 @@ gzip_types text/plain application/x-javascript text/css application/xml;
 # mysqltuner
 </code></p>
 
-<h2 id="mysql--1">配置 MySQL 服务</h2>
+<h3 id="mysql--2">配置 MySQL 服务</h3>
 
 <p>参考 /usr/share/mysql/ 目录下提供的配置文件模板：</p>
 
@@ -436,6 +437,27 @@ ll /usr/share/mysql/my-*.cnf
 # service mysqld restart
 # mysqltuner
 </code></p>
+
+<h3 id="mysql--utf-8-">MySQL 的 UTF-8 配置</h3>
+
+<p><code>bash
+# vi /etc/my.cnf
+</code></p>
+
+<p>```
+[client]
+…………
+#设置mysql客户端的字符集<br />
+default-character-set=utf8
+…………</p>
+
+<p>[mysqld]
+…………
+#设置服务器段的字符集
+character-set-server=utf8 
+collation-server=utf8_general_ci
+…………
+```</p>
 
 <h2 id="phpmyadmin">安装配置 phpMyAdmin</h2>
 
